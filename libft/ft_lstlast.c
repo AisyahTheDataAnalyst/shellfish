@@ -3,55 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 19:11:18 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/19 14:09:36 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/15 18:26:36 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 11:37:10 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// if (lst->next)  means  checks if next pointer is NOT NULL 
-// if (!lst->next)  OR  if (lst->next == NULL)
-//  - means  if next pointer of current lst is NULL 
 
 #include "libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
+	if (lst == NULL)
 		return (NULL);
-	while (lst->next != NULL)
+	while (lst->next)
 		lst = lst->next;
 	return (lst);
 }
 
-/*
-#include <stdio.h>
+/**
+// Define the structure of a list node
+typedef struct s_list {
+    void *content;
+    struct s_list *next;
+} t_list;
 
-int	main()
-{
-	t_list	*node1 = ft_lstnew("Hi");
-	t_list	*node2 = ft_lstnew("Hello");
-	t_list	*node3 = ft_lstnew("Ni Hao");
-	t_list	*node4 = ft_lstnew("Annyeong");
+// Function to create a new node
+t_list *ft_lstnew(void *content) {
+    t_list *new_node = malloc(sizeof(t_list));
+    if (!new_node) return NULL;
+    new_node->content = content;
+    new_node->next = NULL;
+    return new_node;
+}
 
-	node1->next = node2;
-	node2->next = node3;
-	node3->next = node4;
+// Function to add a node to the front of the list
+void ft_lstadd_front(t_list **alst, t_list *new) {
+    new->next = *alst;
+    *alst = new;
+}
 
-	t_list *lastnode = ft_lstlast(node1);
+// Function to get the last node of the list
+t_list *ft_lstlast(t_list *lst) {
+    if (lst == NULL)
+        return NULL;
 
-	if(lastnode)
-	{
-		printf("Node1: %s\n", (char *)node1-> content);
-		printf("Node2: %s\n", (char *)node2-> content);
-		printf("Node3: %s\n", (char *)node3-> content);
-		printf("Node4: %s\n", (char *)node4-> content);
-		printf("Oldest Node: %s\n", (char *)lastnode-> content);
-	}
-	free(node1);
-	free(node2);
-	free(node3);
-	free(node4);
-	return (0);
-}*/
+    while (lst->next)  // Loop until the last node (where lst->next == NULL)
+        lst = lst->next;
+
+    return lst;  // Return the last node
+}
+
+int main() {
+    // Create some sample data for the nodes
+    int data1 = 10, data2 = 20, data3 = 30;
+
+    // Create an empty list (head is NULL)
+    t_list *head = NULL;
+
+    // Add nodes to the list (adding to the front)
+    ft_lstadd_front(&head, ft_lstnew(&data3));  // List: [30]
+    ft_lstadd_front(&head, ft_lstnew(&data2));  // List: [20, 30]
+    ft_lstadd_front(&head, ft_lstnew(&data1));  // List: [10, 20, 30]
+
+    // Test ft_lstlast to get the last node
+    t_list *last = ft_lstlast(head);
+
+    // Print the content of the last node
+    if (last != NULL)
+        printf("The last node's content is: %d\n", *(int *)last->content);
+    else
+        printf("The list is empty.\n");
+
+    // Free the allocated memory (important for memory management)
+    t_list *tmp;
+    while (head != NULL) {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+    }
+
+    return 0;
+}
+**/

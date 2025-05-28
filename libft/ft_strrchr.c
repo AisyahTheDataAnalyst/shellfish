@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 21:51:17 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/04/26 19:55:54 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/07 21:44:23 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/18 15:24:33 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,41 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	int		i;
+	char	ch;
 
+	ch = (char)c;
 	i = 0;
-	while (s[i] != '\0')
+	if (ch == '\0')
+	{
+		while (s[i])
+			i++;
+		return ((char *)s + i);
+	}
+	while (s[i])
 		i++;
 	while (i >= 0)
 	{
-		if (s[i] == (char)c)
+		if (s[i] == ch)
 			return ((char *)s + i);
 		i--;
 	}
 	return (NULL);
 }
+/**
+int main()
+{
+    char str[] = "hello";
+    char *result; 
+    result = ft_strrchr(str, 'o');
 
-// #include <stdio.h>
+    if (result)
+    {
+        printf("Character: %s\n", str);
+        printf("The position is at: %li\n", result - str);
+    }
+    else
+        printf("Character not found");
 
-// int	main ()
-// {
-// 		const char *str = "Mamammia";
-// 		char ch = 'm';
-// 		char *result = ft_strrchr(str, ch);
-
-// 		printf("%s\n", result);
-
-// 		if (result != NULL)
-// 			printf("%c is found last at the %zdth\n", ch, result - str + 1);
-// 		else
-// 			printf("%c is not found\n", ch);
-
-// 		int index = result - str + 1;
-// 		printf ("Character %c is found last at the %dth position\n", ch, index);
-
-// 		return (0);
-// }
+}
+**/

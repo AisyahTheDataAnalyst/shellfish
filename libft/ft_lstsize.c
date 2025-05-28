@@ -3,51 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 12:57:10 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/18 20:24:17 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/15 16:49:33 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 15:07:32 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// must use a temporary t_list *ptr to preserve the original 1st pointer
-// in the context of linked list, while (ptr) also means while ptr is not NULL
-// no need of error handling on ptr coz n is 0 already from the start
 
 #include "libft.h"
 
 int	ft_lstsize(t_list *lst)
 {
-	int		n;
-	t_list	*ptr;
+	t_list	*tmp;
+	int		count;
 
-	n = 0;
-	ptr = lst;
-	while (ptr)
+	count = 0;
+	if (lst == NULL)
+		return (count);
+	tmp = lst;
+	while (tmp != NULL)
 	{
-		n++;
-		ptr = ptr->next;
+		tmp = tmp->next;
+		count++;
 	}
-	return (n);
+	return (count);
 }
-/*
-#include <stdio.h>
+/**
+ * typedef struct s_list {
+    void *content;
+    struct s_list *next;
+} t_list;
 
-int	main()
-{
-	t_list *tail = NULL;
-	t_list *node1 = ft_lstnew("Hello1");
-	t_list *node2 = ft_lstnew("Hello2");
-	t_list *node3 = ft_lstnew("Hello3");
+// Function to create a new node
+t_list *ft_lstnew(void *content) {
+    t_list *new_node = malloc(sizeof(t_list));
+    if (!new_node) return NULL;
+    new_node->content = content;
+    new_node->next = NULL;
+    return new_node;
+}
 
-	ft_lstadd_front(&tail, node1);
-	ft_lstadd_front(&tail, node2);
-	ft_lstadd_front(&tail, node3);
-	t_list *chain = tail;
+// Function to add a node to the front of the list
+void ft_lstadd_front(t_list **alst, t_list *new) {
+    new->next = *alst;
+    *alst = new;
+}
 
-	int result = ft_lstsize(chain);
+// Function to count the number of nodes in the list
+int ft_lstsize(t_list *lst) {
+    t_list *tmp = lst;
+    int count = 0;
 
-	if (chain)
-		printf("Total nodes: %d\n", result);
-	return (0);
-}*/
+    while (tmp != NULL) {
+        tmp = tmp->next;
+        count++;
+    }
+
+    return count;
+}
+
+int main() {
+    // Create some sample data for the nodes
+    int data1 = 10, data2 = 20, data3 = 30;
+
+    // Create an empty list (head is NULL)
+    t_list *head = NULL;
+
+    // Add nodes to the list
+    ft_lstadd_front(&head, ft_lstnew(&data3));  // List: [30]
+    ft_lstadd_front(&head, ft_lstnew(&data2));  // List: [20, 30]
+    ft_lstadd_front(&head, ft_lstnew(&data1));  // List: [10, 20, 30]
+
+    // Test ft_lstsize to count the number of nodes
+    int size = ft_lstsize(head);
+    
+    // Print the result
+    printf("The list contains %d node(s).\n", size);
+
+    // Free the allocated memory (important for memory management)
+    t_list *tmp;
+    while (head != NULL) {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+    }
+
+    return 0;
+} 
+**/

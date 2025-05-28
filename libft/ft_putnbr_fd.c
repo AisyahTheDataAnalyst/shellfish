@@ -3,47 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 01:20:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/18 01:50:13 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 17:04:45 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 17:32:20 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// return; = exit the fn immediately
-// int = can handle number more than 1 digit
-// recursive logic
 
 #include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (fd < 0)
-		return ;
+	int	digit;
+
 	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n < 0)
 	{
-		write (fd, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
+		write(fd, "-", 1);
 		n = -n;
+		ft_putnbr_fd(n, fd);
+	}	
+	else
+	{
+		if (n > 9)
+			ft_putnbr_fd(n / 10, fd);
+		digit = (n % 10) + 48;
+		write(fd, &digit, 1);
 	}
-	if (n > 9)
-		ft_putnbr_fd(n / 10, fd);
-	ft_putchar_fd(n % 10 + '0', fd);
 }
 
-/*
-#include <stdio.h>
 
-int	main()
+int main()
 {
-	int n = -1666; 
-	//going to use putnbr,no need to have '' to represent numbers
-	int fd = 1;
-	ft_putnbr_fd(n, fd);
-	printf("\n");
-	return(0);
-}*/
+    // Test output to stdout (file descriptor 1)
+    printf("Testing ft_putnbr_fd with stdout (fd = 1):\n");
+    ft_putnbr_fd(1234, 1);
+    ft_putnbr_fd(-5678, 1);
+    ft_putnbr_fd(0, 1);
+    ft_putnbr_fd(-2147483648, 1);
+
+    // Test output to stderr (file descriptor 2)
+    printf("\nTesting ft_putnbr_fd with stderr (fd = 2):\n");
+    ft_putnbr_fd(9876, 2);        // Expected: 9876
+    ft_putnbr_fd(-4321, 2);       // Expected: -4321
+    ft_putnbr_fd(0, 2);           // Expected: 0
+
+    return 0;
+}

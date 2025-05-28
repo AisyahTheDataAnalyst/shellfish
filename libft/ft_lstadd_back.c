@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 21:04:15 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/16 16:32:29 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/16 11:20:38 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 15:24:55 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// *lst = new  means  when *lst's content is NULL, assigned new's value to *lst
-// - must be in this sequence ( A = B, B is assigned to A)
-// if we want to recall a previous fn, must just that fn in one line.
-// at the 2nd return, means ultimately quit the code right there on. 
 
 #include "libft.h"
 
@@ -21,7 +16,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
-	if (!lst || !new)
+	if (!new)
 		return ;
 	if (!*lst)
 	{
@@ -31,27 +26,9 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	last = ft_lstlast(*lst);
 	last->next = new;
 }
-/*
-#include <stdio.h>
-
-int	main()
-{
-	t_list	*head = NULL;
-	t_list	*node1 = ft_lstnew("Apple");
-	t_list	*node2 = ft_lstnew("Ball");
-	t_list	*node3 = ft_lstnew("Zebra");
-
-	ft_lstadd_back(&head, node1);
-	ft_lstadd_back(&head, node2);
-	ft_lstadd_back(&head, node3);
-	
-	while (head)
-	{
-		printf("Last Node: %s\n", (char *)head->content);
-		head = head->next;
-	}
-	free(node1);
-	free(node2);
-	free(node3);
-	return (0);
-}*/
+/** 
+ Imagine [4] is the new node
+ [1] -> [2] -> [3] -> NULL
+ If list is empty, make new the first node
+ Then, make last node next pointer to new node
+**/

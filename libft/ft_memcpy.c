@@ -3,45 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 14:29:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/02/08 20:19:17 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/06 13:18:54 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/11 18:06:59 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// use unsigned char like the real memcpy, to avoid edge cases' risks
-// memcpy = copy a specific number of bytes from 1 memory location to another
 
 #include "libft.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned char	*csrc;
-	unsigned char	*cdest;
-	size_t			i;
+	char	*temp_dest;
+	char	*temp_src;
 
-	csrc = (unsigned char *)src;
-	cdest = (unsigned char *)dest;
-	i = 0;
-	while (i < n)
+	if (dest == NULL && src == NULL)
+		return (0);
+	temp_dest = (char *) dest;
+	temp_src = (char *)src;
+	while (n > 0)
 	{
-		cdest[i] = csrc[i];
-		i++;
+		*(temp_dest++) = *(temp_src++);
+		n--;
 	}
-	return ((void *)cdest);
+	return (dest);
 }
-/*
-#include <stdio.h>
-
-int	main()
+/**
+int main()
 {
-	char csrc[] = "Welcome";
-	char cdest[] = "What would you like to order?";
-	size_t	n = 15;
-
-	printf("%s\n", );
-	ft_memcpy(cdest, csrc, n);
-	printf("%s\n", );
-	return (0);
-}*/
+    int i = 0;
+    char dst[6] = "aaaaaa";
+    char src[8] = "bbbb";
+    memcpy(dst, src, 4);
+    dst[4] = '\0';
+    while (dst[i])
+    {
+        printf("%c", dst[i]);
+        i++;
+    }
+    return 0;
+}
+**/

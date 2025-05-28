@@ -3,32 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 13:46:53 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/01/14 13:30:54 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/04 13:42:21 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/13 12:59:05 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char	*s)
 {
-	size_t	n;
+	size_t	i;
+	size_t	count;
 
-	n = 0;
-	while (str[n] != '\0')
-		n++;
-	return (n);
+	count = 0;
+	i = 0;
+	while (s[i])
+	{
+		i++;
+		count++;
+	}
+	return (count);
 }
-
-// #include <stdio.h>
-
-// int main ()
-// {
-// 	const char *str = "Hello";
-// 	size_t result = ft_strlen(str);
-
-// 	printf("Text : %s\n Numbers of characters : %zd\n", str, result);
-// 	return (0);
-// }
+/**
+int main()
+{
+    char s[]= "ababaaaMy name is Simonbbaaabbad";
+    size_t length = ft_strlen(s);
+    printf("The total length is %zu\n", length);
+}
+**/

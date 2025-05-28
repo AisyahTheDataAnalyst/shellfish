@@ -3,40 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 19:25:32 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/20 19:25:39 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/05 16:06:37 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 17:31:08 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// its a a correct approach to use unsigned char in all memory manipulation fn 
-// 		align with the original mem fns
-// 		ensures consistent behaviour accross platforms that
-// 			 can be signed / unsigned by default differently
-
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned char	*p;
+	char	*str;
 
-	p = b;
-	while (len > 0)
+	str = (char *)s;
+	while (n > 0)
 	{
-		*p = c;
-		p++;
-		len--;
+		*str = (char)c;
+		str++;
+		n--;
 	}
-	return (b);
+	return (s);
 }
-/*
-#include <stdio.h>
 
-int	main()
+int main()
 {
-	char str[] ="hello";
-	printf("%s\n", str);
-	ft_memset(str, '#', 3);
-	printf("%s\n", str);
-}*/
+    char str[30] = "ABCDEFGHIJKLM";
+    ft_memset(str,'a',6);
+    printf("Result: %s", str);
+}

@@ -3,39 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 00:38:35 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/18 01:19:23 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 16:49:52 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/19 13:26:15 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// *s (just s in write) = pointer arithmetic
-// s[i] (just &s[i] in write) = array indexing
-// since has write, no need use printf for this function in the int main
 
 #include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (!s || fd < 0)
+	int	i;
+
+	if (s == NULL || fd < 0)
 		return ;
-	while (*s)
+	i = 0;
+	while (s[i])
 	{
-		write(fd, s, 1);
-		s++;
+		write(fd, &s[i], 1);
+		i++;
 	}
 }
-/*
-#include <stdio.h>
-
-int	main()
-{
-	char	*str = "Hi!";
-	int	fd = 1;
-
-	ft_putstr_fd(str, fd);
-	printf("\n");
-	return (0);
-
-}*/

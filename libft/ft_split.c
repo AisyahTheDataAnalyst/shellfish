@@ -3,107 +3,155 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 15:45:39 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/04/26 09:11:07 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/13 16:46:13 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 14:54:38 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// copywords = imagine therere delimeters in front of the sentence
-// 		purpose - to copy words in between delimeters
-// s += wordlen = to skip through the words and go to the next delimeter 
-// 		to copy the next word
-
 #include "libft.h"
 
-// size_t	ft_wordcount(char const *s, char c);
-char			**ft_split(char const *s, char c);
-static char		**ft_copywords(char **result, char const *s, char c);
+static void	ft_allocate(char **tab, char const *s, char delim);
+static int	word_count(const char *str, char c);
 
-// size_t	ft_wordcount(char const *s, char c)
-// {
-// 	size_t	i;
-// 	size_t	count;
-
-// 	i = 0;
-// 	count = 0;
-// 	while (s[i] != '\0')
-// 	{
-// 		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-// 			count++;
-// 		i++;
-// 	}
-// 	return (count);
-// }
-
-static char	**ft_copywords(char **result, char const *s, char c)
+static void	ft_allocate(char **tab, char const *s, char delim)
 {
-	size_t	word_len;
-	size_t	i;
+	char		**tab_p;
+	char const	*str;
 
-	i = 0;
-	while (*s)
+	str = s;
+	tab_p = tab;
+	while (*str)
 	{
-		while (*s && *s == c)
-			s++;
-		if (*s)
+		while (*s == delim)
+			++s;
+		str = s;
+		while (*str && *str != delim)
+			++str;
+		if (*str == delim || str > s)
 		{
-			if (ft_strchr(s, c) == NULL)
-				word_len = ft_strlen(s);
-			else
-				word_len = ft_strchr(s, c) - s;
-			result[i] = ft_substr(s, 0, word_len);
-			if (!result[i])
-			{
-				ft_freewords(result, i);
-				return (NULL);
-			}
-			i++;
-			s += word_len;
+			*tab_p = ft_substr(s, 0, str - s);
+			s = str;
+			++tab_p;
 		}
 	}
-	return (result);
+	*tab_p = NULL;
+}
+
+static int	word_count(char const *s, char delim)
+{
+	int	count;
+
+	count = 0;
+	while (*s)
+	{
+		while (*s == delim)
+			++s;
+		if (*s)
+			++count;
+		while (*s && *s != delim)
+			++s;
+	}
+	return (count);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	totalwords;
-	char	**array;
+	char	**str;
+	int		size;
 
 	if (!s)
 		return (NULL);
-	totalwords = ft_wordcount(s, c);
-	array = malloc(sizeof(char *) * (totalwords + 1));
-	if (!array)
+	size = word_count(s, c);
+	str = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!str)
 		return (NULL);
-	if (!ft_copywords(array, s, c))
-		return (NULL);
-	array[totalwords] = NULL;
-	return (array);
+	ft_allocate(str, s, c);
+	return (str);
 }
 
-/*
-#include <stdio.h>
+/**
+int main() {
+    char **result;
+    int i;
 
-int	main()
-{
-       	char const *s = "This is my golden chance!";
-	char **v = ft_split(s, ' ');
-	size_t	i = 0;
+    // Test case 1: Simple split
+    printf("Test Case 1: Simple split\n");
+    result = ft_split("Hello world, how are you?", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    }
+    printf("\n");
 
-	if (!v)
-	{
-		printf("The string in null, or ft_split fail");
-		return (1);
-	}
+    // Test case 2: Multiple spaces between words
+    printf("Test Case 2: Multiple spaces\n");
+    result = ft_split("Hello    world     how  are    you?", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    }
+    printf("\n");
 
-	while (v[i])
-	{
-		printf("%s\n", v[i]);
-		free(v[i]);
-		i++;
-	}
-	free(v);
-	return (0);
-}*/
+    // Test case 3: Empty string
+    printf("Test Case 3: Empty string\n");
+    result = ft_split("", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    } else {
+        printf("No words found\n");
+    }
+    printf("\n");
+
+    // Test case 4: String with only delimiters
+    printf("Test Case 4: Only delimiters\n");
+    result = ft_split("   ", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    } else {
+        printf("No words found\n");
+    }
+    printf("\n");
+
+    // Test case 5: Delimiter at the start and end
+    printf("Test Case 5: Delimiters at start and end\n");
+    result = ft_split("   Hello world  ", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    }
+    printf("\n");
+
+    // Test case 6: No delimiters, one word
+    printf("Test Case 6: Single word\n");
+    result = ft_split("Hello", ' ');
+    if (result) {
+        for (i = 0; result[i] != NULL; i++) {
+            printf("Word %d: %s\n", i + 1, result[i]);
+            free(result[i]);  // Free each word after use
+        }
+        free(result);  // Free the result array
+    }
+    printf("\n");
+
+    return 0;
+}
+**/

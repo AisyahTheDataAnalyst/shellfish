@@ -3,40 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:45:13 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/12 14:14:44 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/04 11:11:48 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/11 17:41:31 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalpha(int a)
+int	ft_isalpha(int c)
 {
-	if ((a >= 'A' && a <= 'Z') || (a >= 'a' && a <= 'z'))
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
 		return (1);
-	return (0);
+	else
+		return (0);
 }
 
-/* 
- #include <stdio.h>
-
-int	main()
+/**
+int main()
 {
-	int	n = '9'; //if without '' considered as ascii, if in '' is a number
-	int m = 'a';
+char c;
+int result;
 
-	if (ft_isalpha(n))
-		printf("n is an alphabet\n");
-	else
-		printf("n is not an alphabet\n");
+c = '=';
+result = ft_isalpha(c);
+printf("Result: %d\n", result);
+}
 
-	if (ft_isalpha(m))
-		printf("m is an alphabet\n");
-	else
-		printf("m is not an alphabet\n");
-	return (0);
-
-
-*/
+return 0;
+**/

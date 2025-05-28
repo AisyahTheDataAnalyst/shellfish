@@ -3,90 +3,93 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
+#    By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/05/27 15:17:51 by aimokhta         ###   ########.fr        #
+#    Created: 2025/04/28 18:51:17 by yelu              #+#    #+#              #
+#    Updated: 2025/04/28 18:51:17 by yelu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# gcc minishell.c -lreadline <-- must use this flag when compiling to use readline library
+
+# Colors
+RED		=	\033[1;31m
+GREEN	=	\033[1;32m
+YELLOW	=	\033[1;33m
+BLUE	=	\033[1;34m
+PINK 	=	\033[35m
+RESET	=	\033[0m
+
+# Program name
 NAME = minishell
 
-CC = cc 
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+INC_DIR = include
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+INC = -I$(INC_DIR) -I$(LIBFT_DIR)
 
-#compilation flags
-CFLAGS = -Wall -Wextra -Werror #-g3 -O3 -O0 -fsanitize=address \
-			-fsanitize-recover=leak 
+# Compiler & flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g3
+RM = rm -rf
 
-#linker flag
-LFLAGS = -lreadline
+# Source files
+SRC = $(wildcard $(SRC_DIR)/*.c) \
+	 $(wildcard $(SRC_DIR)/token/*.c)
 
-# directory that contains source files
-SRC_DIR = exec_expan
-SRC_BI_DIR = built_in
+# Object files
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-SRC =	\
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_cd.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_echo.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_env.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_exit.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export_add.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export_only.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_pwd.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_unset.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_unset_ori.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/built_ins.c \
-		$(SRC_DIR)/free.c \
-		$(SRC_DIR)/main.c \
-		$(SRC_DIR)/signals.c \
-		$(SRC_DIR)/splitted_path.c 
+# Build rules
+all: $(LIBFT) $(NAME)
 
-INC = -I include -I libft
-# this is what is caused to not write explicit path for all #includes in all header and c files
-# -I means it will search the header in that directory that is mentioned in the each file's #include
+$(LIBFT): FORCE
+	@echo "$(PINK)$(BOLD)=======================================$(RESET)"
+	@echo "$(CYAN)  🚀 Building libft...$(RESET)"
+	@echo "$(PINK)$(BOLD)=======================================$(RESET)"
+	@make -C $(LIBFT_DIR)
 
-OBJ_FOLDER = obj_files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) $(INC) -I/usr/include -lreadline -O3 -c $< -o $@
+	@echo "$(YELLOW)Compiled ✅ $(GREEN) $(BOLD) $< $(RESET)"
 
-# patsubst : pattern substitution function
-# create a list of .o files in the object folder
-OBJ_SRC = $(patsubst %.c, $(OBJ_FOLDER)/%.o, $(SRC))
+$(NAME): $(OBJ) $(LIBFT)
+	@$(CC) -o $(NAME) $(OBJ) -L$(LIBFT_DIR) -lft -lreadline
+	@echo "$(GREEN)$(BOLD)✅ Build Successful: $(NAME)$(RESET)"
 
-LIBFT_DIR = libft/libft.a
+# Build library folder
+$(OBJ_DIR): FORCE
+	@mkdir -p $(OBJ_DIR)
 
-# color
-GREEN = \033[0;32m
-BLUE = \033[0;34m
-RESET = \033[0m  	#white
-
-all: $(NAME)
-
-$(NAME) : $(OBJ_SRC)
-	@make bonus -C libft
-	$(CC) $(CFLAGS) $(INC) $(OBJ_SRC) $(LIBFT_DIR) $(LFLAGS) -o $(NAME)
-	@echo "${GREEN}----------COMPILED DONE----------\n${RESET}"
-
-$(OBJ_FOLDER)/%.o : %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
-# add $(INC) to not do explicit path to all #include of all header and c files
-
+# Clean object files and executable
 clean:
-	@rm -rf $(OBJ_FOLDER)
-	@make fclean -C libft
-	@rm -f libft.a
-	@echo "${GREEN}----------CLEANED----------\n${RESET}"
+	@echo "$(RED)❌ Deleting\t$(RESET)$(WHITE)Objects$(RESET)\t$(OBJB_DIR)";
+	@make -C $(LIBFT_DIR) clean
+	@$(RM) $(OBJ_DIR)
+	@echo "$(GREEN)✅ Removed\t$(RESET)$(WHITE)Objects$(RESET)"
 
-fclean : clean
-	rm -f $(NAME)
-	@echo "${GREEN}----------FULLY REMOVE----------\n${RESET}"
+fclean: clean
+	@echo "$(RED)❌ Deleting libraries$(RESET)"
+	@make -C $(LIBFT_DIR) fclean
+	@echo "$(RED)❌ Deleting$(RESET)\t$(NAME)"
+	@$(RM) $(NAME)
+	@echo "$(GREEN)✅ Removed\t$(RESET)$(WHITE)$(NAME)$(RESET)"
 
-re : fclean all
+re: fclean all
 
-debug:
-	@echo SRC:
-	@echo $(SRC)
-	@echo
-	@echo OBJ_SRC:
-	@echo $(OBJ_SRC)
+# # debug:
+# @echo "SRC: $(SRC)"
+# @echo "OBJ: $(OBJ)"
+# @echo "OBJ_DIR: $(OBJ_DIR)"
 
-.PHONY : all clean fclean re
+FORCE:
+
+.PHONY: bonus all clean fclean re
+
+# -I(include directory) - Tells the compiler to look for header files 
+# -L(directory) - Tells the compiler to look for .a library path in this folder
+# -l(%.a) - Tells the compiler to look for that specified .a file

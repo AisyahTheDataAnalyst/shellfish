@@ -3,84 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 21:46:22 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/03/12 12:54:10 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 11:20:26 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/18 15:11:27 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// don't need to explicitly cast from int to long int in C is because 
-//  - integer types in C automatically promote or widen
-// %modulo = "Backward Processing"/ "Reverse Iteration"
-// = every single digit processed in reverse order 
-// - right to left processing
-// - use % in =>  (num % 10) + '0';
-//
-// void *malloc, so no need to cast malloc into char *
-// - its already defined by (char *)result
-//
-// (num < 0) , len++ because want to add in the '-' into the counter 
-// - when (len > i)
-//
-// if want to test as nothing turn in, use 0 (int), as NULL for pointer types
-
 #include "libft.h"
 
-static int	ft_getdigit(long n)
+static int	count_num(long nbr);
+static char	*pre_conv(int len);
+static void	aft_conv(long nbr, char *result, int *len);
+
+char	*ft_itoa(int n)
+{
+	long	nbr;
+	char	*result;
+	int		len;
+	int		i;
+
+	nbr = (long)n;
+	if (nbr == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (nbr == 0)
+		return (ft_strdup("0"));
+	len = count_num(nbr);
+	result = pre_conv(len);
+	if (!result)
+		return (NULL);
+	if (nbr < 0)
+		nbr = -nbr;
+	i = len - 1;
+	aft_conv(nbr, result, &i);
+	if (n < 0)
+		result[0] = '-';
+	result[len] = '\0';
+	return (result);
+}
+
+static char	*pre_conv(int len)
+{
+	char	*tmp;
+
+	tmp = malloc((len + 1) * (sizeof(char)));
+	if (!tmp)
+		return (NULL);
+	return (tmp);
+}
+
+static void	aft_conv(long nbr, char *result, int *len)
+{
+	while (nbr != 0)
+	{
+		result[*len] = ((nbr % 10) + 48);
+		nbr = nbr / 10;
+		(*len)--;
+	}
+}
+
+static int	count_num(long nbr)
 {
 	int	count;
 
 	count = 0;
-	if (n <= 0)
+	if (nbr < 0)
 	{
-		n *= -1;
 		count++;
+		nbr = -nbr;
 	}
-	while (n > 0)
+	if (nbr == 0)
+		return (1);
+	while (nbr != 0)
 	{
-		n /= 10;
+		nbr = nbr / 10;
 		count++;
 	}
 	return (count);
 }
-
-char	*ft_itoa(int n)
+/**
+int main()
 {
-	long	num;
-	long	len;
-	char	*result;
-	int		i;
+	int num = -9865;
+	char *result = ft_itoa(num);
 
-	num = n;
-	len = ft_getdigit(num);
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	result[len] = '\0';
-	i = 0;
-	if (num < 0)
+	if (result)
 	{
-		result[0] = '-';
-		num = -num;
-		i = 1;
+		printf("Result: %s\n", result);		
+		printf("%s\n", ft_itoa(0));               // Output: "0"
+		printf("%s\n", ft_itoa(-2147483648));     // Output: "-2147483648"
+		printf("%s\n", ft_itoa(12345));           // Output: "12345"
+		printf("%s\n", ft_itoa(-12345));          // Output: "-12345"
 	}
-	while (len-- > i)
-	{
-		result[len] = (num % 10) + '0';
-		num /= 10;
-	}
-	return (result);
+	else
+		printf("Something failed");
 }
-
-// #include <stdio.h>
-//
-// int	main()
-// {
-// 	int num = 124;
-// 	char *numstr = ft_itoa(num);
-//
-// 	printf("%d that was an interger now is a string : %s\n", num, numstr);
-// 	free (numstr);
-// 	return (0);
-// }
+**/

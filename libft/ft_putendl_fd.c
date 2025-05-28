@@ -3,37 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 01:07:01 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/18 01:15:24 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 16:51:25 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/19 17:34:40 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// fd = file descriptor
-// 	0 = reading input
-// 	1 = writing output
-// 	2 = writing error message
-//	>=3 = custom fd returned by open(), sockets, other I/O operations
-// 	negative = INVALID
 
 #include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	if (!s || fd < 0)
+	int	i;
+
+	if (s == NULL || fd < 0)
 		return ;
-	ft_putstr_fd(s, fd);
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 	write(fd, "\n", 1);
 }
-/*
-#include <stdio.h>
-
-int	main()
-{
-	char str[] = "Aloha!";
-	int fd = 1;
-	ft_putendl_fd(str, fd);
-	return(0);
-}
-*/

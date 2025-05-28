@@ -3,18 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:55:33 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/11/06 19:38:01 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/04 13:08:38 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/11 17:48:43 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isprint(int p)
+int	ft_isprint(int c)
 {
-	if (p >= 32 && p <= 126)
+	if (c >= 32 && c <= 126)
 		return (1);
-	return (0);
+	else
+		return (0);
 }
+
+/*
+int main()
+{
+    int c = '~';
+    int result = ft_isprint(c);
+
+    printf("Result: %d\n", result);
+}
+*/

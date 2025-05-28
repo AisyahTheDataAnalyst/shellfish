@@ -3,63 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 09:52:47 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/12 14:27:26 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/13 10:22:37 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/21 17:38:29 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	char	*trimmed;
-	size_t	start;
-	size_t	end;
-	size_t	len;
+static int	ischar(const char *set, char c);
+static char	*new_str(const char *s1, size_t start, size_t len);
 
-	if (!s1 || !set)
+char	*ft_strtrim(const char *s1, const char *set)
+{
+	size_t	i;
+	size_t	j;
+
+	if (ft_strlen(s1) == 0 || !s1 || !set)
+		return (ft_strdup(""));
+	i = 0;
+	j = ft_strlen(s1) - 1;
+	while (s1[i] && ischar(set, s1[i]))
+		i++;
+	if (s1[i] == '\0')
+		return (ft_strdup(""));
+	while (j >= i && ischar(set, s1[j]))
+		j--;
+	return (new_str(s1, i, (j - (i - 1))));
+}
+
+static char	*new_str(const char *s1, size_t start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	if (len <= 0 || start >= ft_strlen(s1))
+		return (ft_strdup(""));
+	str = ft_calloc(len + 1, sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	start = 0;
-	while (s1[start])
+	i = 0;
+	while (i < len)
 	{
-		if (s1[start] && ft_strchr(set, s1[start]))
-			start++;
-		else
-			break ;
+		str[i] = s1[start + i];
+		i++;
 	}
-	end = ft_strlen(s1);
-	if (s1[end] == '\0')
-		while (end > start && ft_strchr(set, s1[end - 1]))
-			end--;
-	len = end - start + 1;
-	trimmed = malloc(len);
-	if (!trimmed)
-		return (NULL);
-	ft_strlcpy(trimmed, s1 + start, len);
-	return (trimmed);
+	str[i] = '\0';
+	return (str);
 }
 
-/*
-#include <stdio.h>
-
-int	main()
+static int	ischar(const char *set, char c)
 {
-	char const *text1 = "abHelloab";
-	char const *text2 = "aaabbbHellobbbab";
-	char const *text3 = "abbbaaabab";
-	char const *text4 = NULL;
-	char const *set = "ab";
-	char *result1 = ft_strtrim(text1, set);
-	char *result2 = ft_strtrim(text2, set);
-	char *result3 = ft_strtrim(text3, set);
-	char *result4 = ft_strtrim(text4, set);
+	size_t	i;
 
-	printf("Before: %s\nAfter: %s\n\n", text1, result1);
-	printf("Before: %s\nAfter: %s\n\n", text2, result2);
-	printf("Before: %s\nAfter: %s\n\n", text3, result3);
-	printf("Before: %s\nAfter: %s\n", text4, result4);
-	return(0);
+	i = 0;
+	while (set[i] != '\0')
+	{
+		if (set[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
-*/
+
+int main()
+{
+    char *result = ft_strtrim("  \t Hello, World! \n  ", " \t\n");
+    printf("Result: '%s'\n", result);
+    free(result);
+    return 0;
+}

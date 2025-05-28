@@ -3,58 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 16:42:56 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/17 20:56:19 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 15:27:43 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/14 18:37:05 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// purpose = create a new string by applying a CUSTOM fn to EACH CHAR given str
-// (f) => "index of the character"
-// char as in (unsigned int, char) => character itself as the argument
-// flexibility to define your own fn
-// (*f) => function pointer
-// i = to match with f's unsigned int 
 
 #include "libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*ptr;
-	size_t	len;
-	int		i;
+	unsigned int	i;
+	char			*res;
 
-	if (!f || !s)
-		return (NULL);
-	len = ft_strlen(s);
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (!ptr)
+	res = malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
 	i = 0;
-	while (s[i] != '\0')
+	while (i < ft_strlen(s))
 	{
-		ptr[i] = f(i, s[i]);
+		res[i] = (*f)(i, s[i]);
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	res[i] = 0;
+	return (res);
 }
-/*
-#include <stdio.h>
-
-static char adding(unsigned int i, char c)
+/**
+char	to_uppercase(unsigned int i, char c)
 {
-	return (i + c);
+	if (c >= 'a' && c <= 'z')
+		return c -('a' - 'A');
+	return c;
 }
-
-int	main()
+int main()
 {
-	char const *str = "hellooooz";
-	char *result = ft_strmapi(str,adding);
+	char s[] = "hello world";
+	char *result = ft_strmapi(s, to_uppercase);
 
-	printf("Before: %s\nAfter : %s\n", str, result);
-	free(result);
+	if (result)
+	{
+		printf("Original: %s\n", s);
+		printf("Transformed: %s\n", result);
+		free(result);
+	}
 	return (0);
 }
-*/
+**/

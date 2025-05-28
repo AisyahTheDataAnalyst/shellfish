@@ -3,19 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 18:17:33 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/17 21:56:51 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/14 16:29:01 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/19 17:40:29 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// unsinged int = positive int only + generic non-ve num usages
-// size_t = positive only + for sizes(memory/spaces) coz adapts to the system
-// cannot s[i] = f(... because that implies you want to return smthg
-// - return type is void
-// - you directly edit the original string
-// &s[i] = (s + i)
 
 #include "libft.h"
 
@@ -23,33 +16,32 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	unsigned int	i;
 
-	if (!s || !f)
+	if (!s)
 		return ;
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
-		f(i, s + i);
+		(*f)(i, &s[i]);
 		i++;
 	}
 }
-/*
-#include <stdio.h>
-
-static void ft_toupper_mock(unsigned int i, char *str)
+/**
+void to_uppercase(unsigned int index, char *c)
 {
-	(void)i;
-	
-	if (*str >= 'a' && *str <= 'z')
-		*str = *str - 32;
+    *c = toupper(*c);  // Convert character to uppercase
 }
-// Avoid modifying 'i' since it's not used here, 
-// but it's part of the function signature
-
-int	main()
+int main()
 {
-	char str[] = "hello";	
-	printf("Before: %s\n", str);
-	ft_striteri(str, ft_toupper_mock);
-	printf("After: %s\n", str);
-	return (0);
-*/
+    char str[] = "hello world";  // Sample string
+
+    printf("Original string: %s\n", str);
+    
+    // Call ft_striteri to convert each character to uppercase
+    ft_striteri(str, to_uppercase);
+
+    // Print the modified string
+    printf("Modified string: %s\n", str);
+
+    return 0;
+}
+**/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.m      +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 18:04:36 by aimokhta          #+#    #+#             */
-/*   Updated: 2024/12/12 14:23:05 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/07 11:10:09 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/11 18:23:41 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 int	ft_toupper(int c)
 {
-	if (c >= 'a' && c <= 'z')
+	if ((c >= 97) && (c <= 122))
+	{
 		return (c - 32);
+	}
 	return (c);
 }
-/*
-#include <stdio.h>
-
-int	main()
+/**
+int main()
 {
-	int c1 = 'i';
-	printf("%c\n", ft_toupper(c1));	
-}*/
+	char str = 'a';
+	printf("%c\n", str);
+	int result = toupper(str);
+	printf("%c\n", result);
+}
+**/

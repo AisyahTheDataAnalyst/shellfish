@@ -3,48 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/08 11:50:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/03/12 12:54:48 by aimokhta         ###   ########.fr       */
+/*   Created: 2024/11/11 16:00:27 by yelu              #+#    #+#             */
+/*   Updated: 2024/11/16 20:19:33 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// no need to do error handling because will have error anyway
-
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(const char *s)
 {
-	char	*dst;
-	size_t	size;
+	size_t	len;
+	char	*dup;
+	size_t	i;
 
-	size = ft_strlen(src) + 1;
-	dst = malloc(size);
-	if (dst == NULL)
+	len = 0;
+	i = 0;
+	len = ft_strlen(s);
+	dup = malloc(sizeof(char) * (len + 1));
+	if (!dup)
 		return (NULL);
-	ft_strlcpy(dst, src, size);
-	return (dst);
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
-
-// #include <stdio.h>
-
-// int	main()
-// {
-// 	const char	*src = 	"I am awesome";
-// 	char*	dst = ft_strdup(src);
-
-// 	if (src == NULL)
-// 		printf("Original text is null\n");
-// 	else
-// 		printf("Original text = %s\n", src);
-
-// 	if (dst == NULL)
-// 		printf("The text cannot be duplicated as the allocation size is 0\n");
-// 	else
-// 	{
-// 		printf("Duplicated text = %s\n", dst);
-// 		free(dst);
-// 	}
-// 	return (0);
-// }
+/**
+int main()
+{
+	const char *str = "Hello";
+	size_t i = 0;
+	char *result = ft_strdup(str);
+	while (result[i])
+	{
+		printf("%c", result[i]);
+		i++;
+	}
+	free (result);
+	return (0);
+}
+**/
