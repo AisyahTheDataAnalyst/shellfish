@@ -6,7 +6,7 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/05/27 15:17:51 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/05/28 11:30:19 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,6 @@ SRC =	\
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export_only.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_pwd.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_unset.c \
-		$(SRC_DIR)/$(SRC_BI_DIR)/bi_unset_ori.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/built_ins.c \
 		$(SRC_DIR)/free.c \
 		$(SRC_DIR)/main.c \

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:26:11 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 13:34:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:05:09 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	bi_unset(char **av, char **envp, t_list *exec)
 	if (!ft_strncmp(av[0], "unset", 6))
 	{
 		if (!exec->envp_array)
-			envp_to_envparray(envp, exec);	
+			envp_to_envparray(envp, exec);
 		unset_array(av, exec);
 	}
 }

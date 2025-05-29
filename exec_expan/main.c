@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:48:22 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 13:35:38 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/05/29 09:13:28 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	int_main_init(t_list *exec)
 	get_splitted_path(exec);
 	signal(SIGINT, handle_cntrl_c);
 	signal(SIGQUIT, SIG_IGN);
+	signal(EOF, handle_cntrl_d);
 	// if (signal(EOF, handle_cntrl_d))
 	// {
 	// 	freeing(exec);
@@ -74,7 +75,5 @@ static char	*int_main_loop(char **envp, t_list *exec, char *line)
 	free(line);
 	free_double_array(args);
 	line = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-	if (!line)
-		freeing(exec);
 	return (line);
 }

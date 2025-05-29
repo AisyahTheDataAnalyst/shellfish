@@ -6,27 +6,11 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 10:48:19 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/05/29 09:11:33 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*get_full_path(char **envp)
-// {
-// 	char	*full_path;
-// 	int		i;
-
-// 	// full_path = NULL;
-// 	// i = 0;
-// 	// while (envp[i])
-// 	// {
-// 	// if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-//  // 	full_path = envp[i] + 5;
-// 	// 	i++;
-// 	// }
-// 	return (full_path);
-// }
 
 // $PATH env variable = PATH=....
 // split = directory path (/usr/bin)

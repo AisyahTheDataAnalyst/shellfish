@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:44:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 13:32:08 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:06:52 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void			bi_export(char **av, char **envp, t_list *exec);
 // static void		export_add_ori(char **av, char **envp, t_list *exec);
-static void		export_add_array(char **av, t_list *exec);
+static void		export_add(char **av, t_list *exec);
 
 void	bi_export(char **av, char **envp, t_list *exec)
 {
@@ -22,11 +22,31 @@ void	bi_export(char **av, char **envp, t_list *exec)
 	{
 		if (!exec->envp_array)
 			envp_to_envparray(envp, exec);
-		
-		export_add_array(av, exec);
+		export_add(av, exec);
 	}
 	else if (ft_strncmp(av[0], "export", 6) == 0 && !av[1])
 		export_only(envp, exec);
+}
+
+// tested
+static void	export_add(char **av, t_list *exec)
+{
+	int		i;
+	size_t	size;
+	char	**temp;
+
+	size = ft_array_size(exec->envp_array);
+	temp = malloc(sizeof(char *) * (size + 2));
+	i = 0;
+	while (exec->envp_array[i])
+	{
+		temp[i] = ft_strdup(exec->envp_array[i]);
+		i++;
+	}
+	temp[i++] = ft_strdup(av[1]);
+	temp[i] = NULL;
+	free_double_array(exec->envp_array);
+	exec->envp_array = temp;
 }
 
 // THIS IS THE LATEEST
@@ -100,7 +120,7 @@ void	bi_export(char **av, char **envp, t_list *exec)
 // 	printf("testing add_ori\n");
 // }
 
-// void export_add_array(char **av, t_list *exec)
+// void export_add(char **av, t_list *exec)
 // {
 // 	int i;
 // 	i = 0;
@@ -123,23 +143,3 @@ void	bi_export(char **av, char **envp, t_list *exec)
 // 		i++;
 // 	}
 // }
-// tested
-static void	export_add_array(char **av, t_list *exec)
-{
-	int		i;
-	size_t	size;
-	char	**temp;
-
-	size = ft_array_size(exec->envp_array);
-	temp = malloc(sizeof(char *) * (size + 2));
-	i = 0;
-	while (exec->envp_array[i])
-	{
-		temp[i] = ft_strdup(exec->envp_array[i]);
-		i++;
-	}
-	temp[i++] = ft_strdup(av[1]);
-	temp[i] = NULL;
-	free_double_array(exec->envp_array);
-	exec->envp_array = temp;
-}
