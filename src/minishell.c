@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **env)
 		printf("You entered %s\n", line);
 		basin = ft_split(line, ' ');
 		ft_bzero(&data, sizeof(t_token));
-		init_token(basin);
+		init_token(basin, &data);
 		free(line);
 	}
 	return (0);

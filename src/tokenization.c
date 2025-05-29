@@ -28,26 +28,29 @@ static t_type check_token_type(char *basin)
 		return (TOKEN_WORD);
 }
 
-void    init_token(char **basin)
+void    init_token(char **basin, t_token *data)
 {
     int type;
     int i;
+	char **word_arr;
 
     i = 0;
     while(basin[i])
     {
         type = check_token_type(basin[i]);
-		assign_token(type);
+		assign_token(word_arr, type, data);
         i++;
     }
 }
 
-void	assign_token(int type, t_token *data)
+void	assign_token(char **word_arr, int type, t_token *data)
 {
+
+	// if (!data->basin_buff)
+	// 	basin_buff = ft_strdup("");
 	if (type == TOKEN_WORD)
 	{
-		if (!data->basin_buff)
-			new_token(data);
+		
 		else
 		{
 			
