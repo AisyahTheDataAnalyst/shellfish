@@ -30,6 +30,12 @@ typedef enum token_type
     TOKEN_HEREDOC, // <<
 } t_type;
 
+typedef struct s_word_arr
+{
+    int     word_count;
+    char    **array;
+} t_word_arr;
+
 typedef struct s_token
 {
     int index;
@@ -39,6 +45,6 @@ typedef struct s_token
 } t_token;
 
 // Tokenization
-void    init_token(char **basin);
+void    init_token(char **basin, t_word_arr *temp_arr);
 
 #endif
