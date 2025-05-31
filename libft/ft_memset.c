@@ -14,21 +14,21 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*str;
+	unsigned char	*str;
 
-	str = (char *)s;
+	str = (unsigned char *)s;
 	while (n > 0)
 	{
-		*str = (char)c;
+		*str = (unsigned char)c;
 		str++;
 		n--;
 	}
 	return (s);
 }
 
-int main()
-{
-    char str[30] = "ABCDEFGHIJKLM";
-    ft_memset(str,'a',6);
-    printf("Result: %s", str);
-}
+// int main()
+// {
+//     char str[30] = "ABCDEFGHIJKLM";
+//     ft_memset(str,'a',6);
+//     printf("Result: %s", str);
+// }

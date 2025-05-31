@@ -33,7 +33,7 @@ INC = -I$(INC_DIR) -I$(LIBFT_DIR)
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Werror -Wextra -g3
 RM = rm -rf
 
 # Source files

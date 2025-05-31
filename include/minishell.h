@@ -23,11 +23,11 @@
 typedef enum token_type
 {
     TOKEN_WORD, // argument or commands
-    TOKEN_PIPE, // |
+    TOKEN_HEREDOC, // <<
+    TOKEN_APPEND, // >>
     TOKEN_REDIRECT_IN, // <
     TOKEN_REDIRECT_OUT, // >
-    TOKEN_APPEND, // >>
-    TOKEN_HEREDOC, // <<
+    TOKEN_PIPE, // |
 } t_type;
 
 typedef struct s_word_arr
@@ -44,7 +44,15 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
+typedef struct s_data
+{
+    t_word_arr  word_arr;
+    t_token     *token;
+} t_data;
+
 // Tokenization
-void    init_token(char **basin, t_word_arr *temp_arr);
+void    init_token(char **basin, t_data *data);
+
+void	init_data(t_data *data);
 
 #endif
