@@ -30,11 +30,11 @@ typedef enum token_type
     TOKEN_PIPE, // |
 } t_type;
 
-typedef struct s_word_arr
-{
-    int     word_count;
-    char    **array;
-} t_word_arr;
+// typedef struct s_word_arr
+// {
+//     int     word_count;
+//     char    **array;
+// } t_word_arr;
 
 typedef struct s_token
 {
@@ -46,13 +46,23 @@ typedef struct s_token
 
 typedef struct s_data
 {
-    t_word_arr  word_arr;
+    int index;
     t_token     *token;
 } t_data;
 
+// ============================
+
 // Tokenization
 void    init_token(char **basin, t_data *data);
-
 void	init_data(t_data *data);
+
+// Pipe Tokenization
+t_token	*create_pipe(t_data *data, int type, int index);
+
+// Redirection In Tokenization
+
+
+// =============================
+
 
 #endif
