@@ -23,9 +23,9 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	char		*input;
-	// char		**basin = NULL;
+	char		**basin;
 	t_data		data;
-	// int i = 0;
+	int i = 0;
 
 	init_data(&data);
 	while (1)
@@ -34,8 +34,13 @@ int main(int argc, char **argv, char **env)
 		printf("You entered %s\n", input);
 		input = normalize_input(input);
 		printf("Cleaned: %s\n", input);
-		// basin = ft_split(input, ' ');
-		// init_token(basin, &data);
+		basin = ft_split(input, ' ');
+		while (basin[i])
+		{
+			printf("Basin: %s\n", basin[i]);
+			i++;
+		}
+		init_token(basin, &data);
 		free(input);
 	}
 	return (0);
