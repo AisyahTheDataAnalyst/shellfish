@@ -22,19 +22,20 @@ int main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	char		*line;
-	char		**basin = NULL;
+	char		*input;
+	// char		**basin = NULL;
 	t_data		data;
 	// int i = 0;
 
 	init_data(&data);
 	while (1)
 	{
-		line = readline("$minishell: ");
-		printf("You entered %s\n", line);
-		basin = ft_split(line, ' ');
-		init_token(basin, &data);
-		free(line);
+		input = readline("$minishell: ");
+		printf("You entered %s\n", input);
+		// input = normalize_input(input);
+		// basin = ft_split(input, ' ');
+		// init_token(basin, &data);
+		free(input);
 	}
 	return (0);
 }

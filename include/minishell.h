@@ -44,6 +44,15 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
+// typedef struct s_ast
+// {
+//     t_node_type ast_type;
+//     char **args;
+//     char *filename;
+//     struct s_ast *left;
+//     struct s_ast *right;
+// } t_ast;
+
 typedef struct s_data
 {
     int index;
@@ -57,7 +66,7 @@ void    init_token(char **basin, t_data *data);
 void	init_data(t_data *data);
 
 // Pipe Tokenization
-t_token	*create_pipe(t_data *data, int type, int index);
+t_token	*create_pipe(t_data *data, int type);
 
 // Redirection In Tokenization
 
