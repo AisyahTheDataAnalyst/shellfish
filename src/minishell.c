@@ -32,7 +32,8 @@ int main(int argc, char **argv, char **env)
 	{
 		input = readline("$minishell: ");
 		printf("You entered %s\n", input);
-		// input = normalize_input(input);
+		input = normalize_input(input);
+		printf("Cleaned: %s\n", input);
 		// basin = ft_split(input, ' ');
 		// init_token(basin, &data);
 		free(input);

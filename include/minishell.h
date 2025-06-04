@@ -62,8 +62,9 @@ typedef struct s_data
 // ============================
 
 // Tokenization
-void    init_token(char **basin, t_data *data);
+// void    init_token(char **basin, t_data *data);
 void	init_data(t_data *data);
+char	*normalize_input(char *input);
 
 // Pipe Tokenization
 t_token	*create_pipe(t_data *data, int type);
