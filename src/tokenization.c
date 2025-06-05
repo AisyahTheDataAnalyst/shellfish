@@ -104,7 +104,6 @@ void    init_token(char **basin, t_data *data)
 			}
 			else
 			{
-				data->word_arr.word_count = 0;
 				data->word_arr.word_count++;
 				first_malloc(basin[i]);
 				i++;
@@ -119,6 +118,7 @@ void    init_token(char **basin, t_data *data)
 			data->index++;
 		}
 		// create_node? Then get the array into a node then free it then reuse in the loop?
+		data->word_arr.word_count = 0;
     	i++;
     }
 }
@@ -141,13 +141,11 @@ char	*normalize_input(char *input)
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] == '>' || input[i] == '<' || input[i] == '|' || input[i] == '&')
+		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
 		{
-			if ((input[i] == '>' || input[i] == '<' || input[i] == '|' || 
-				input[i] == '&') && (input[i] == input[i + 1]))
+			if (input[i] == '>' || input[i] == '<' || input[i] == '|' && (input[i] == input[i + 1]))
 			{
-				if ((input[i] == '>' || input[i] == '<' || input[i] == '|' || 
-					input[i] == '&') && (input[i + 1] == input[i + 2]))
+				if (input[i] == '>' || input[i] == '<' || input[i] == '|' && (input[i + 1] == input[i + 2]))
 				{
 					printf("-bash: syntax error near unexpected token");
 					exit(1);

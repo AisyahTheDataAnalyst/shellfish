@@ -30,11 +30,11 @@ typedef enum token_type
     TOKEN_PIPE, // |
 } t_type;
 
-// typedef struct s_word_arr
-// {
-//     int     word_count;
-//     char    **array;
-// } t_word_arr;
+typedef struct s_word_arr
+{
+    int     word_count;
+    char    **array;
+} t_word_arr;
 
 typedef struct s_token
 {
