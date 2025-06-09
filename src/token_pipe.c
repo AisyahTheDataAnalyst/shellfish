@@ -13,28 +13,38 @@
 #include "../include/minishell.h"
 
 // Create and append node at the end
-t_token    *create_pipe(t_data *data, int type)
+t_token    *create_pipe(char *s1, t_data *data, int type)
 {
 	t_token	*new;
-    t_token *current;
+	t_token *current;
 
+	if (s1 == NULL)
+    {
+        ft_putstr_fd("bash: syntax error near unexpected token `|'", 2);
+        // Free some shit
+        exit (2);
+    }
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return (NULL);
-    new->basin_buff = NULL;
-    new->token_type = type;
+	{
+		// Free some shit
+		exit (1);
+	}
+	new->basin_buff = NULL;
+	new->token_type = type;
 	new->index = data->index;
 	new->next = NULL;
-    if (!data->token)
-    {
-        data->token = new;
-    }
-    else
-    {
-        current = data->token;
-        while (current->next)
-            current = current->next;
-        current->next = new;
-    }
-    return (new);
+	if (!data->token)
+	{
+		data->token = new;
+		return (new);
+	}
+	else
+	{
+		current = data->token;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+	return (new);
 }

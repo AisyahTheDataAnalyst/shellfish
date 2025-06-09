@@ -38,6 +38,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
+/**
 int main()
 {
     int i = 0;
@@ -59,3 +60,4 @@ int main()
         j++;
     }
 }
+**/

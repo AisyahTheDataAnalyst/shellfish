@@ -19,54 +19,67 @@ static t_type check_token_type(char *basin)
 		printf("Failed to check user input type");
 		exit (1);
 	}
-	if (ft_strncmp(basin, "|", 2) == 0)
+	if (ft_strncmp(basin, "|", 1) == 0)
 		return (TOKEN_PIPE);
-	else if (ft_strncmp(basin, "<", 2) == 0)
+	else if (ft_strncmp(basin, "<", 1) == 0)
 		return (TOKEN_REDIRECT_IN);
-	else if (ft_strncmp(basin, ">", 2) == 0)
+	else if (ft_strncmp(basin, ">", 1) == 0)
 		return (TOKEN_REDIRECT_OUT);
-	else if (ft_strncmp(basin, ">>", 3) == 0)
+	else if (ft_strncmp(basin, ">>", 2) == 0)
 		return (TOKEN_APPEND);
-	else if (ft_strncmp(basin, "<<", 3) == 0)
+	else if (ft_strncmp(basin, "<<", 2) == 0)
 		return (TOKEN_HEREDOC);
 	else
 		return (TOKEN_WORD);
 }
 
-// static void	ft_realloc(char *element, t_data *data)
-// {
-// 	char	**new_array;
-// 	int		i;
+static void	first_malloc(t_data *data, char *element)
+{
+	data->word.array = malloc(sizeof(char *) * (2));
+	if (!data->word.array)
+	{
+		// Probably need to free stuff first let's see how
+		exit (1);
+	}
+	data->word.array[0] = ft_strdup(element);
+	if (!data->word.array)
+	{
+		// Free word array allocated and other stuff
+		exit (1);
+	}
+	data->word.array[1] = NULL;
+}
 
-// 	i = 0;
-// 	if (!data->word_arr.array)
-// 	{
-// 		data->word_arr.array = malloc(sizeof(char *) * (data->word_arr.word_count + 1));
-// 		if (!data->word_arr.array)
-// 			exit (1);
-// 		data->word_arr.array[0] = NULL;
-// 	}
-// 	new_array = malloc(sizeof(char *) * (data->word_arr.word_count + 2));
-// 	if (!new_array)
-// 		exit(1); // Should I exit and retry instead?
-// 	while (i < data->word_arr.word_count)
-// 	{
-// 		new_array[i] = data->word_arr.array[i];
-// 		i++;
-// 	}
-// 	new_array[i] = ft_strdup(element);
-// 	new_array[i + 1] = NULL;
-// 	free_array(data->word_arr.array);
-// 	data->word_arr.array = new_array;
-// 	int j = 0;
-// 	while (data->word_arr.array[j])
-// 	{
-// 		printf("String %s\n", data->word_arr.array[j]);
-// 		j++;
-// 	}
-// }
+static void	ft_realloc(t_data *data, char *element)
+{
+	char	**new_array;
+	int		i;
 
-void    init_token(char **basin, t_data *data)
+	i = 0;
+	new_array = malloc(sizeof(char *) * (data->word.word_count + 2));
+	if (!new_array)
+	{
+		// free stuff before exit
+		exit(1); // Need to create function to free arrays, mainly basin (and input?)
+	}
+	while (i < data->word.word_count)
+	{
+		new_array[i] = data->word.array[i];
+		i++;
+	}
+	new_array[i] = ft_strdup(element);
+	new_array[i + 1] = NULL;
+	free_array(data->word.array);
+	data->word.array = new_array;
+	// int j = 0; // for testing 
+	// while (data->word.array[j])
+	// {
+	// 	printf("String %s\n", data->word.array[j]);
+	// 	j++;
+	// }
+}
+
+void    init_token(t_data *data, char **basin)
 {
     int type;
     int i;
@@ -75,51 +88,51 @@ void    init_token(char **basin, t_data *data)
     while(basin[i])
     {
 		type = check_token_type(basin[i]);
-		printf("What is type now: %d\n", type);
+		printf("Element's current type: %d\n", type);
 		while (basin[i] && type != TOKEN_PIPE)
 		{
 			if (type == TOKEN_REDIRECT_IN)
 			{
-				create_redirect_in(basin[i], basin[i + 1], data, type);
+				create_redirects(basin[i + 1], data, type);
 				data->index++;
 				i++;
 			}
 			else if (type == TOKEN_REDIRECT_OUT)
 			{
-				create_redirect_out(basin[i], basin[i + 1], data, type);
+				create_redirects(basin[i + 1], data, type);
 				data->index++;
 				i++;
 			}
 			else if (type == TOKEN_APPEND)
 			{
-				create_append(basin[i], basin[i + 1], data, type);
+				create_redirects(basin[i + 1], data, type);
 				data->index++;
 				i++;
 			}
 			else if (type == TOKEN_HEREDOC)
 			{
-				create_heredoc(basin[i], basin[i + 1], data, type);
+				create_redirects(basin[i + 1], data, type);
 				data->index++;
 				i++;
 			}
 			else
 			{
-				data->word_arr.word_count++;
-				first_malloc(basin[i]);
-				i++;
-				while (type(basin[i]) == TOKEN_WORD)
-					rerealloc(basin[i], data);
-					i++;
+				data->word.word_count++;
+				if (!data->word.array)
+					first_malloc(data, basin[i]);
+				else
+					ft_realloc(data, basin[i]);
 			}
 		}
 		if (type == TOKEN_PIPE)
 		{
-			create_pipe(data, type);
+			create_pipe(basin[i + 1], data, type);
 			data->index++;
+			data->token->basin_buff = data->word.array;
+			data->word.array = NULL;
+			data->word.word_count = 0;
 		}
-		// create_node? Then get the array into a node then free it then reuse in the loop?
-		data->word_arr.word_count = 0;
-    	i++;
+		i++;
     }
 }
 

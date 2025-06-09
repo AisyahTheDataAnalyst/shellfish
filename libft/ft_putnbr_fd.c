@@ -33,7 +33,7 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 }
 
-
+/**
 int main()
 {
     // Test output to stdout (file descriptor 1)
@@ -51,3 +51,4 @@ int main()
 
     return 0;
 }
+**/

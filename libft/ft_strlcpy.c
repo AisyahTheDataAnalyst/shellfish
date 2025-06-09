@@ -34,6 +34,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (count);
 }
 
+/**
 int main()
 {
     char source [] = "abcdef";
@@ -42,3 +43,4 @@ int main()
     printf("Destination: %s\n", dest);
     printf("Length: %zu", len);
 }
+**/

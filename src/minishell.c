@@ -40,7 +40,8 @@ int main(int argc, char **argv, char **env)
 			printf("Basin: %s\n", basin[i]);
 			i++;
 		}
-		init_token(basin, &data);
+		init_token(&data, basin);
+		free_array(basin);
 		free(input);
 	}
 	return (0);

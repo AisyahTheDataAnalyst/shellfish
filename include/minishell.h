@@ -22,57 +22,61 @@
 
 typedef enum token_type
 {
-    TOKEN_WORD, // argument or commands
-    TOKEN_HEREDOC, // <<
-    TOKEN_APPEND, // >>
-    TOKEN_REDIRECT_IN, // <
-    TOKEN_REDIRECT_OUT, // >
-    TOKEN_PIPE, // |
+	TOKEN_WORD, // argument or commands
+	TOKEN_HEREDOC, // <<
+	TOKEN_APPEND, // >>
+	TOKEN_REDIRECT_IN, // <
+	TOKEN_REDIRECT_OUT, // >
+	TOKEN_PIPE, // |
 } t_type;
 
 typedef struct s_word_arr
 {
-    int     word_count;
-    char    **array;
+	int		word_count;
+	char	**array;
 } t_word_arr;
 
 typedef struct s_token
 {
-    int index;
-    t_type token_type;
-    char **basin_buff;
-    struct s_token *next;
+	int index;
+	t_type token_type;
+	char **basin_buff;
+	struct s_token *next;
 } t_token;
 
-// typedef struct s_ast
-// {
-//     t_node_type ast_type;
-//     char **args;
-//     char *filename;
-//     struct s_ast *left;
-//     struct s_ast *right;
-// } t_ast;
+typedef struct s_ast
+{
+	t_token     *token;
+	struct s_ast *left;
+	struct s_ast *right;
+} t_ast;
 
 typedef struct s_data
 {
-    int index;
-    t_token     *token;
+	int index;
+	t_token     *token;
+	t_word_arr  word;
 } t_data;
 
 // ============================
 
 // Tokenization
-// void    init_token(char **basin, t_data *data);
+
 void	init_data(t_data *data);
 char	*normalize_input(char *input);
+void    init_token(t_data *data, char **basin);
 
 // Pipe Tokenization
-t_token	*create_pipe(t_data *data, int type);
+t_token	*create_pipe(char *s1, t_data *data, int type);
 
 // Redirection In Tokenization
+t_token *create_redirects(char *s1, t_data *data, int type);
 
-
+// Utils
+void    free_arr(char **array);
+void free_token_node(t_token *node);
 // =============================
+
 
 
 #endif

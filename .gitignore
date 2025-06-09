@@ -57,3 +57,11 @@ program
 
 # Local files
 *.idx
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
+minishell
+libft/.vscode/c_cpp_properties.json
+libft/.vscode/settings.json
+libft/.vscode/tasks.json
+src/old_token
