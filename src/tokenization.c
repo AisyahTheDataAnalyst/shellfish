@@ -16,7 +16,7 @@ static t_type check_token_type(char *basin)
 {
 	if (basin == NULL)
 	{
-		printf("Failed to check user input type");
+		ft_putstr_fd("Failed to check user input type", 2);
 		exit (1);
 	}
 	if (ft_strncmp(basin, "|", 1) == 0)
@@ -85,6 +85,7 @@ void    init_token(t_data *data, char **basin)
     int i;
 
     i = 0;
+	first_word_token(data);
     while(basin[i])
     {
 		type = check_token_type(basin[i]);
@@ -126,11 +127,18 @@ void    init_token(t_data *data, char **basin)
 		}
 		if (type == TOKEN_PIPE)
 		{
+			if (i = 0 || basin[i + 1] == NULL)
+    		{
+				ft_putstr_fd("bash: syntax error near unexpected token `|'", 2);
+				// Free some shit
+				exit (2);
+    		}
 			create_pipe(basin[i + 1], data, type);
 			data->index++;
-			data->token->basin_buff = data->word.array;
-			data->word.array = NULL;
+			// data->token->basin_buff = data->word.array;
+			// data->word.array = NULL;
 			data->word.word_count = 0;
+			loop_word_token(data);
 		}
 		i++;
     }
@@ -147,7 +155,7 @@ char	*normalize_input(char *input)
 	cleaned_input = malloc(len * 2 + 1);
 	if (!cleaned_input)
 	{
-		perror("Input allocation failed");
+		ft_putstr_fd("Input allocation failed", 2);
 		exit (1);
 	}
 	i = 0;
@@ -156,11 +164,11 @@ char	*normalize_input(char *input)
 	{
 		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
 		{
-			if (input[i] == '>' || input[i] == '<' || input[i] == '|' && (input[i] == input[i + 1]))
+			if ((input[i] == '>' || input[i] == '<' || input[i] == '|') && (input[i] == input[i + 1]))
 			{
-				if (input[i] == '>' || input[i] == '<' || input[i] == '|' && (input[i + 1] == input[i + 2]))
+				if ((input[i] == '>' || input[i] == '<' || input[i] == '|') && (input[i + 1] == input[i + 2]))
 				{
-					printf("-bash: syntax error near unexpected token");
+					ft_putstr_fd("-bash: syntax error near unexpected token\n", 2);
 					exit(1);
 				}
 				else

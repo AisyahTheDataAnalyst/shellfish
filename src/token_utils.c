@@ -28,14 +28,14 @@ void    free_arr(char **array)
 }
 
 // Only for malloc failed node
-void free_token_node(t_token *node)
-{
-    if (!node) 
-        return;
-    if (node->basin_buff)
-    {
-        free(node->basin_buff[0]);
-        free(node->basin_buff);
-    }
-    free(node);
-}
+// void free_token_node(t_token *node)
+// {
+//     if (!node) 
+//         return;
+//     if (node->basin_buff)
+//     {
+//         free(node->basin_buff[0]);
+//         free(node->basin_buff);
+//     }
+//     free(node);
+// }

@@ -37,11 +37,13 @@ int main(int argc, char **argv, char **env)
 		basin = ft_split(input, ' ');
 		while (basin[i])
 		{
-			printf("Basin: %s\n", basin[i]);
+			printf("Basin[%d]: %s\n", i, basin[i]);
 			i++;
 		}
-		init_token(&data, basin);
-		free_array(basin);
+		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
+		i = 0;
+		// init_token(&data, basin);
+		free_arr(basin);
 		free(input);
 	}
 	return (0);

@@ -64,17 +64,20 @@ typedef struct s_data
 
 void	init_data(t_data *data);
 char	*normalize_input(char *input);
-void    init_token(t_data *data, char **basin);
+// void    init_token(t_data *data, char **basin);
+
+// Word Tokenization
+// t_token *first_word_token(t_data *data);
 
 // Pipe Tokenization
-t_token	*create_pipe(char *s1, t_data *data, int type);
+// t_token	*create_pipe(char *s1, t_data *data, int type);
 
 // Redirection In Tokenization
-t_token *create_redirects(char *s1, t_data *data, int type);
+// t_token *create_redirects(char *s1, t_data *data, int type);
 
 // Utils
 void    free_arr(char **array);
-void free_token_node(t_token *node);
+// void free_token_node(t_token *node);
 // =============================
 
 

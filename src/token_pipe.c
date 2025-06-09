@@ -18,12 +18,6 @@ t_token    *create_pipe(char *s1, t_data *data, int type)
 	t_token	*new;
 	t_token *current;
 
-	if (s1 == NULL)
-    {
-        ft_putstr_fd("bash: syntax error near unexpected token `|'", 2);
-        // Free some shit
-        exit (2);
-    }
 	new = malloc(sizeof(t_token));
 	if (!new)
 	{
