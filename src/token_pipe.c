@@ -13,7 +13,7 @@
 #include "../include/minishell.h"
 
 // Create and append node at the end
-t_token    *create_pipe(char *s1, t_data *data, int type)
+t_token    *create_pipe(t_data *data, int type)
 {
 	t_token	*new;
 	t_token *current;

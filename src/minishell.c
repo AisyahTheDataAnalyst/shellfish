@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **env)
 		}
 		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
 		i = 0;
-		// init_token(&data, basin);
+		init_token(&data, basin);
 		free_arr(basin);
 		free(input);
 	}

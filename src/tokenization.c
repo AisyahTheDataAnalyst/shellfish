@@ -79,69 +79,58 @@ static void	ft_realloc(t_data *data, char *element)
 	// }
 }
 
+// Things to note: When the first one is pipe, word array has
+// not yet been malloc-ed, currently this will cause seg fault
+// if the first user input is a pipe. Will have to check during
+// normalization. Considering different functions for
+// each type of input to stop it from getting into init_token 
+// in the first place
+
 void    init_token(t_data *data, char **basin)
 {
     int type;
     int i;
+	t_token	*current_word_token;
 
     i = 0;
-	first_word_token(data);
+	current_word_token = create_word_token(data);
+	data->index++;
     while(basin[i])
     {
 		type = check_token_type(basin[i]);
 		printf("Element's current type: %d\n", type);
-		while (basin[i] && type != TOKEN_PIPE)
-		{
-			if (type == TOKEN_REDIRECT_IN)
-			{
-				create_redirects(basin[i + 1], data, type);
-				data->index++;
-				i++;
-			}
-			else if (type == TOKEN_REDIRECT_OUT)
-			{
-				create_redirects(basin[i + 1], data, type);
-				data->index++;
-				i++;
-			}
-			else if (type == TOKEN_APPEND)
-			{
-				create_redirects(basin[i + 1], data, type);
-				data->index++;
-				i++;
-			}
-			else if (type == TOKEN_HEREDOC)
-			{
-				create_redirects(basin[i + 1], data, type);
-				data->index++;
-				i++;
-			}
-			else
-			{
-				data->word.word_count++;
-				if (!data->word.array)
-					first_malloc(data, basin[i]);
-				else
-					ft_realloc(data, basin[i]);
-			}
-		}
 		if (type == TOKEN_PIPE)
 		{
 			if (i = 0 || basin[i + 1] == NULL)
-    		{
+			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'", 2);
 				// Free some shit
 				exit (2);
-    		}
-			create_pipe(basin[i + 1], data, type);
-			data->index++;
-			// data->token->basin_buff = data->word.array;
-			// data->word.array = NULL;
+			}
+			current_word_token->basin_buff = data->word.array;
+			data->word.array = NULL;
 			data->word.word_count = 0;
-			loop_word_token(data);
+			create_pipe(data, type);
+			data->index++;
+			current_word_token = create_word_token(data);
+		}
+		else if (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT ||
+				type == TOKEN_APPEND || type == TOKEN_HEREDOC)
+		{
+			create_redirects(basin[i+1], data, type);
+			data->index++;
+			i++;
+		}
+		else
+		{
+			data->word.word_count++;
+			if (!data->word.array)
+				first_malloc(data, basin[i]);
+			else
+				ft_realloc(data, basin[i]);
 		}
 		i++;
-    }
+	}
 }
 
 char	*normalize_input(char *input)
