@@ -64,10 +64,11 @@ typedef struct s_data
 
 void	init_data(t_data *data);
 char	*normalize_input(char *input);
+t_type check_token_type(char *basin);
 // void    init_token(t_data *data, char **basin);
 
 // Word Tokenization
-// t_token *first_word_token(t_data *data);
+t_token *create_word_token(t_data *data);
 
 // Pipe Tokenization
 t_token	*create_pipe(t_data *data, int type);

@@ -54,8 +54,10 @@ t_token *create_redirects(char *s1, t_data *data, int type)
     {
         current = data->token;
         while (current->next)
+        {
             current = current->next;
-        current->next = new;
+            current->next = new;
+        }
     }
     return (new);
 }

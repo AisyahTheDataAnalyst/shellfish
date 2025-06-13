@@ -32,7 +32,8 @@ int main(int argc, char **argv, char **env)
 	{
 		input = readline("$minishell: ");
 		printf("You entered %s\n", input);
-		input = normalize_input(input);
+		quote_check(input);
+		input = normalize_input(input); // >out ">>out" <-- do not add a space for this
 		printf("Cleaned: %s\n", input);
 		basin = ft_split(input, ' ');
 		while (basin[i])
@@ -42,6 +43,7 @@ int main(int argc, char **argv, char **env)
 		}
 		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
 		i = 0;
+		check_input(basin);
 		init_token(&data, basin);
 		free_arr(basin);
 		free(input);
