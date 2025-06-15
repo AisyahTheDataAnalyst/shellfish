@@ -6,16 +6,16 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:50:08 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/12 21:19:26 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/14 16:51:14 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void    check_input(char **basin)
+void	check_input(char **basin)
 {
-	int i;
-	int type;
+	int	i;
+	int	type;
 
 	i = 0;
 	while (basin[i])
