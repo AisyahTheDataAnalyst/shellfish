@@ -6,13 +6,13 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:50:08 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/14 16:51:14 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/15 16:57:49 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	check_input(char **basin)
+int	check_input(char **basin)
 {
 	int	i;
 	int	type;
@@ -26,8 +26,7 @@ void	check_input(char **basin)
 			if (i = 0 || basin[i + 1] == NULL)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'", 2);
-				// Free both input and basin
-				exit (2);
+				return (1);
 			}
 		}
 		else if (type == TOKEN_APPEND || type == TOKEN_HEREDOC || type == TOKEN_REDIRECT_IN ||
@@ -36,10 +35,10 @@ void	check_input(char **basin)
 			if (basin[i + 1] == NULL)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `newline'", 2);
-				// Free both input and basin
-				exit (2);
+				return (1);
 			}
 		}
 		i++;
 	}
+	return (0);
 }

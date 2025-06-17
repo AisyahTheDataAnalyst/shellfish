@@ -6,13 +6,13 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:20:47 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/15 16:12:48 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/15 19:14:41 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*quote_check(char *input)
+int quote_check(char *input)
 {
 	int	i;
 
@@ -31,8 +31,7 @@ char	*quote_check(char *input)
 			if (input[i] != '"')
 			{
 				ft_putstr_fd("Error: unmatched double quote\n", 2);
-				free(input);
-				exit (1);
+				return (0);
 			}
 		}
 		else if (input[i] == '\'')
@@ -47,13 +46,12 @@ char	*quote_check(char *input)
 			if (input[i] != '\'')
 			{
 				ft_putstr_fd("Error: unmatched single quote\n", 2);
-				free(input);
-				exit (1);
+				return (0);
 			}
 		}
 		i++;
 	}
-	return (input);
+	return (1);
 }
 
 // int main()

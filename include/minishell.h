@@ -63,6 +63,7 @@ typedef struct s_data
 // Tokenization
 
 void	init_data(t_data *data);
+int quote_check(char *input);
 char	*normalize_input(char *input);
 t_type check_token_type(char *basin);
 // void    init_token(t_data *data, char **basin);

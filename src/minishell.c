@@ -23,30 +23,41 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	char		*input;
-	char		**basin;
+	// char		**basin;
 	t_data		data;
-	int i = 0;
 
 	init_data(&data);
 	while (1)
 	{
 		input = readline("$minishell: ");
 		printf("You entered %s\n", input);
-		quote_check(&input);
-		normalize_input(&input);
-		printf("Cleaned: %s\n", input);
-		basin = ft_split(input, ' ');
-		while (basin[i])
+		if (!quote_check(input))
 		{
-			printf("Basin[%d]: %s\n", i, basin[i]);
-			i++;
+			free(input);
+			continue;
 		}
-		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
-		i = 0;
-		check_input(&basin);
-		// init_token(&data, basin);
-		free_arr(basin);
-		free(input);
+		for (int i = 0; input[i]; i++)
+		{
+			if (input[i] == 31)
+				printf("[SPACE]");
+			else
+				printf("%c", input[i]);
+		}
+		printf("\n");
+		// normalize_input(&input);
+		// printf("Cleaned: %s\n", input);
+		// basin = ft_split(input, ' ');
+		// while (basin[i])
+		// {
+		// 	printf("Basin[%d]: %s\n", i, basin[i]);
+		// 	i++;
+		// }
+		// printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
+		// i = 0;
+		// check_input(&basin);
+		// // init_token(&data, basin);
+		// free_arr(basin);
+		// free(input);
 	}
 	return (0);
 }
