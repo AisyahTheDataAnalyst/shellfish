@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 23:22:29 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/17 18:29:08 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:17:11 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 }
 
 // #include <stdio.h>
-
+//
 // int main()
 // {
 // 	const char *buffer1 = "This is going to be awesome!";
@@ -51,12 +51,12 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 // 	char *result1 = ft_strnstr(buffer1, buffer2, n1);
 // 	char *result2 = ft_strnstr(buffer1, buffer2, n2);
 // 	char *result3 = ft_strnstr(buffer1, buffer2, n3);
-
+//
 // 	printf("Haystack = %s\nNeedle = %s\n", buffer1, buffer2);
 // 	printf("Search for needle within the first n words of Haystack :\n");
 // 	printf("1. n=%zd : %s\n", n0, result0);
 // 	printf("2. n=%zd : %s\n", n1, result1);
-// 	printf("3. n=%zd : %s\n", n2, result2);//null bcoz only apart of going : goi 
+// 	printf("3. n=%zd : %s\n", n2, result2);
 // 	printf("4. n=%zd : %s\n", n3, result3);
 // 	return (0);
 // }

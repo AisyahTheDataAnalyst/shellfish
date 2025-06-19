@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 13:34:48 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:29:42 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	free_temp_list(t_list *temp_list)
 
 void	freeing(t_list *exec)
 {
-	printf("exit");
-	if (exec->envp_array != NULL)
-		free_double_array(exec->envp_array);
+	free_double_array(exec->envp_array);
 	free_double_array(exec->splitted_path);
+	free(exec);
 	rl_clear_history();
-	exit(EXIT_SUCCESS);
 }

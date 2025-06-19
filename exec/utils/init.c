@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   splitted_path.c                                    :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/29 09:11:33 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:44:49 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	get_splitted_path(t_list *exec)
 	int		i;
 	char	*full_path;
 
-	full_path = getenv("PATH") + 5;
+	full_path = getenv("PATH");
 	split = ft_split(full_path, ':');
 	if (!split)
 		exit(1);
@@ -44,27 +44,18 @@ void	get_splitted_path(t_list *exec)
 	free_double_array(split);
 }
 
-// static void	int_main_loop(char **envp, t_list *exec, char *line)
-// {
-// 	char	**args;
-// 	char	*history;
+void	envp_to_envparray(char **envp, t_list *exec)
+{
+	size_t	size;
+	int		i;
 
-// 	args = ft_split(line, ' ');
-// 	history = "history";
-// 	if (args[0] == history)
-// 	{
-// 		execve(args[0], args, envp);
-// 		free(line);
-// 		free_double_array(args);
-// 		if (exec->envp_array != NULL)
-// 			free_double_array(exec->envp_array);
-// 		free_double_array(exec->splitted_path);
-// 	}
-// 	built_ins(args, envp, exec);
-// 	if (line && *line)
-// 		add_history(line);
-// 	free(line);
-// 	free_double_array(args);
-// 	line = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-
-// }
+	size = ft_array_size(envp);
+	exec->envp_array = malloc(sizeof(char *) * (size + 1));
+	i = 0;
+	while (envp[i])
+	{
+		exec->envp_array[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	exec->envp_array[i] = NULL;
+}

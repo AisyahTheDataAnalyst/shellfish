@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bi_echo.c                                          :+:      :+:    :+:   */
+/*   bi_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 11:42:42 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/26 16:52:39 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/06/17 16:19:15 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/06/19 11:14:37 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// kena edit lagi, tambah expansion $?, "'$USER'", '"$USER"', $USER 
-void	bi_echo(char **av)
+void	bi_export(char **av, t_data *data)
 {
-	int	i;
-
-	i = 1;
-	if (!av[i])
-		return ;
-	while (av[i] && ft_strncmp(av[i], "-n", 3) == 0)
-		i++;
-	while (av[i])
+	if (ft_strncmp(av[0], "export", 6) == 0 && ft_strchr(av[1], '='))
 	{
-		printf("%s", av[i]);
-		if (av[i + 1] != NULL)
-			printf(" ");
-		i++;
+		data->exit_code = 0;
+		export_add(av, data);
 	}
-	if (ft_strncmp(av[1], "-n", 3) != 0)
-		printf("\n");
+	else if (ft_strncmp(av[0], "export", 6) == 0 && !av[1])
+	{
+		export_only(data->exec);
+		data->exit_code = 0;
+	}
 }

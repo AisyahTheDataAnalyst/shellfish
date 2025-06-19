@@ -6,48 +6,41 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/27 13:24:43 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:36:15 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		bi_cd(char **av, char **envp, t_list *exec);
+void		bi_cd( char **av, t_data *data);
 static void	cd_update_env(char *oldpwd, t_list *exec);
 
 // must check if !av[1] so that wont pass NULL to ft_strncmp
-void	bi_cd(char **av, char **envp, t_list *exec)
+void	bi_cd(char **av, t_data *data)
 {
 	char	cwd[1024];
-	char	*prev_path;
+	char	*old_pwd;
 	char	*home;
+	int		home_int;
 
-	if (!exec->envp_array)
-		envp_to_envparray(envp, exec);
-	prev_path = getcwd(cwd, sizeof(cwd));
+	home_int = 0;
+	data->exit_code = 0;
+	old_pwd = getcwd(cwd, sizeof(cwd));
 	home = getenv("HOME");
 	if (!av[1] || ft_strncmp("~", av[1], 2) == 0)
-		chdir(home);
-	else if (chdir(av[1]) == 0)
-		cd_update_env(prev_path, exec);
-	else if (chdir(av[1]) == -1)
-		perror("cd");
-}
-
-void	envp_to_envparray(char **envp, t_list *exec)
-{
-	size_t	size;
-	int		i;
-
-	size = ft_array_size(envp);
-	exec->envp_array = malloc(sizeof(char *) * (size + 1));
-	i = 0;
-	while (envp[i])
+		home_int = chdir(home);
+	if (home_int == 0 || chdir(av[1]) == 0)
+		cd_update_env(old_pwd, data->exec);
+	else if (av[2])
 	{
-		exec->envp_array[i] = ft_strdup(envp[i]);
-		i++;
+		printf("shellfish: cd: too many arguments\n");
+		data->exit_code = 1;
 	}
-	exec->envp_array[i] = NULL;
+	else if (chdir(av[1]) == -1)
+	{
+		printf("shellfish: cd: %s: No such file or directory\n", av[1]);
+		data->exit_code = 1;
+	}
 }
 
 // chdir will handle if the directory youre going to is valid or not

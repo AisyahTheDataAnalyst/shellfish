@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_array_size.c                                    :+:      :+:    :+:   */
+/*   bi_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 16:12:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/19 11:11:47 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/05/20 11:46:41 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/06/15 15:51:26 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_array_size(char **s)
+// void	bi_env(char **envp, t_list *exec)
+void	bi_env(t_data *data)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
+	while (data->exec->envp_array[i])
+	{
+		printf("%s\n", data->exec->envp_array[i]);
 		i++;
-	return (i);
+	}
+	data->exit_code = 0;
 }

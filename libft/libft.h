@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:17:13 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/26 10:50:55 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:12:41 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,11 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-	char 			**envp_array;
+	char			**envp_array;
 	char			**splitted_path;
-	char 			*export_name;
+	char			*export_name;
 	char			*export_value;
-	char			**temp;
-}		t_list;
+}			t_list;
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);

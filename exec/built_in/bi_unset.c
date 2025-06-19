@@ -6,28 +6,29 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:26:11 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/05/28 11:05:09 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:18:25 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		bi_unset(char **av, char **envp, t_list *exec);
+void		bi_unset(char **args, t_data *data);
 static void	unset_array(char **av, t_list *exec);
 static char	**unset_array_marking(char **av, t_list *exec);
 static char	**unset_array_marking_helper(char **av, t_list *exec, char **temp);
 static int	mark_count(char **temp);
 
-//you can do this!
-void	bi_unset(char **av, char **envp, t_list *exec)
+void	bi_unset(char **args, t_data *data)
 {
-	if (!av[0])
-		return ;
-	if (!ft_strncmp(av[0], "unset", 6))
+	if (!args[1])
 	{
-		if (!exec->envp_array)
-			envp_to_envparray(envp, exec);
-		unset_array(av, exec);
+		data->exit_code = 0;
+		return ;
+	}
+	if (!ft_strncmp(args[0], "unset", 6))
+	{
+		unset_array(args, data->exec);
+		data->exit_code = 0;
 	}
 }
 
@@ -53,7 +54,6 @@ static void	unset_array(char **av, t_list *exec)
 			exec->envp_array[j++] = ft_strdup(temp[i]);
 		i++;
 	}
-	printf("testing unset_array\n");
 	exec->envp_array[j] = NULL;
 	free_double_array(temp);
 }
@@ -81,11 +81,11 @@ static char	**unset_array_marking_helper(char **av, t_list *exec, char **temp)
 	while (exec->envp_array[++i])
 	{
 		match = false;
-		j = 1;
-		while (av[j])
+		j = 0;
+		while (av[++j])
 		{
 			if (ft_strncmp(exec->envp_array[i], av[j], ft_strlen(av[j])) == 0
-				&& exec->envp_array[i][ft_strlen(av[j++])] == '=')
+				&& exec->envp_array[i][ft_strlen(av[j])] == '=')
 			{
 				match = true;
 				break ;

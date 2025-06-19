@@ -6,40 +6,49 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/05/28 11:30:19 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/06/18 14:46:57 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CC = cc 
+CC = cc
 
 #compilation flags
-CFLAGS = -Wall -Wextra -Werror #-g3 -O3 -O0 -fsanitize=address \
+CFLAGS = -Wall -Wextra -Werror #make -g3 -O3 -O0 -fsanitize=address \
 			-fsanitize-recover=leak 
+#valgrind --leak-check=full --show-leak-kinds=all ./minishell - 204215 bytes in 21 blocks
 
 #linker flag
 LFLAGS = -lreadline
 
 # directory that contains source files
-SRC_DIR = exec_expan
+SRC_DIR = exec
 SRC_BI_DIR = built_in
+SRC_RD_DIR = redirect
+SRC_UTILS_DIR = utils
 
 SRC =	\
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_cd.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_echo.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_env.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_exit.c \
+		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export_add.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_export_only.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_pwd.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_unset.c \
 		$(SRC_DIR)/$(SRC_BI_DIR)/built_ins.c \
-		$(SRC_DIR)/free.c \
-		$(SRC_DIR)/main.c \
-		$(SRC_DIR)/signals.c \
-		$(SRC_DIR)/splitted_path.c 
-
+		$(SRC_DIR)/$(SRC_RD_DIR)/rd_append.c \
+		$(SRC_DIR)/$(SRC_RD_DIR)/rd_heredoc.c \
+		$(SRC_DIR)/$(SRC_RD_DIR)/rd_in.c \
+		$(SRC_DIR)/$(SRC_RD_DIR)/rd_out.c \
+		$(SRC_DIR)/$(SRC_RD_DIR)/redirects.c \
+		$(SRC_DIR)/$(SRC_UTILS_DIR)/free.c \
+		$(SRC_DIR)/$(SRC_UTILS_DIR)/init.c \
+		$(SRC_DIR)/$(SRC_UTILS_DIR)/signals.c \
+		$(SRC_DIR)/main.c
+	
 INC = -I include -I libft
 # this is what is caused to not write explicit path for all #includes in all header and c files
 # -I means it will search the header in that directory that is mentioned in the each file's #include
@@ -84,7 +93,6 @@ re : fclean all
 debug:
 	@echo SRC:
 	@echo $(SRC)
-	@echo
 	@echo OBJ_SRC:
 	@echo $(OBJ_SRC)
 
