@@ -6,7 +6,7 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/06/18 14:46:57 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/06/19 11:47:54 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_DIR = exec
 SRC_BI_DIR = built_in
 SRC_RD_DIR = redirect
 SRC_UTILS_DIR = utils
+SRC_PIPE_DIR = pipe
 
 SRC =	\
 		$(SRC_DIR)/$(SRC_BI_DIR)/bi_cd.c \
@@ -48,6 +49,7 @@ SRC =	\
 		$(SRC_DIR)/$(SRC_UTILS_DIR)/init.c \
 		$(SRC_DIR)/$(SRC_UTILS_DIR)/signals.c \
 		$(SRC_DIR)/main.c
+# $(SRC_DIR)/$(SRC_PIPE_DIR)/pipe.c
 	
 INC = -I include -I libft
 # this is what is caused to not write explicit path for all #includes in all header and c files
