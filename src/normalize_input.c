@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:02:26 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/15 16:38:38 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/23 16:06:09 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,21 @@ static char	*normalizing_check(char *input, char *cleaned)
 			while (input[i] != '\'' && input[i])
 				cleaned[j++] = input[i++];
 		}
-		else if ((input[i] == '&' && input[i + 1] == '&') || (input[i] == '|' && input[i + 1] == '|'))
-		{
-			printf("-bash: command not found\n");
-			// free(input);
-			// free(cleaned);
-			exit(1);
-		}
 		else if (input[i] == '>' || input[i] == '<' || input[i] == '|')
 		{
-			if (input[i + 1] == input[i])
+			if (input[i] == '|' && input[i + 1] == '|')
+			{
+				printf("bash: syntax error near unexpected token `%c\'\n", input[i]);
+				free(cleaned);
+				return (NULL);
+			}
+			else if (input[i + 1] == input[i])
 			{
 				if ((input[i + 2] == input[i + 1]))
 				{
-					printf("bash: syntax error near unexpected token `");
-					write(2, &input[i], 2);
-					printf("'\n");
-					// free(cleaned);
-					// free(input);
-					exit (2);
+					printf("bash: syntax error near unexpected token `%c\'\n", input[i]);
+					free(cleaned);
+					return (NULL);
 				}
 				else
 				{
@@ -85,12 +81,11 @@ char	*normalize_input(char *input)
 	if (!cleaned_input)
 	{
 		printf("Input allocation failed");
-		// free(cleaned_input);
-		// free(input);
+		free(input);
 		exit (1);
 	}
 	cleaned_input = normalizing_check(input, cleaned_input);
-	// free(input);
+	free(input);
 	return (cleaned_input);
 }
 

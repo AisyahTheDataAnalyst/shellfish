@@ -28,6 +28,7 @@ typedef enum token_type
 	TOKEN_REDIRECT_IN, // <
 	TOKEN_REDIRECT_OUT, // >
 	TOKEN_PIPE, // |
+	// token quotes
 } t_type;
 
 typedef struct s_word_arr
@@ -63,9 +64,10 @@ typedef struct s_data
 // Tokenization
 
 void	init_data(t_data *data);
-int quote_check(char *input);
+int		quote_check(char *input);
 char	*normalize_input(char *input);
-t_type check_token_type(char *basin);
+// t_type	check_token_type(char *basin);
+int		check_input(char **basin);
 // void    init_token(t_data *data, char **basin);
 
 // Word Tokenization

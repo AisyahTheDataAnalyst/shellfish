@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	char		*input;
-	// char		**basin;
+	char		**basin;
 	t_data		data;
 
 	init_data(&data);
@@ -44,17 +44,32 @@ int main(int argc, char **argv, char **env)
 				printf("%c", input[i]);
 		}
 		printf("\n");
-		// normalize_input(&input);
-		// printf("Cleaned: %s\n", input);
-		// basin = ft_split(input, ' ');
-		// while (basin[i])
-		// {
-		// 	printf("Basin[%d]: %s\n", i, basin[i]);
-		// 	i++;
-		// }
-		// printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
-		// i = 0;
-		// check_input(&basin);
+		input = normalize_input(input);
+		if (!input)
+			continue;
+		printf("Cleaned: %s\n", input);
+		basin = ft_split(input, ' ');
+		if (!basin)
+		{
+			printf("Fatal error: Array split failed");
+			free(basin);
+			free(input);
+			exit (1);
+		}
+		int i = 0;
+		while (basin[i])
+		{
+			printf("Basin[%d]: %s\n", i, basin[i]);
+			i++;
+		}
+		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
+		i = 0;
+		if (!check_input(basin))
+		{
+			free_arr(basin);
+			free(input);
+			continue;
+		}
 		// // init_token(&data, basin);
 		// free_arr(basin);
 		// free(input);

@@ -37,7 +37,7 @@ CFLAGS = -Wall -Werror -Wextra -g3
 RM = rm -rf
 
 # Source files
-SRC = $(addprefix $(SRC_DIR)/, minishell.c quote_check.c token_utils.c)
+SRC = $(addprefix $(SRC_DIR)/, minishell.c quote_check.c token_utils.c normalize_input.c check_input.c)
 #$(wildcard $(SRC_DIR)/token/*.c)
 
 # Object files
