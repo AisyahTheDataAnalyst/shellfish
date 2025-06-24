@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/19 11:22:55 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:46:47 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 // signal Cntrl+C
 void	handle_cntrl_c(int sig)
 {
-	(void)sig;
+	if (sig == SIGINT)
+		g_signal = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -30,9 +31,11 @@ void	handle_cntrl_d(int sig)
 	exit(EXIT_SUCCESS);
 }
 
+//how to update this exit_code? using waitpid later okay in the child
 void	handle_cntrl_c_heredoc(int sig)
 {
-	(void)sig;
+	if (sig == SIGINT)
+		g_signal = 30;
 	write(STDOUT_FILENO, "\n", 1);
 	exit(130);
 }

@@ -6,7 +6,7 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/06/19 11:47:54 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/06/22 14:47:42 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = cc
 
 #compilation flags
-CFLAGS = -Wall -Wextra -Werror #make -g3 -O3 -O0 -fsanitize=address \
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -O0 -fsanitize=address \
 			-fsanitize-recover=leak 
 #valgrind --leak-check=full --show-leak-kinds=all ./minishell - 204215 bytes in 21 blocks
 
@@ -91,11 +91,5 @@ fclean : clean
 	@echo "${GREEN}----------FULLY REMOVE----------\n${RESET}"
 
 re : fclean all
-
-debug:
-	@echo SRC:
-	@echo $(SRC)
-	@echo OBJ_SRC:
-	@echo $(OBJ_SRC)
 
 .PHONY : all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:48:22 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/19 11:17:45 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:43:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static int	int_main_loop(t_data *data)
 	char	**args;
 
 	line = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-	data->exit_code = 0;
 	if (!line)
 	{
 		free(line);
@@ -114,6 +113,11 @@ static int	int_main_loop(t_data *data)
 	args = ft_split(line, ' ');
 	built_ins(args, data);
 	add_history(line);
+	if (g_signal != 0)
+	{
+		data->exit_code = g_signal;
+		g_signal = 0;
+	}
 	free_double_array(args);
 	free(line);
 	return (0);

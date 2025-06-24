@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:18:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/18 10:48:36 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:51:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void			export_add(char **av, t_data *data);
 static char		**building_envp_temp(char **vars, t_data *data, char **temp);
 static int		invalid_export_var(char *var, t_data *data);
 static int		already_existed_var(char *var, char **temp, int i);
-static size_t	longer(int len_1, int len_2);
+size_t	longer(int len_1, int len_2);
 
 //you can do this aisyah!
 void	export_add(char **av, t_data *data)
@@ -33,6 +33,7 @@ void	export_add(char **av, t_data *data)
 	data->exec->envp_array = temp;
 }
 
+// continue - skip all the other things below it and just continue the loop
 static char	**building_envp_temp(char **vars, t_data *data, char **temp)
 {
 	int	i;
@@ -92,23 +93,29 @@ static int	already_existed_var(char *var, char **temp, int i)
 	int		j;
 	char	*envp_key;
 	char	*var_key;
-	int		envp_name;
-	int		var_name;
+	int		envp_key_len;
+	int		var_key_len;
 
 	j = -1;
 	while (++j < i)
 	{
-		envp_name = ft_strchr(temp[j], '=') - temp[j];
-		envp_key = ft_substr(temp[j], 0, envp_name);
-		var_name = ft_strchr(var, '=') - var;
-		var_key = ft_substr(var, 0, var_name);
-		if (!ft_strncmp(envp_key, var_key, longer(envp_name, var_name)))
+		envp_key_len = ft_strchr(temp[j], '=') - temp[j];
+		envp_key = ft_substr(temp[j], 0, envp_key_len);
+		var_key_len = ft_strchr(var, '=') - var;
+		var_key = ft_substr(var, 0, var_key_len);
+		if (!ft_strncmp(envp_key, var_key, longer(envp_key_len, var_key_len)))
+		{
+			free(envp_key);
+			free(var_key);
 			return (j);
+		}
+		free(envp_key);
+		free(var_key);
 	}
 	return (-1);
 }
 
-static size_t	longer(int len_1, int len_2)
+size_t	longer(int len_1, int len_2)
 {
 	if (len_1 > len_2)
 		return (len_1);

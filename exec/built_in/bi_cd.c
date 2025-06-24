@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/19 10:36:15 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/22 11:24:19 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,21 @@ void	bi_cd(char **av, t_data *data)
 {
 	char	cwd[1024];
 	char	*old_pwd;
-	char	*home;
-	int		home_int;
 
-	home_int = 0;
 	data->exit_code = 0;
 	old_pwd = getcwd(cwd, sizeof(cwd));
-	home = getenv("HOME");
 	if (!av[1] || ft_strncmp("~", av[1], 2) == 0)
-		home_int = chdir(home);
-	if (home_int == 0 || chdir(av[1]) == 0)
-		cd_update_env(old_pwd, data->exec);
+	{
+		if (chdir(getenv("HOME")) == 0)
+			cd_update_env(old_pwd, data->exec);
+	}
 	else if (av[2])
 	{
 		printf("shellfish: cd: too many arguments\n");
 		data->exit_code = 1;
 	}
+	else if (chdir(av[1]) == 0)
+		cd_update_env(old_pwd, data->exec);
 	else if (chdir(av[1]) == -1)
 	{
 		printf("shellfish: cd: %s: No such file or directory\n", av[1]);

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/06/19 11:38:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:50:43 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,6 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-// typedef struct s_path
-// {
-// 	char	**splitted_path;
-// 	int		**fd;
-// 	pid_t	*pid;
-// 	int		i;
-// 	int		pipes_count;
-// }	t_path;
-
 // typedef struct s_list
 // {
 // 	void			*content;
@@ -87,6 +78,7 @@ void	bi_exit(char **av, t_data *data);
 void	bi_export(char **av, t_data *data);
 void	export_add(char **av, t_data *data);
 void	export_only(t_list *exec);
+size_t	longer(int len_1, int len_2);
 void	bi_pwd(char **av, t_data *data);
 void	bi_unset(char **av, t_data *data);
 
