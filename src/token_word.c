@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 22:33:29 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/19 17:30:47 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/27 17:17:58 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ t_token *create_word_token(t_data *data)
     {
         current = data->token;
         while (current->next)
-        {
             current = current->next;
-            current->next = new;
-        }
+        current->next = new;
     }
     return (new);
 }
