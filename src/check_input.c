@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:50:08 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/27 16:44:27 by yelu             ###   ########.fr       */
+/*   Updated: 2025/06/27 23:09:14 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	check_input(char **basin)
 				return (0);
 			}
 			next_type = check_token_type(basin[i + 1]);
-			if (next_type == TOKEN_APPEND || next_type == TOKEN_HEREDOC || next_type == TOKEN_REDIRECT_IN ||
-			next_type == TOKEN_REDIRECT_OUT || next_type == TOKEN_PIPE)
+			if (next_type == TOKEN_PIPE)
 			{
 				ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2);
 				return (0);

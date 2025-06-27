@@ -19,10 +19,20 @@ void	init_data(t_data *data)
 
 static void print_tokens(t_token *head)
 {
+	const char *arr[7] = {
+		"WORD",
+		"HEREDOC",
+		"APPEND",
+		"REDIR_IN",
+		"REDIR_OUT",
+		"PIPE",
+		NULL
+	};
+
     while (head)
     {
         printf("Token index: %d\n", head->index);
-        printf("Token type: %d\n", head->token_type);
+        printf("Token type: %s\n", arr[head->token_type]);
         if (head->basin_buff)
         {
             printf("Token basin_buff content:\n");
