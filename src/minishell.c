@@ -17,6 +17,50 @@ void	init_data(t_data *data)
 	ft_memset(data, 0, sizeof(t_data));
 }
 
+static void print_tokens(t_token *head)
+{
+    while (head)
+    {
+        printf("Token index: %d\n", head->index);
+        printf("Token type: %d\n", head->token_type);
+        if (head->basin_buff)
+        {
+            printf("Token basin_buff content:\n");
+            for (int i = 0; head->basin_buff[i]; i++)
+                printf("  - %s\n", head->basin_buff[i]);
+        }
+        else
+            printf("Token basin_buff is NULL\n");
+        printf("---------------------------\n");
+        head = head->next;
+    }
+	printf("=== END OF LINKED LIST ===\n");
+}
+
+static void free_token_list(t_token *head)
+{
+    t_token *temp;
+    int i;
+
+    while (head)
+    {
+        temp = head->next;
+
+        // Free the basin_buff content (array of strings)
+        if (head->basin_buff)
+        {
+            for (i = 0; head->basin_buff[i]; i++)
+                free(head->basin_buff[i]);
+            free(head->basin_buff);
+        }
+
+        // Free the token node itself
+        free(head);
+
+        head = temp;
+    }
+}
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -29,6 +73,7 @@ int main(int argc, char **argv, char **env)
 	init_data(&data);
 	while (1)
 	{
+		init_data(&data);
 		input = readline("$minishell: ");
 		printf("You entered %s\n", input);
 		if (!quote_check(input))
@@ -52,7 +97,7 @@ int main(int argc, char **argv, char **env)
 		if (!basin)
 		{
 			printf("Fatal error: Array split failed");
-			free(basin);
+			free_arr(basin);
 			free(input);
 			exit (1);
 		}
@@ -70,9 +115,18 @@ int main(int argc, char **argv, char **env)
 			free(input);
 			continue;
 		}
-		// // init_token(&data, basin);
-		// free_arr(basin);
-		// free(input);
+		init_token(&data, basin);
+		printf("\n=== Token Linked List ===\n");
+		data.token_list_head = data.token;
+    	print_tokens(data.token_list_head);
+		if (data.token_list_head)
+		{
+   			free_token_list(data.token_list_head);
+    		data.token_list_head = NULL;
+			data.token = NULL;
+		}
+		free_arr(basin);
+		free(input);
 	}
 	return (0);
 }

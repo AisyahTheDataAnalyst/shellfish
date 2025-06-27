@@ -57,6 +57,7 @@ typedef struct s_data
 	int index;
 	t_token     *token;
 	t_word_arr  word;
+    t_token		*token_list_head;
 } t_data;
 
 // ============================
@@ -66,9 +67,9 @@ typedef struct s_data
 void	init_data(t_data *data);
 int		quote_check(char *input);
 char	*normalize_input(char *input);
-// t_type	check_token_type(char *basin);
+t_type	check_token_type(char *basin);
 int		check_input(char **basin);
-// void    init_token(t_data *data, char **basin);
+void    init_token(t_data *data, char **basin);
 
 // Word Tokenization
 t_token *create_word_token(t_data *data);
@@ -78,10 +79,12 @@ t_token	*create_pipe(t_data *data, int type);
 
 // Redirection In Tokenization
 t_token *create_redirects(char *s1, t_data *data, int type);
+void	word_array(t_data *data, char *element);
 
 // Utils
 void    free_arr(char **array);
-// void free_token_node(t_token *node);
+char    **first_malloc(char *element);
+char    **ft_realloc(char **old_array, int count, char *element);
 // =============================
 
 

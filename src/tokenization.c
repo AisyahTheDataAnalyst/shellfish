@@ -33,52 +33,6 @@ t_type check_token_type(char *basin)
 		return (TOKEN_WORD);
 }
 
-static void	first_malloc(t_data *data, char *element)
-{
-	data->word.array = malloc(sizeof(char *) * (2));
-	if (!data->word.array)
-	{
-		// Probably need to free stuff first let's see how
-		exit (1);
-	}
-	data->word.array[0] = ft_strdup(element);
-	if (!data->word.array)
-	{
-		// Free word array allocated and other stuff
-		exit (1);
-	}
-	data->word.array[1] = NULL;
-}
-
-static void	ft_realloc(t_data *data, char *element)
-{
-	char	**new_array;
-	int		i;
-
-	i = 0;
-	new_array = malloc(sizeof(char *) * (data->word.word_count + 2));
-	if (!new_array)
-	{
-		// free stuff before exit
-		exit(1); // Need to create function to free arrays, mainly basin (and input?)
-	}
-	while (i < data->word.word_count)
-	{
-		new_array[i] = data->word.array[i];
-		i++;
-	}
-	new_array[i] = ft_strdup(element);
-	new_array[i + 1] = NULL;
-	free_arr(data->word.array);
-	data->word.array = new_array;
-	// int j = 0; // for testing 
-	// while (data->word.array[j])
-	// {
-	// 	printf("String %s\n", data->word.array[j]);
-	// 	j++;
-	// }
-}
-
 void    init_token(t_data *data, char **basin)
 {
     int type;
@@ -102,20 +56,17 @@ void    init_token(t_data *data, char **basin)
 			current_word_token = create_word_token(data);
 		}
 		else if (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT ||
-				type == TOKEN_APPEND || type == TOKEN_HEREDOC)
+			type == TOKEN_APPEND || type == TOKEN_HEREDOC)
 		{
-			create_redirects(basin[i + 1], data, type);
-			data->index++;
 			i++;
+			create_redirects(basin[i], data, type);
+			data->index++;
 		}
 		else
-		{
-			data->word.word_count++;
-			if (!data->word.array)
-				first_malloc(data, basin[i]);
-			else
-				ft_realloc(data, basin[i]);
-		}
+			word_array(data, basin[i]);
 		i++;
 	}
+	current_word_token->basin_buff = data->word.array;
+	data->word.array = NULL;
+	data->word.word_count = 0;
 }
