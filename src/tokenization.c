@@ -45,7 +45,6 @@ void    init_token(t_data *data, char **basin)
     while(basin[i])
     {
 		type = check_token_type(basin[i]);
-		printf("Element's current type: %d\n", type);
 		if (type == TOKEN_PIPE)
 		{
 			current_word_token->basin_buff = data->word.array;

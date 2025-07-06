@@ -27,19 +27,6 @@ void	free_arr(char **array)
 	free(array);
 }
 
-// Only for malloc failed node
-// void free_token_node(t_token *node)
-// {
-//     if (!node) 
-//         return;
-//     if (node->basin_buff)
-//     {
-//         free(node->basin_buff[0]);
-//         free(node->basin_buff);
-//     }
-//     free(node);
-// }
-
 char	**first_malloc(char *element)
 {
 	char	**array;
@@ -82,4 +69,9 @@ char	**ft_realloc(char **old_array, int count, char *element)
 	new_array[i + 1] = NULL;
 	free(old_array);
 	return (new_array);
+}
+
+void	init_data(t_data *data)
+{
+	ft_memset(data, 0, sizeof(t_data));
 }

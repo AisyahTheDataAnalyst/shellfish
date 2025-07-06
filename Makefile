@@ -54,7 +54,7 @@ $(LIBFT): FORCE
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INC) -I/usr/include -lreadline -O3 -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -I/usr/include -c $< -o $@
 	@echo "$(YELLOW)Compiled ✅ $(GREEN) $(BOLD) $< $(RESET)"
 
 $(NAME): $(OBJ) $(LIBFT)

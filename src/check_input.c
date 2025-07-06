@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:50:08 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/04 17:28:40 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/05 15:28:04 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	redirect_check(char **basin, int i)
 // and if there are inputs before and after each pipe. Redirection operators
 // must not followed by any kind of logical operators
 // Invalid inputs: "< << infile", "< > outfile", "> >> outfile"
-// " | echo hello world", "echo hello | ".
+// "NULL | echo hello world", "echo hello | NULL".
 /// @param basin  Splitted array.
 /// @return Boolean, error message if invalid.
 int	check_input(char **basin)

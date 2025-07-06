@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 17:35:38 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/17 17:04:25 by yelu             ###   ########.fr       */
+/*   Created: 2025/07/03 16:35:06 by yelu              #+#    #+#             */
+/*   Updated: 2025/07/05 17:39:41 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_ast   *create_ast(t_token *token)
+t_ast   *create_node(t_token *token)
 {
 	t_ast	*node;
 	
 	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
 	node->token = token;
-	node->left = NULL;
-	node->right = NULL;
+	ft_memset(node, 0, sizeof(t_ast));
 	return (node);
-}
-
-int precedence(int tok) {
-    if (tok == TOKEN_WORD)
-        return (0);
-    if (tok == TOKEN_HEREDOC || tok == TOKEN_REDIRECT_IN)
-        return (1);
-    if (tok == TOKEN_REDIRECT_OUT || tok == TOKEN_APPEND)
-        return (2);
-    if (tok == TOKEN_PIPE)
-        return (3);
-    return -1;
 }

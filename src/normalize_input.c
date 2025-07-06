@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:02:26 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/23 16:06:09 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/04 16:46:52 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 		{
 			cleaned[j++] = input[i++];
 			while (input[i] != '"' && input[i])
-				cleaned[j++] = input[i++];		
+				cleaned[j++] = input[i++];
 		}
 		else if (input[i] == '\'')
 		{
@@ -54,7 +54,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 					cleaned[j++] = ' ';
 					cleaned[j++] = input[i++];
 					cleaned[j++] = input[i++];
-					cleaned[j++] = ' ';				
+					cleaned[j++] = ' ';
 				}
 			}
 			else
@@ -71,6 +71,12 @@ static char	*normalizing_check(char *input, char *cleaned)
 	return (cleaned);
 }
 
+/// @brief Logical operator spacing - Adding space after any 
+// kind of logical operators to deal with input such as 
+// ">outfile", "echo hello|echo hello".
+// Output will be "> outfile", "echo hello | echo hello".
+/// @param input Malloc-ed string from readline
+/// @return Spaced string before and after every logical operator
 char	*normalize_input(char *input)
 {
 	char *cleaned_input;

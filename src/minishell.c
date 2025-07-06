@@ -12,11 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	init_data(t_data *data)
-{
-	ft_memset(data, 0, sizeof(t_data));
-}
-
 static void print_tokens(t_token *head)
 {
 	const char *arr[7] = {
@@ -86,11 +81,17 @@ int main(int argc, char **argv, char **env)
 		init_data(&data);
 		input = readline("$minishell: ");
 		printf("You entered %s\n", input);
+		if (!input)
+		{
+			free(input);
+			exit(1);
+		}
 		if (!quote_check(input))
 		{
 			free(input);
 			continue;
 		}
+		printf("Spaced input: ");
 		for (int i = 0; input[i]; i++)
 		{
 			if (input[i] == 31)
@@ -127,13 +128,23 @@ int main(int argc, char **argv, char **env)
 		}
 		init_token(&data, basin);
 		printf("\n=== Token Linked List ===\n");
-		data.token_list_head = data.token;
-    	print_tokens(data.token_list_head);
-		if (data.token_list_head)
+    	print_tokens(data.token);
+		if (!init_ast(&data))
 		{
-   			free_token_list(data.token_list_head);
-    		data.token_list_head = NULL;
-			data.token = NULL;
+			printf("Error - Tree creation failed");
+			if (data.token)
+			{
+   				free_token_list(data.token);
+    			data.token = NULL;
+			}
+			free_arr(basin);
+			free(input);
+			continue;
+		}
+		if (data.token)
+		{
+   			free_token_list(data.token);
+    		data.token = NULL;
 		}
 		free_arr(basin);
 		free(input);

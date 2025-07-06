@@ -56,8 +56,8 @@ typedef struct s_data
 {
 	int index;
 	t_token     *token;
+	t_ast		*root;
 	t_word_arr  word;
-    t_token		*token_list_head;
 } t_data;
 
 // ============================
@@ -87,6 +87,9 @@ char    **first_malloc(char *element);
 char    **ft_realloc(char **old_array, int count, char *element);
 // =============================
 
+// Binary Tree
+
+t_ast   *create_node(t_token *token);
 
 
 #endif
