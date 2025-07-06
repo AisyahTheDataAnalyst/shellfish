@@ -13,17 +13,14 @@
 #include "../include/minishell.h"
 
 // Create pipe node and append node at the end
-t_token    *create_pipe(t_data *data, int type)
+t_token	*create_pipe(t_data *data, int type)
 {
 	t_token	*new;
-	t_token *current;
+	t_token	*current;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-	{
-		// Free some shit
-		exit (1);
-	}
+		token_free_and_exit(data, "Pipe creation malloc failed\n");
 	new->basin_buff = NULL;
 	new->token_type = type;
 	new->index = data->index;
