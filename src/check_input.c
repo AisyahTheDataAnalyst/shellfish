@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:50:08 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/05 15:28:04 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:22:35 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 static int	pipe_check(char **basin, int i)
 {
@@ -36,7 +36,8 @@ static int	redirect_check(char **basin, int i)
 
 	if (basin[i + 1] == NULL)
 	{
-		printf("bash: syntax error near unexpected token `%s'\n", basin[i]);
+		ft_putstr_fd("bash: syntax error near unexpected token ", 2);
+		ft_putstr_fd(basin[i], 2);
 		return (0);
 	}
 	next_type = check_token_type(basin[i + 1]);

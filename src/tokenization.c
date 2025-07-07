@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 t_type check_token_type(char *basin)
 {
@@ -49,7 +49,7 @@ void    init_token(t_data *data, char **basin)
 		{
 			current_word_token->basin_buff = data->word.array;
 			data->word.array = NULL;
-			data->word.word_count = 0;
+			data->word.count = 0;
 			create_pipe(data, type);
 			data->index++;
 			current_word_token = create_word_token(data);
@@ -67,5 +67,5 @@ void    init_token(t_data *data, char **basin)
 	}
 	current_word_token->basin_buff = data->word.array;
 	data->word.array = NULL;
-	data->word.word_count = 0;
+	data->word.count = 0;
 }

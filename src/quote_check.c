@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:20:47 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/04 18:14:50 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:22:54 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 static int	double_quote(char *input, int *i)
 {

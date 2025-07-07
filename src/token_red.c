@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 // Create all redirection nodes and append at the end
 t_token *create_redirects(char *s1, t_data *data, int type)

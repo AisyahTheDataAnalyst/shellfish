@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:35:38 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/05 23:48:24 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:22:24 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 t_ast	*init_ast(t_data *data)
 {

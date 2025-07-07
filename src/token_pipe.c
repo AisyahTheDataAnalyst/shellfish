@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 // Create pipe node and append node at the end
 t_token	*create_pipe(t_data *data, int type)

@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 16:35:06 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/05 17:39:41 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:22:30 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 t_ast   *create_node(t_token *token)
 {

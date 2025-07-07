@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 22:33:29 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/27 17:17:58 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:23:04 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 t_token *create_word_token(t_data *data)
 {

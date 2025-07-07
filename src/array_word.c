@@ -6,31 +6,25 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:01:38 by yelu              #+#    #+#             */
-/*   Updated: 2025/06/27 15:33:42 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:25:30 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 void	word_array(t_data *data, char *element)
 {
-	if (data->word.word_count == 0)
+	if (data->word.count == 0)
 	{
-		data->word.array = first_malloc(element);
+		data->word.array = first_malloc(data, element);
 		if (!data->word.array)
-		{
-			// Free some shits
-			exit (1);
-		}
+			token_free_and_exit(data, "Fatal error - Word array failed");
 	}
 	else
 	{
-		data->word.array = ft_realloc(data->word.array, data->word.word_count, element);
+		data->word.array = ft_realloc(data, data->word.array, element);
 		if (!data->word.array)
-		{
-			// Free some shits
-			exit (1);
-		}
+			token_free_and_exit(data, "Fatal error - Word array failed");
 	}
-	data->word.word_count++;
+	data->word.count++;
 }

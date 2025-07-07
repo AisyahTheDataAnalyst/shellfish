@@ -6,11 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:02:26 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/04 16:46:52 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/07 14:22:45 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 static char	*normalizing_check(char *input, char *cleaned)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 static void print_tokens(t_token *head)
 {
@@ -68,86 +68,82 @@ static void free_token_list(t_token *head)
 
 int main(int argc, char **argv, char **env)
 {
-	(void)argc;
 	(void)argv;
 	(void)env;
 	char		*input;
-	char		**basin;
 	t_data		data;
 
 	init_data(&data);
-	while (1)
+	if (argc == 1)
 	{
-		init_data(&data);
-		input = readline("$minishell: ");
-		printf("You entered %s\n", input);
-		if (!input)
+		while (1)
 		{
+			init_data(&data);
+			input = readline("$minishell: ");
+			printf("You entered %s\n", input);
+			if (!input)
+				exit(1);
+			if (!quote_check(input))
+			{
+				free(input);
+				continue;
+			}
+			printf("Spaced input: ");
+			for (int i = 0; input[i]; i++)
+			{
+				if (input[i] == 31)
+					printf("[SPACE]");
+				else
+					printf("%c", input[i]);
+			}
+			printf("\n");
+			input = normalize_input(input);
+			if (!input)
+				continue;
+			printf("Cleaned: %s\n", input);
+			data.split_array = ft_split(input, ' ');
+			if (!data.split_array)
+			{
+				printf("Fatal error: Array split failed");
+				free_arr(data.split_array);
+				exit (1);
+			}
+			int i = 0;
+			while (data.split_array[i])
+			{
+				printf("Basin[%d]: %s\n", i, data.split_array[i]);
+				i++;
+			}
+			printf("Basin[%d] = %s\n", i, data.split_array[i] ? data.split_array[i] : "NULL");
+			i = 0;
 			free(input);
-			exit(1);
-		}
-		if (!quote_check(input))
-		{
-			free(input);
-			continue;
-		}
-		printf("Spaced input: ");
-		for (int i = 0; input[i]; i++)
-		{
-			if (input[i] == 31)
-				printf("[SPACE]");
-			else
-				printf("%c", input[i]);
-		}
-		printf("\n");
-		input = normalize_input(input);
-		if (!input)
-			continue;
-		printf("Cleaned: %s\n", input);
-		basin = ft_split(input, ' ');
-		if (!basin)
-		{
-			printf("Fatal error: Array split failed");
-			free_arr(basin);
-			free(input);
-			exit (1);
-		}
-		int i = 0;
-		while (basin[i])
-		{
-			printf("Basin[%d]: %s\n", i, basin[i]);
-			i++;
-		}
-		printf("Basin[%d] = %s\n", i, basin[i] ? basin[i] : "NULL");
-		i = 0;
-		if (!check_input(basin))
-		{
-			free_arr(basin);
-			free(input);
-			continue;
-		}
-		init_token(&data, basin);
-		printf("\n=== Token Linked List ===\n");
-    	print_tokens(data.token);
-		if (!init_ast(&data))
-		{
-			printf("Error - Tree creation failed");
+			if (!check_input(data.split_array))
+			{
+				free_arr(data.split_array);
+				continue;
+			}
+			init_token(&data, data.split_array);
+			printf("\n=== Token Linked List ===\n");
+			print_tokens(data.token);
+			// if (!init_ast(&data))
+			// {
+			// 	printf("Error - Tree creation failed");
+			// 	if (data.token)
+			// 	{
+			   // 		free_token_list(data.token);
+			// 		data.token = NULL;
+			// 	}
+			// 	free_arr(basin);
+			// 	continue;
+			// }
 			if (data.token)
 			{
-   				free_token_list(data.token);
-    			data.token = NULL;
+				   free_token_list(data.token);
+				data.token = NULL;
 			}
-			free_arr(basin);
-			free(input);
-			continue;
+			free_arr(data.split_array);
 		}
-		if (data.token)
-		{
-   			free_token_list(data.token);
-    		data.token = NULL;
-		}
-		free_arr(basin);
-		free(input);
+		ft_putstr_fd("No such files or directory", 2);
 	}
 	return (0);
 }

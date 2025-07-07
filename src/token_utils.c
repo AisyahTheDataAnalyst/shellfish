@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/token.h"
 
 void	free_arr(char **array)
 {
@@ -18,7 +18,7 @@ void	free_arr(char **array)
 
 	i = 0;
 	if (!array)
-		return;
+		return ;
 	while (array[i])
 	{
 		free(array[i]);
@@ -27,40 +27,30 @@ void	free_arr(char **array)
 	free(array);
 }
 
-char	**first_malloc(char *element)
+char	**first_malloc(t_data *data, char *element)
 {
 	char	**array;
 
 	array = malloc(sizeof(char *) * 2);
 	if (!array)
-	{
-		// Free the shits
-		exit (1);
-	}
+		token_free_and_exit(data, "Fatal error - First malloc failed");
 	array[0] = ft_strdup(element);
 	if (!array[0])
-	{
-		// Free the shits
-		free(array);
-		exit (1);
-	}
+		token_free_and_exit(data, "Fatal error - First malloc failed");
 	array[1] = NULL;
 	return (array);
 }
 
-char	**ft_realloc(char **old_array, int count, char *element)
+char	**ft_realloc(t_data *data, char **old_array, char *element)
 {
 	char	**new_array;
 	int		i;
 
 	i = 0;
-	new_array = malloc(sizeof(char *) * (count + 2));
+	new_array = malloc(sizeof(char *) * (data->word.count + 2));
 	if (!new_array)
-	{
-		// Free some shits
-		exit (1);
-	}
-	while (i < count)
+		token_free_and_exit(data, "Fatal error - Realloc failed");
+	while (i < data->word.count)
 	{
 		new_array[i] = old_array[i];
 		i++;
@@ -71,7 +61,23 @@ char	**ft_realloc(char **old_array, int count, char *element)
 	return (new_array);
 }
 
+// Initialize master struct
 void	init_data(t_data *data)
 {
 	ft_memset(data, 0, sizeof(t_data));
+}
+
+// Free array created up until then when malloc fails
+void	token_free_and_exit(t_data *data, char *str)
+{
+	if (data->word.array)
+	{
+		free_arr(data->word.array);
+	}
+	if (data->split_array)
+	{
+		free_arr(data->split_array);
+	}
+	ft_putstr_fd(str, 2);
+	exit(1);
 }
