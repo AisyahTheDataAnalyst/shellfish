@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wordcount.c                                     :+:      :+:    :+:   */
+/*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 09:11:20 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/04/26 19:58:59 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/07/02 15:53:16 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execution.h"
 
-size_t	ft_wordcount(char const *s, char c)
+void	ast_execution(t_exc *exc)
 {
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			count++;
-		i++;
-	}
-	return (count);
+	if (exc->ast->token == TOKEN_PIPE)
+		return (ast_pipe(exc));
+	else if (is_redirection(exc->ast->token->token_type) == 1)
+		return (ast_redirection(exc));
+	else
+		return (ast_word(exc));
 }
+
+
+
+
+
+
+
+
+
