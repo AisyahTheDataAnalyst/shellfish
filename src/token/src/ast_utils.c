@@ -1,0 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/03 16:35:06 by yelu              #+#    #+#             */
+/*   Updated: 2025/07/07 14:22:30 by yelu             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/token.h"
+
+t_ast   *create_node(t_token *token)
+{
+	t_ast	*node;
+	
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->token = token;
+	ft_memset(node, 0, sizeof(t_ast));
+	return (node);
+}
