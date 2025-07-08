@@ -19,10 +19,7 @@ t_token *create_word_token(t_data *data)
 
     new = malloc(sizeof(t_token));
     if (!new)
-    {
-        // Free the shits
-        exit (1);
-    }
+    	token_free_and_exit(data, "Fatal error - Word token creation failed\n");
     new->basin_buff = NULL;
     new->token_type = TOKEN_WORD;
     new->index = data->index;

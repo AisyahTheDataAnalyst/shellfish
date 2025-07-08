@@ -33,7 +33,7 @@ t_type check_token_type(char *basin)
 		return (TOKEN_WORD);
 }
 
-void    init_token(t_data *data, char **basin)
+void    create_token(t_data *data)
 {
     int type;
     int i;
@@ -42,9 +42,9 @@ void    init_token(t_data *data, char **basin)
     i = 0;
 	current_word_token = create_word_token(data);
 	data->index++;
-    while(basin[i])
+    while(data->split_array[i])
     {
-		type = check_token_type(basin[i]);
+		type = check_token_type(data->split_array[i]);
 		if (type == TOKEN_PIPE)
 		{
 			current_word_token->basin_buff = data->word.array;
@@ -58,11 +58,11 @@ void    init_token(t_data *data, char **basin)
 			type == TOKEN_APPEND || type == TOKEN_HEREDOC)
 		{
 			i++;
-			create_redirects(basin[i], data, type);
+			create_redirects(data->split_array[i], data, type);
 			data->index++;
 		}
 		else
-			word_array(data, basin[i]);
+			word_array(data, data->split_array[i]);
 		i++;
 	}
 	current_word_token->basin_buff = data->word.array;

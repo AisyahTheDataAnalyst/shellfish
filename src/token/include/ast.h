@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelu <yelu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 20:55:23 by yelu              #+#    #+#             */
-/*   Updated: 2024/11/21 15:28:01 by yelu             ###   ########.fr       */
+/*   Created: 2025/07/08 13:41:03 by yelu              #+#    #+#             */
+/*   Updated: 2025/07/08 13:41:03 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef AST_H
+# define AST_H
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+#include "../include/token.h"
+
+typedef struct s_ast
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
-}
+	t_token     *token;
+	struct s_ast *left;
+	struct s_ast *right;
+} t_ast;
+
+// Binary Tree
+
+t_ast   *create_node(t_token *token);
+
+
+#endif

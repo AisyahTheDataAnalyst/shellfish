@@ -68,6 +68,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 			cleaned[j++] = input[i++];
 	}
 	cleaned[j] = '\0';
+	free(input);
 	return (cleaned);
 }
 
@@ -77,22 +78,23 @@ static char	*normalizing_check(char *input, char *cleaned)
 // Output will be "> outfile", "echo hello | echo hello".
 /// @param input Malloc-ed string from readline
 /// @return Spaced string before and after every logical operator
-char	*normalize_input(char *input)
+int	normalize_input(t_data *data)
 {
 	char *cleaned_input;
 	int	len;
 
-	len = strlen(input);
+	len = strlen(data->input);
 	cleaned_input = malloc(len * 2 + 1);
 	if (!cleaned_input)
 	{
-		printf("Input allocation failed");
-		free(input);
+		ft_putstr_fd("Input allocation failed", 2);
+		free(data->input);
 		exit (1);
 	}
-	cleaned_input = normalizing_check(input, cleaned_input);
-	free(input);
-	return (cleaned_input);
+	data->input = normalizing_check(data->input, cleaned_input);
+	if (!data->input)
+		return (0);
+	return (1);
 }
 
 // int main()

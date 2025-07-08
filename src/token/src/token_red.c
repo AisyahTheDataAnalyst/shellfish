@@ -20,22 +20,13 @@ t_token *create_redirects(char *s1, t_data *data, int type)
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-	{
-		// Free some shit
-		exit (1);
-	}
+		token_free_and_exit(data, "Fatal error - Redirection token failed\n");
 	new->basin_buff = malloc(sizeof(char *) * 2);
 	if (!new->basin_buff)
-	{
-		// Free some shit
-		exit (1);
-	}
+		token_free_and_exit(data, "Fatal error - Redirection token failed\n");
 	new->basin_buff[0] = ft_strdup(s1);
 	if (!new->basin_buff[0])
-	{
-		// Free some shit
-		exit (1);
-	}
+		token_free_and_exit(data, "Fatal error - Word token creation failed\n");
 	new->basin_buff[1] = NULL;
 	new->token_type = type;
 	new->index = data->index;

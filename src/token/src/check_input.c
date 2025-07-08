@@ -38,6 +38,7 @@ static int	redirect_check(char **basin, int i)
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token ", 2);
 		ft_putstr_fd(basin[i], 2);
+		printf("\n");
 		return (0);
 	}
 	next_type = check_token_type(basin[i + 1]);

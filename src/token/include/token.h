@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 # include "../libft/libft.h"
 
@@ -45,20 +45,13 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
-typedef struct s_ast
-{
-	t_token     *token;
-	struct s_ast *left;
-	struct s_ast *right;
-} t_ast;
-
 typedef struct s_data
 {
-	int index;
+	int			index;
 	t_token     *token;
-	t_ast		*root;
 	t_word_arr  word;
 	char		**split_array;
+	char		*input;
 } t_data;
 
 // ============================
@@ -66,11 +59,11 @@ typedef struct s_data
 // Tokenization
 
 void	init_data(t_data *data);
-int		quote_check(char *input);
-char	*normalize_input(char *input);
+int		quote_check(t_data *data);
+int		normalize_input(t_data *data);
 t_type	check_token_type(char *basin);
 int		check_input(char **basin);
-void    init_token(t_data *data, char **basin);
+void    create_token(t_data *data);
 
 // Word Tokenization
 t_token *create_word_token(t_data *data);
@@ -87,11 +80,7 @@ void    free_arr(char **array);
 char	**first_malloc(t_data *data, char *element);
 char	**ft_realloc(t_data *data, char **old_array, char *element);
 void	token_free_and_exit(t_data *data, char *str);
+void	free_token_list(t_token *head);
 // =============================
-
-// Binary Tree
-
-t_ast   *create_node(t_token *token);
-
 
 #endif

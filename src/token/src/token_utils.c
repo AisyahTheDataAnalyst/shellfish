@@ -78,6 +78,10 @@ void	token_free_and_exit(t_data *data, char *str)
 	{
 		free_arr(data->split_array);
 	}
+	if (data->token)
+	{
+		free_token_list(data->token);
+	}
 	ft_putstr_fd(str, 2);
 	exit(1);
 }

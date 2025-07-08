@@ -65,4 +65,3 @@ t_ast	*parse_redirection(t_token *token)
 	}
 	return (node);
 }
-
