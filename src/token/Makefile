@@ -51,7 +51,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		token/token_word.c \
 		token/tokenization.c \
 		ast/ast_parse.c \
-		ast/ast_utils.c)
+		ast/ast_utils.c \
+		expansion/expansion.c)
 
 #$(wildcard $(SRC_DIR)/token/*.c)
 

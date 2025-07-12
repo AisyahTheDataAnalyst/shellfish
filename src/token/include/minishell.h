@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:07:05 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/12 12:16:33 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/12 22:30:56 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 # include "token.h"
 # include "ast.h"
+# include "expansion.h"
 
 typedef struct s_data
 {
