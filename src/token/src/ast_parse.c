@@ -11,57 +11,80 @@
 /* ************************************************************************** */
 
 #include "../include/token.h"
+#include "../include/ast.h"
+#include "../include/minishell.h"
 
-t_ast	*init_ast(t_data *data)
+int	init_ast(t_data *data)
 {
+	if (!data->token)
+		return (0);
 	data->root = parse_pipe(data->token);
 	if (!data->root)
-	{
-		printf("Error - Tree creation error!")
 		return (0);
-	}
 	return (1);
 }
 
-
 t_ast	*parse_pipe(t_token *token)
 {
-	t_ast	*left;
+	t_ast	*ptr;
 
-	left = parse_redirection(token);
-	if (!left)
+	ptr = attached(token);
+	if (!ptr)
 		return (NULL);
-	return (right_pipe(left, token));
+	return(right_pipe(ptr, token->next));
 }
 
 t_ast	*parse_word(t_token *token)
 {
-	t_ast	*node;
-	
+	t_ast	*word;
+
 	if (!token)
 		return (NULL);
-	node = NULL;
+	word = NULL;
 	if (token->token_type == TOKEN_WORD)
 	{
-		node = create_node(token);
-		if (!node)
+		word = create_node(token);
+		if (!word)
 			return (NULL);
 	}
-	return (node);
+	return (word);
 }
 
 t_ast	*parse_redirection(t_token *token)
 {
-	t_ast	*node;
-	
+	t_ast	*r_nodes;
+
 	if (!token)
 		return (NULL);
-	if (token->type >= TOKEN_HEREDOC && token->token_type <= TOKEN_REDIRECT_OUT)
+	r_nodes = NULL;
+	if (token->token_type >= TOKEN_HEREDOC && token->token_type <= TOKEN_REDIRECT_OUT)
 	{
-		node = create_node(token);
-		if (!node)
+		r_nodes = create_node(token);
+		if (!r_nodes)
 			return (NULL);
-		node->left = parse_redirection(token->next);
+		r_nodes->left = parse_redirection(token->next);
 	}
-	return (node);
+	return (r_nodes);
+}
+
+t_ast	*right_pipe(t_ast *ptr, t_token *token)
+{
+	t_ast	*pipe;
+
+	while (token && token->token_type != TOKEN_PIPE)
+		token = token->next;
+	if (!token)
+		return (ptr);
+	pipe = NULL;
+	if (token && token->token_type == TOKEN_PIPE)
+	{
+		pipe = create_node(token);
+		if (!pipe)
+			return (free_tree(ptr), NULL);
+		pipe->left = ptr;
+		pipe->right = attached(token->next);
+		ptr = pipe;
+		pipe = right_pipe(ptr, token->next);
+	}
+	return (pipe);
 }

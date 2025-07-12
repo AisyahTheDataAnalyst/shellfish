@@ -13,7 +13,7 @@
 #include "../include/token.h"
 
 // Create pipe node and append node at the end
-t_token	*create_pipe(t_data *data, int type)
+t_token	*create_pipe(t_input_info *data, int type)
 {
 	t_token	*new;
 	t_token	*current;

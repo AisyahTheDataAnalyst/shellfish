@@ -12,19 +12,19 @@
 
 #include "../include/token.h"
 
-void	word_array(t_data *data, char *element)
+void	word_array(t_input_info *input, char *element)
 {
-	if (data->word.count == 0)
+	if (input->word.count == 0)
 	{
-		data->word.array = first_malloc(data, element);
-		if (!data->word.array)
-			token_free_and_exit(data, "Fatal error - Word array failed");
+		input->word.array = first_malloc(input, element);
+		if (!input->word.array)
+			token_free_and_exit(input, "Fatal error - Word array failed");
 	}
 	else
 	{
-		data->word.array = ft_realloc(data, data->word.array, element);
-		if (!data->word.array)
-			token_free_and_exit(data, "Fatal error - Word array failed");
+		input->word.array = ft_realloc(input, input->word.array, element);
+		if (!input->word.array)
+			token_free_and_exit(input, "Fatal error - Word array failed");
 	}
-	data->word.count++;
+	input->word.count++;
 }

@@ -36,12 +36,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (len_dst + len_src);
 }
 
-int main()
-{
-    char dest[20] = "World";
-    char source[] = "Hello";
-    size_t result;
-    result = ft_strlcat(dest, source, 20);
-    printf("%s\n", dest);
-    printf("The total length: %zu\n", result);
-}
+// int main()
+// {
+//     char dest[20] = "World";
+//     char source[] = "Hello";
+//     size_t result;
+//     result = ft_strlcat(dest, source, 20);
+//     printf("%s\n", dest);
+//     printf("The total length: %zu\n", result);
+// }

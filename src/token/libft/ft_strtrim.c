@@ -67,10 +67,10 @@ static int	ischar(const char *set, char c)
 	return (0);
 }
 
-int main()
-{
-    char *result = ft_strtrim("  \t Hello, World! \n  ", " \t\n");
-    printf("Result: '%s'\n", result);
-    free(result);
-    return 0;
-}
+// int main()
+// {
+//     char *result = ft_strtrim("  \t Hello, World! \n  ", " \t\n");
+//     printf("Result: '%s'\n", result);
+//     free(result);
+//     return 0;
+// }

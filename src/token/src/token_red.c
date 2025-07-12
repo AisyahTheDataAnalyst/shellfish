@@ -13,7 +13,7 @@
 #include "../include/token.h"
 
 // Create all redirection nodes and append at the end
-t_token *create_redirects(char *s1, t_data *data, int type)
+t_token *create_redirects(char *s1, t_input_info *data, int type)
 {
 	t_token *new;
 	t_token *current;

@@ -13,7 +13,9 @@
 #ifndef AST_H
 # define AST_H
 
-#include "../include/token.h"
+// # include "token.h"
+// # include "minishell.h"
+
 
 typedef struct s_ast
 {
@@ -22,9 +24,19 @@ typedef struct s_ast
 	struct s_ast *right;
 } t_ast;
 
-// Binary Tree
+// Binary tree creation
 
-t_ast   *create_node(t_token *token);
+int		init_ast(t_data *data);
+t_ast	*create_node(t_token *token);
+t_ast	*attached(t_token *token);
+t_ast	*parse_pipe(t_token *token);
+t_ast	*parse_word(t_token *token);
+t_ast	*parse_redirection(t_token *token);
+t_ast	*right_pipe(t_ast *ptr, t_token *token);
 
+// Free tree
+
+void	free_ast(t_data *data);
+void	free_tree(t_ast *ptr);
 
 #endif

@@ -49,23 +49,23 @@ static int	single_quote(char *input, int *i)
 // To prevent ft_split splitting spaced characters
 // inside quotes (ie: echo "hello      " space must be preserved until expansion).
 /// @param input "Malloc-ed string from readline"
-int quote_check(t_data *data)
+int quote_check(t_input_info *b_input)
 {
 	int	i;
 
 	i = 0;
-	while (data->input[i])
+	while (b_input->input[i])
 	{
-		if (data->input[i] == '"')
+		if (b_input->input[i] == '"')
 		{
 			i++;
-			if (!double_quote(data->input, &i))
+			if (!double_quote(b_input->input, &i))
 				return (0);
 		}
-		else if (data->input[i] == '\'')
+		else if (b_input->input[i] == '\'')
 		{
 			i++;
-			if (!single_quote(data->input, &i))
+			if (!single_quote(b_input->input, &i))
 				return (0);
 		}
 		else

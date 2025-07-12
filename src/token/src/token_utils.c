@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/token.h"
+#include "../include/ast.h"
+#include "../include/minishell.h"
 
 void	free_arr(char **array)
 {
@@ -27,7 +29,7 @@ void	free_arr(char **array)
 	free(array);
 }
 
-char	**first_malloc(t_data *data, char *element)
+char	**first_malloc(t_input_info *data, char *element)
 {
 	char	**array;
 
@@ -41,7 +43,7 @@ char	**first_malloc(t_data *data, char *element)
 	return (array);
 }
 
-char	**ft_realloc(t_data *data, char **old_array, char *element)
+char	**ft_realloc(t_input_info *data, char **old_array, char *element)
 {
 	char	**new_array;
 	int		i;
@@ -62,13 +64,14 @@ char	**ft_realloc(t_data *data, char **old_array, char *element)
 }
 
 // Initialize master struct
-void	init_data(t_data *data)
+void	init_data(t_input_info *b_token, t_data *data)
 {
+	ft_memset(b_token, 0, sizeof(t_input_info));
 	ft_memset(data, 0, sizeof(t_data));
 }
 
 // Free array created up until then when malloc fails
-void	token_free_and_exit(t_data *data, char *str)
+void	token_free_and_exit(t_input_info *data, char *str)
 {
 	if (data->word.array)
 	{

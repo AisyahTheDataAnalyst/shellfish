@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/token.h"
+#include "../include/minishell.h"
+#include "../libft/libft.h"
 
 t_type check_token_type(char *basin)
 {
@@ -33,39 +35,40 @@ t_type check_token_type(char *basin)
 		return (TOKEN_WORD);
 }
 
-void    create_token(t_data *data)
+void    create_token(t_input_info *b_token)
 {
     int type;
     int i;
 	t_token	*current_word_token;
 
     i = 0;
-	current_word_token = create_word_token(data);
-	data->index++;
-    while(data->split_array[i])
+	current_word_token = create_word_token(b_token);
+	b_token->index++;
+    while(b_token->split_array[i])
     {
-		type = check_token_type(data->split_array[i]);
+		type = check_token_type(b_token->split_array[i]);
 		if (type == TOKEN_PIPE)
 		{
-			current_word_token->basin_buff = data->word.array;
-			data->word.array = NULL;
-			data->word.count = 0;
-			create_pipe(data, type);
-			data->index++;
-			current_word_token = create_word_token(data);
+			current_word_token->basin_buff = b_token->word.array;
+			b_token->word.array = NULL;
+			b_token->word.count = 0;
+			create_pipe(b_token, type);
+			b_token->index++;
+			current_word_token = create_word_token(b_token);
+			b_token->index++;
 		}
 		else if (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT ||
 			type == TOKEN_APPEND || type == TOKEN_HEREDOC)
 		{
 			i++;
-			create_redirects(data->split_array[i], data, type);
-			data->index++;
+			create_redirects(b_token->split_array[i], b_token, type);
+			b_token->index++;
 		}
 		else
-			word_array(data, data->split_array[i]);
+			word_array(b_token, b_token->split_array[i]);
 		i++;
 	}
-	current_word_token->basin_buff = data->word.array;
-	data->word.array = NULL;
-	data->word.count = 0;
+	current_word_token->basin_buff = b_token->word.array;
+	b_token->word.array = NULL;
+	b_token->word.count = 0;
 }

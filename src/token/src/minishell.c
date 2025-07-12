@@ -12,26 +12,28 @@
 
 #include "../include/token.h"
 #include "../include/ast.h"
+#include "../include/minishell.h"
 
-static int	init_tokens(t_data *data, char *input)
+static int	init_tokens(t_data *data, t_input_info *b_token, char *input)
 {
 	if (!input)
 		exit(1);
-	init_data(data);
-	data->input = ft_strdup(input);
+	init_data(b_token, data);
+	b_token->input = ft_strdup(input);
 	free(input);
-	if (!quote_check(data))
+	if (!quote_check(b_token))
 		return (0);
-	if (!normalize_input(data))
+	if (!normalize_input(b_token))
 		return (0);
-	data->split_array = ft_split(data->input, ' ');
-	if (!data->split_array)
+	b_token->split_array = ft_split(b_token->input, ' ');
+	if (!b_token->split_array)
 		return (0);
-	if (!check_input(data->split_array))
+	if (!check_input(b_token->split_array))
 		return (0);
-	create_token(data);
-	if (!data->token)
+	create_token(b_token);
+	if (!b_token->token)
 		return (0);
+	data->token = b_token->token;
 	return (1);
 }
 
@@ -90,11 +92,31 @@ void free_token_list(t_token *head)
     }
 }
 
+static void print_ast(t_ast *node, int depth, char side)
+{
+    const char *arr[] = {
+        "WORD",
+        "HEREDOC",
+        "APPEND",
+        "REDIR_IN",
+        "REDIR_OUT",
+        "PIPE",
+        NULL
+    };
+
+    if (!node) return;
+    for (int i = 0; i < depth; i++) printf(CYAN"|  "COLOR);
+    printf("%c[%s:%d]\n", side, arr[node->token->token_type], node->token->index);
+    print_ast(node->left, depth + 1, 'L');
+    print_ast(node->right, depth + 1, 'R');
+}
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argv;
 	(void)env;
 	char		*input;
+	t_input_info	b_input;
 	t_data		data;
 
 	if (argc == 1)
@@ -102,12 +124,29 @@ int main(int argc, char **argv, char **env)
 		while (1)
 		{
 			input = readline("$minishell: ");
-			if (!init_tokens(&data, input))
+			if (!init_tokens(&data, &b_input, input))
 			{
 				// Free token, array, input
 				continue ;
 			}
-			print_tokens(data.token); // Only for printing will remove later
+			if (data.token)
+				print_tokens(data.token);
+			else
+				printf("Error creating tokens\n");
+			if (!init_ast(&data))
+			{
+				// Free token, input
+				continue ;
+			}
+			if (data.root)
+			{
+				printf("\n===========TREE=============\n");
+    			print_ast(data.root, 0, 'T');
+    			printf("\n===========TREE=============\n");
+			}
+			else
+				printf("Error creating tree!\n");
+			
 		}
 		ft_putstr_fd("No such files or directory", 2);
 	}

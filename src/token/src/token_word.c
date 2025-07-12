@@ -12,7 +12,7 @@
 
 #include "../include/token.h"
 
-t_token *create_word_token(t_data *data)
+t_token *create_word_token(t_input_info *data)
 {
     t_token *new;
     t_token *current;

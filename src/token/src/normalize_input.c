@@ -43,7 +43,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 			}
 			else if (input[i + 1] == input[i])
 			{
-				if ((input[i + 2] == input[i + 1]))
+				if (input[i + 2] == input[i + 1])
 				{
 					printf("bash: syntax error near unexpected token `%c\'\n", input[i]);
 					free(cleaned);
@@ -78,7 +78,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 // Output will be "> outfile", "echo hello | echo hello".
 /// @param input Malloc-ed string from readline
 /// @return Spaced string before and after every logical operator
-int	normalize_input(t_data *data)
+int	normalize_input(t_input_info *data)
 {
 	char *cleaned_input;
 	int	len;

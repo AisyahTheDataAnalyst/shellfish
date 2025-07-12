@@ -14,6 +14,9 @@
 # define TOKEN_H
 
 # include "../libft/libft.h"
+// # include "ast.h"
+// # include "minishell.h"
+typedef struct s_data t_data;
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -45,41 +48,41 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
-typedef struct s_data
+typedef struct s_input_info
 {
 	int			index;
 	t_token     *token;
 	t_word_arr  word;
 	char		**split_array;
 	char		*input;
-} t_data;
+} t_input_info;
 
 // ============================
 
 // Tokenization
 
-void	init_data(t_data *data);
-int		quote_check(t_data *data);
-int		normalize_input(t_data *data);
+void	init_data(t_input_info *input, t_data *data);
+int		quote_check(t_input_info *input);
+int		normalize_input(t_input_info *input);
 t_type	check_token_type(char *basin);
 int		check_input(char **basin);
-void    create_token(t_data *data);
+void    create_token(t_input_info *input);
 
 // Word Tokenization
-t_token *create_word_token(t_data *data);
+t_token *create_word_token(t_input_info *input);
 
 // Pipe Tokenization
-t_token	*create_pipe(t_data *data, int type);
+t_token	*create_pipe(t_input_info *input, int type);
 
 // Redirection In Tokenization
-t_token *create_redirects(char *s1, t_data *data, int type);
-void	word_array(t_data *data, char *element);
+t_token *create_redirects(char *s1, t_input_info *input, int type);
+void	word_array(t_input_info *input, char *element);
 
 // Utils
 void    free_arr(char **array);
-char	**first_malloc(t_data *data, char *element);
-char	**ft_realloc(t_data *data, char **old_array, char *element);
-void	token_free_and_exit(t_data *data, char *str);
+char	**first_malloc(t_input_info *input, char *element);
+char	**ft_realloc(t_input_info *input, char **old_array, char *element);
+void	token_free_and_exit(t_input_info *input, char *str);
 void	free_token_list(t_token *head);
 // =============================
 

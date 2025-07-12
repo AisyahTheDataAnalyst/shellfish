@@ -37,7 +37,8 @@ CFLAGS = -Wall -Werror -Wextra -g3
 RM = rm -rf
 
 # Source files
-SRC = $(addprefix $(SRC_DIR)/, minishell.c quote_check.c token_utils.c normalize_input.c check_input.c tokenization.c token_pipe.c array_word.c token_word.c token_red.c)
+SRC = $(wildcard $(SRC_DIR)/*.c)
+#$(addprefix $(SRC_DIR)/, minishell.c quote_check.c token_utils.c normalize_input.c check_input.c tokenization.c token_pipe.c array_word.c token_word.c token_red.c)
 #$(wildcard $(SRC_DIR)/token/*.c)
 
 # Object files
@@ -54,11 +55,11 @@ $(LIBFT): FORCE
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INC) -I/usr/include -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 	@echo "$(YELLOW)Compiled ✅ $(GREEN) $(BOLD) $< $(RESET)"
 
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) -o $(NAME) $(OBJ) -L$(LIBFT_DIR) -lft -lreadline
+	@$(CC) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
 	@echo "$(GREEN)$(BOLD)✅ Build Successful: $(NAME)$(RESET)"
 
 # Build library folder
@@ -82,9 +83,9 @@ fclean: clean
 re: fclean all
 
 # # debug:
-# @echo "SRC: $(SRC)"
-# @echo "OBJ: $(OBJ)"
-# @echo "OBJ_DIR: $(OBJ_DIR)"
+#@echo "SRC: $(SRC)"
+#@echo "OBJ: $(OBJ)"
+#@echo "OBJ_DIR: $(OBJ_DIR)"
 
 FORCE:
 
