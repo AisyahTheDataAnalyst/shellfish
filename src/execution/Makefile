@@ -6,7 +6,7 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/07/12 11:47:19 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,45 +16,47 @@ CC = cc
 
 #compilation flags
 CFLAGS = -Wall -Wextra -Werror -O0 -g3 -fsanitize=address \
-			-fsanitize-recover=leak 
+-fsanitize-recover=leak 
 #valgrind --leak-check=full --show-leak-kinds=all ./execution - 204215 bytes in 21 blocks
 
 #linker flag
 LFLAGS = -lreadline
 
 # directory that contains source files
-#SRC = src
-SRC_DIR_EXEC = execution
-SRC_DIR_W = working
-SRC_BI_DIR = built_in
-SRC_UTILS_DIR = utils
-#SRC_DIR_NW = not working
-#SRC_RD_DIR = redirection
-#SRC_PIPE_DIR = pipe
-#SRC_WORD_DIR = word
+SRC_MAIN = src
+SRC_EXEC_DIR = execution
+SRC_AST = ast_execution
+SRC_PIPE = pipe
+SRC_RD = redirection
+SRC_WD = word
+SRC_BI = built_in
+SRC_CMD = command
+SRC_UTILS = utils
 
 SRC =	\
-		$(SRC_BI_DIR)/bi_cd.c \
-		$(SRC_BI_DIR)/bi_echo.c \
-		$(SRC_BI_DIR)/bi_env.c \
-		$(SRC_BI_DIR)/bi_exit.c \
-		$(SRC_BI_DIR)/bi_export_add.c \
-		$(SRC_BI_DIR)/bi_export_only.c \
-		$(SRC_BI_DIR)/bi_export.c \
-		$(SRC_BI_DIR)/bi_pwd.c \
-		$(SRC_BI_DIR)/bi_unset.c \
-		$(SRC_BI_DIR)/built_ins.c \
-		$(SRC_UTILS_DIR)/free.c \
-		$(SRC_UTILS_DIR)/init.c \
-		$(SRC_UTILS_DIR)/reset_signal.c \
-		$(SRC_UTILS_DIR)/signals.c \
-		main.c
-# 		$(SRC_DIR_NW)/$(SRC_PIPE_DIR)/ast_pipe.c \
-		$(SRC_DIR_NW)/$(SRC_RD_DIR)/rd_check.c \
-		$(SRC_DIR_NW)/$(SRC_RD_DIR)/rd_heredoc.c \
-		$(SRC_DIR_NW)/$(SRC_RD_DIR)/rd_others.c \
-		$(SRC_DIR_NW)/$(SRC_RD_DIR)/ast_redirection.c \
-		$(SRC_DIR_NW)/$(SRC_WORD_DIR)/ast_word.c
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_PIPE)/ast_pipe.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_RD)/ast_redirection.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_RD)/rd_heredoc.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_RD)/rd_others.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_cd.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_echo.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_env.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_exit.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export_add.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export_only.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_pwd.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_unset.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/built_ins.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_CMD)/ast_word.c \
+		$(SRC_MAIN)/$(SRC_AST)/$(SRC_WD)/$(SRC_CMD)/word_utils.c \
+		$(SRC_MAIN)/$(SRC_AST)/ast_execution.c \
+		$(SRC_MAIN)/$(SRC_AST)/fake_ast.c \
+		$(SRC_MAIN)/$(SRC_UTILS)/free.c \
+		$(SRC_MAIN)/$(SRC_UTILS)/init.c \
+		$(SRC_MAIN)/$(SRC_UTILS)/reset_signal.c \
+		$(SRC_MAIN)/$(SRC_UTILS)/signals.c \
+		$(SRC_MAIN)/main.c
 	
 INC = -I include -I libft
 # this is what is caused to not write explicit path for all #includes in all header and c files

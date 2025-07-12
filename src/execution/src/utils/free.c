@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:17:32 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:19:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	freeing(t_exc *exc)
 {
 	free_double_array(exc->exec->envp_array);
 	free_double_array(exc->process->splitted_path);
-	free(exc->process->limiters);
+	// free_double_array(exc->process->limiters);
 	free(exc->process);
 	free(exc->exec);
 	rl_clear_history();
