@@ -37,8 +37,22 @@ CFLAGS = -Wall -Werror -Wextra -g3
 RM = rm -rf
 
 # Source files
-SRC = $(wildcard $(SRC_DIR)/*.c)
-#$(addprefix $(SRC_DIR)/, minishell.c quote_check.c token_utils.c normalize_input.c check_input.c tokenization.c token_pipe.c array_word.c token_word.c token_red.c)
+SRC = $(addprefix $(SRC_DIR)/, \
+		minishell.c \
+		token/array_word.c \
+		token/check_input.c \
+		token/normalize_input.c \
+		token/quote_check.c \
+		token/replace_space.c \
+		token/token_pipe.c \
+		token/token_red.c \
+		token/token_utils.c \
+		token/token_utils2.c \
+		token/token_word.c \
+		token/tokenization.c \
+		ast/ast_parse.c \
+		ast/ast_utils.c)
+
 #$(wildcard $(SRC_DIR)/token/*.c)
 
 # Object files
@@ -54,7 +68,7 @@ $(LIBFT): FORCE
 	@make -C $(LIBFT_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 	@echo "$(YELLOW)Compiled ✅ $(GREEN) $(BOLD) $< $(RESET)"
 
@@ -68,7 +82,7 @@ $(OBJ_DIR): FORCE
 
 # Clean object files and executable
 clean:
-	@echo "$(RED)❌ Deleting\t$(RESET)$(WHITE)Objects$(RESET)\t$(OBJB_DIR)";
+	@echo "$(RED)❌ Deleting\t$(RESET)$(WHITE)Objects$(RESET)\t$(OBJ_DIR)";
 	@make -C $(LIBFT_DIR) clean
 	@$(RM) $(OBJ_DIR)
 	@echo "$(GREEN)✅ Removed\t$(RESET)$(WHITE)Objects$(RESET)"

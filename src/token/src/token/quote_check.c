@@ -30,26 +30,26 @@ static int	double_quote(char *input, int *i)
 
 static int	single_quote(char *input, int *i)
 {
-		while (input[*i] && input[*i] != '\'')
-		{
-			if (input[*i] == ' ')
-				input[*i] = 31;
-			(*i)++;
-		}
-		if (input[*i] != '\'')
-		{
-			ft_putstr_fd("Error: unmatched single quote\n", 2);
-			return (0);
-		}
-		return (1);
+	while (input[*i] && input[*i] != '\'')
+	{
+		if (input[*i] == ' ')
+			input[*i] = 31;
+		(*i)++;
+	}
+	if (input[*i] != '\'')
+	{
+		ft_putstr_fd("Error: unmatched single quote\n", 2);
+		return (0);
+	}
+	return (1);
 }
 
 /// @brief Quote check - To check if there's any unclosed quotes.
 // IE: An open double quote must be followed by another closed double quote.
 // To prevent ft_split splitting spaced characters
-// inside quotes (ie: echo "hello      " space must be preserved until expansion).
+// inside quotes (ie: echo "hello__" space must be preserved until expansion).
 /// @param input "Malloc-ed string from readline"
-int quote_check(t_input_info *b_input)
+int	quote_check(t_input_info *b_input)
 {
 	int	i;
 

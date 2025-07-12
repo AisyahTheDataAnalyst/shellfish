@@ -14,10 +14,10 @@
 #include "../include/ast.h"
 #include "../include/minishell.h"
 
-t_ast   *create_node(t_token *token)
+t_ast	*create_node(t_token *token)
 {
 	t_ast	*node;
-	
+
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);

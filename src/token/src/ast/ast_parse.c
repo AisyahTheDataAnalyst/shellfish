@@ -31,7 +31,7 @@ t_ast	*parse_pipe(t_token *token)
 	ptr = attached(token);
 	if (!ptr)
 		return (NULL);
-	return(right_pipe(ptr, token->next));
+	return (right_pipe(ptr, token->next));
 }
 
 t_ast	*parse_word(t_token *token)
@@ -57,7 +57,8 @@ t_ast	*parse_redirection(t_token *token)
 	if (!token)
 		return (NULL);
 	r_nodes = NULL;
-	if (token->token_type >= TOKEN_HEREDOC && token->token_type <= TOKEN_REDIRECT_OUT)
+	if (token->token_type >= TOKEN_HEREDOC
+		&& token->token_type <= TOKEN_REDIRECT_OUT)
 	{
 		r_nodes = create_node(token);
 		if (!r_nodes)

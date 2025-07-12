@@ -80,8 +80,8 @@ static char	*normalizing_check(char *input, char *cleaned)
 /// @return Spaced string before and after every logical operator
 int	normalize_input(t_input_info *data)
 {
-	char *cleaned_input;
-	int	len;
+	char	*cleaned_input;
+	int		len;
 
 	len = strlen(data->input);
 	cleaned_input = malloc(len * 2 + 1);
