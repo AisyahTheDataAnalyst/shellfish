@@ -41,3 +41,53 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+
+// static void print_ast(t_ast *node, int depth, char side)
+// {
+//     const char *arr[] = {
+//         "WORD",
+//         "HEREDOC",
+//         "APPEND",
+//         "REDIR_IN",
+//         "REDIR_OUT",
+//         "PIPE",
+//         NULL
+//     };
+
+//     if (!node) return;
+//     for (int i = 0; i < depth; i++) printf(CYAN"|  "COLOR);
+//     printf("%c[%s:%d]\n", side, arr[node->token->token_type], node->token->index);
+//     print_ast(node->left, depth + 1, 'L');
+//     print_ast(node->right, depth + 1, 'R');
+// }
+
+// static void print_tokens(t_token *head)
+// {
+//     const char *arr[7] = {
+//         "WORD",
+//         "HEREDOC",
+//         "APPEND",
+//         "REDIR_IN",
+//         "REDIR_OUT",
+//         "PIPE",
+//         NULL
+//     };
+
+//     printf("\n=== Token Linked List ===\n");
+//     while (head)
+//     {
+//         printf("Token index: %d\n", head->index);
+//         printf("Token type: %s\n", arr[head->token_type]);
+//         if (head->basin_buff)
+//         {
+//             printf("Token basin_buff content:\n");
+//             for (int i = 0; head->basin_buff[i]; i++)
+//                 printf("  - %s\n", head->basin_buff[i]);
+//         }
+//         else
+//             printf("Token basin_buff is NULL\n");
+//         printf("---------------------------\n");
+//         head = head->next;
+//     }
+//     printf("=== END OF LINKED LIST ===\n");
+// }

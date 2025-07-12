@@ -25,6 +25,7 @@ static int	double_quote(char *input, int *i)
 		ft_putstr_fd("Error: unmatched double quote\n", 2);
 		return (0);
 	}
+	(*i)++;
 	return (1);
 }
 
@@ -41,6 +42,7 @@ static int	single_quote(char *input, int *i)
 		ft_putstr_fd("Error: unmatched single quote\n", 2);
 		return (0);
 	}
+	(*i)++;
 	return (1);
 }
 

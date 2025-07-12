@@ -33,7 +33,7 @@ INC = -I$(INC_DIR) -I$(LIBFT_DIR)
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 RM = rm -rf
 
 # Source files
@@ -73,7 +73,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "$(YELLOW)Compiled ✅ $(GREEN) $(BOLD) $< $(RESET)"
 
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -lreadline
 	@echo "$(GREEN)$(BOLD)✅ Build Successful: $(NAME)$(RESET)"
 
 # Build library folder
