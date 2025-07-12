@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:35:44 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,21 @@
 void				bi_exit(char **av, t_exc *exc);
 static void			exit_error_handling_1(char **av, t_exc *exc);
 static void			exit_error_handling_2(char **av, t_exc *exc);
+static void			exit_error_handling_3(char **av, t_exc *exc);
 static __int128_t	ft_ato_int128(const char *str);
 
 void	bi_exit(char **av, t_exc *exc)
 {
 	if (!av[1])
 	{
-		freeing(exc);
+		if (exc->process->pipe_flag == false)
+			freeing(exc);
 		exc->exit_code = 0;
-		exit(0);
+		exit(exc->exit_code);
 	}
 	exit_error_handling_1(av, exc);
 	exit_error_handling_2(av, exc);
+	exit_error_handling_3(av, exc);
 }
 
 // exit(2) for invalid 1st argument
@@ -50,18 +53,20 @@ static void	exit_error_handling_1(char **av, t_exc *exc)
 			{
 				printf("exit\nshellfish: \
 exit: %s: numeric argument required\n", av[i]);
-				freeing(exc);
+				if (exc->process->pipe_flag == false)
+					freeing(exc);
 				exc->exit_code = 2;
-				exit(2);
+				exit(exc->exit_code);
 			}
 		}
 	}
 }
 
+// 2- control overflow what __int128_t cannot handle which is more than 39 digits
+// 9223372036854775807 is 19 digits, so i just make it to 20 digits
 static void	exit_error_handling_2(char **av, t_exc *exc)
 {
 	int			i;
-	__int128_t	num;
 
 	i = 1;
 	if (av[++i] != NULL)
@@ -70,19 +75,34 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 		exc->exit_code = 1;
 		return ;
 	}
+	if (ft_strlen(av[1]) >= 20)
+	{
+		printf("exit\nshellfish: exit: %s: numeric argument required\n", av[1]);
+		exc->exit_code = 2;
+		exit(exc->exit_code);
+	}
+}
+
+static void	exit_error_handling_3(char **av, t_exc *exc)
+{
+	__int128_t	num;
+
 	num = ft_ato_int128(av[1]);
 	if (num > 9223372036854775807)
 	{
 		printf("exit\nshellfish: \
 exit: %s: numeric argument required\n", av[1]);
-		exit(2);
+		exc->exit_code = 2;
+		exit(exc->exit_code);
 	}
 	num = num % 256;
-	freeing(exc);
+	if (exc->process->pipe_flag == false)
+		freeing(exc);
 	exc->exit_code = (unsigned char)num;
 	exit(exc->exit_code);
 }
 
+// theres no % for printf for __int128_t
 static __int128_t	ft_ato_int128(const char *str)
 {
 	int			i;
