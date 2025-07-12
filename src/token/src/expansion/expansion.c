@@ -26,7 +26,10 @@ void parameter_expansion(t_token *token, char **env)
             {
                 param = value_expansion(param + 1, env);
                 if(param)
-                    token->basin_buff[i] = param;
+                {
+                    free(token->basin_buff[i]);  // Free the original string
+                    token->basin_buff[i] = ft_strdup(param);  // Make a copy
+                }
                 // printf("After expand: %s\n", param);
             }
             // printf("param: %s\n", param);
@@ -46,7 +49,12 @@ char *value_expansion(char *param, char **env)
     {
         if (ft_strncmp(param, env[i], ft_strlen(param)) == 0)
         {
-            value = getenv(param);
+            value = getenv(env[i]);
+            if ((*param + ft_strlen(param) + 1) != '\0')
+            {    
+                value = ft_strjoin(value, param);
+                printf("value: %s\n", value);
+            }    
             return(value);
         }
         i++;
