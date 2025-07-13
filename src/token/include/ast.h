@@ -15,10 +15,10 @@
 
 typedef struct s_ast
 {
-	t_token     *token;
-	struct s_ast *left;
-	struct s_ast *right;
-} t_ast;
+	t_token			*token;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 // Binary tree creation
 

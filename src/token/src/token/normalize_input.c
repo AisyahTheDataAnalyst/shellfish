@@ -12,59 +12,55 @@
 
 #include "../include/token.h"
 
+static int	syntax_error(char *input, char *cleaned, char c)
+{
+	printf("bash: syntax error near unexpected token `%c\'\n", c);
+	free(cleaned);
+	free(input);
+	return (0);
+}
+
+static void	add_with_space(char *input, char *cleaned, int *i, int *j)
+{
+	cleaned[(*j)++] = ' ';
+	cleaned[(*j)++] = input[(*i)++];
+	cleaned[(*j)++] = ' ';
+}
+
+static int	handle_operator(char *input, char *cleaned, int *i, int *j)
+{
+	if (input[*i] == '|' && input[(*i) + 1] == '|')
+		return (syntax_error(input, cleaned, '|'));
+	else if (input[(*i) + 1] == input[*i])
+	{
+		if (input[(*i) + 2] == input[(*i) + 1])
+			return (syntax_error(input, cleaned, input[*i]));
+		cleaned[(*j)++] = ' ';
+		cleaned[(*j)++] = input[(*i)++];
+		cleaned[(*j)++] = input[(*i)++];
+		cleaned[(*j)++] = ' ';
+	}
+	else
+		add_with_space(input, cleaned, i, j);
+	return (1);
+}
+
 static char	*normalizing_check(char *input, char *cleaned)
 {
 	int	i;
 	int	j;
+	int	err;
 
 	i = 0;
 	j = 0;
 	while (input[i])
 	{
-		if (input[i] == '"')
+		quote_copy(input, cleaned, &i, &j);
+		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
 		{
-			cleaned[j++] = input[i++];
-			while (input[i] != '"' && input[i])
-				cleaned[j++] = input[i++];
-		}
-		else if (input[i] == '\'')
-		{
-			cleaned[j++] = input[i++];
-			while (input[i] != '\'' && input[i])
-				cleaned[j++] = input[i++];
-		}
-		else if (input[i] == '>' || input[i] == '<' || input[i] == '|')
-		{
-			if (input[i] == '|' && input[i + 1] == '|')
-			{
-				printf("bash: syntax error near unexpected token `%c\'\n", input[i]);
-				free(cleaned);
-				free(input);
+			err = handle_operator(input, cleaned, &i, &j);
+			if (!err)
 				return (NULL);
-			}
-			else if (input[i + 1] == input[i])
-			{
-				if (input[i + 2] == input[i + 1])
-				{
-					printf("bash: syntax error near unexpected token `%c\'\n", input[i]);
-					free(cleaned);
-					free(input);
-					return (NULL);
-				}
-				else
-				{
-					cleaned[j++] = ' ';
-					cleaned[j++] = input[i++];
-					cleaned[j++] = input[i++];
-					cleaned[j++] = ' ';
-				}
-			}
-			else
-			{
-				cleaned[j++] = ' ';
-				cleaned[j++] = input[i++];
-				cleaned[j++] = ' ';
-			}
 		}
 		else
 			cleaned[j++] = input[i++];

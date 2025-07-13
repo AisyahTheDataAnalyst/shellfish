@@ -14,13 +14,13 @@
 #include "../include/ast.h"
 #include "../include/minishell.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
+	char			*input;
+	t_input_info	b_input;
+	t_data			data;
 	(void)argv;
 	(void)env;
-	char		*input;
-	t_input_info	b_input;
-	t_data		data;
 
 	if (argc == 1)
 	{
@@ -56,7 +56,8 @@ int main(int argc, char **argv, char **env)
 
 //     if (!node) return;
 //     for (int i = 0; i < depth; i++) printf(CYAN"|  "COLOR);
-//     printf("%c[%s:%d]\n", side, arr[node->token->token_type], node->token->index);
+//     printf("%c[%s:%d]\n", side, arr[node->token->token_type], 
+// 				node->token->index);
 //     print_ast(node->left, depth + 1, 'L');
 //     print_ast(node->right, depth + 1, 'R');
 // }
