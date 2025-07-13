@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 10:19:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 13:40:15 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,16 @@ void	freeing(t_exc *exc)
 {
 	free_double_array(exc->exec->envp_array);
 	free_double_array(exc->process->splitted_path);
-	// free_double_array(exc->process->limiters);
 	free(exc->process);
 	free(exc->exec);
+	free(exc);
 	rl_clear_history();
+}
+
+void free_before_readline(t_exc *exc)
+{
+	free_ast(exc->ast); // will be replaced with the real AST
+	if (exc->process->total_hd  > 0)
+		exc->process->limiter_index = 0;
+	free(exc->process->input);
 }

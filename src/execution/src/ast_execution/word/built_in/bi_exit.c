@@ -6,42 +6,45 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 10:35:44 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:12:19 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void				bi_exit(char **av, t_exc *exc);
-static void			exit_error_handling_1(char **av, t_exc *exc);
+static void			exit_error_handling_1(char **av, t_exc *exc, int i, int j);
 static void			exit_error_handling_2(char **av, t_exc *exc);
 static void			exit_error_handling_3(char **av, t_exc *exc);
 static __int128_t	ft_ato_int128(const char *str);
 
 void	bi_exit(char **av, t_exc *exc)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
 	if (!av[1])
 	{
-		if (exc->process->pipe_flag == false)
-			freeing(exc);
 		exc->exit_code = 0;
-		exit(exc->exit_code);
+		if (exc->process->pipe_flag == false)
+		{
+			free_before_readline(exc);
+			freeing(exc);
+		}
+		exit(0);
 	}
-	exit_error_handling_1(av, exc);
+	exit_error_handling_1(av, exc, i, j);
 	exit_error_handling_2(av, exc);
 	exit_error_handling_3(av, exc);
 }
 
 // exit(2) for invalid 1st argument
 // exit(1) for more than 1 arguments
-static void	exit_error_handling_1(char **av, t_exc *exc)
+static void	exit_error_handling_1(char **av, t_exc *exc, int i, int j)
 {
-	int	i;
-	int	j;
-
-	i = 1;
-	j = 0;
-	if (av[i])
+	if (av[++i])
 	{
 		if (av[i][j] == '-' || av[i][j] == '+')
 			j++;
@@ -53,10 +56,13 @@ static void	exit_error_handling_1(char **av, t_exc *exc)
 			{
 				printf("exit\nshellfish: \
 exit: %s: numeric argument required\n", av[i]);
-				if (exc->process->pipe_flag == false)
-					freeing(exc);
 				exc->exit_code = 2;
-				exit(exc->exit_code);
+				if (exc->process->pipe_flag == false)
+				{
+					free_before_readline(exc);
+					freeing(exc);
+				}
+				exit(2);
 			}
 		}
 	}
@@ -79,7 +85,12 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 	{
 		printf("exit\nshellfish: exit: %s: numeric argument required\n", av[1]);
 		exc->exit_code = 2;
-		exit(exc->exit_code);
+		if (exc->process->pipe_flag == false)
+		{
+			free_before_readline(exc);
+			freeing(exc);
+		}
+		exit(2);
 	}
 }
 
@@ -93,13 +104,21 @@ static void	exit_error_handling_3(char **av, t_exc *exc)
 		printf("exit\nshellfish: \
 exit: %s: numeric argument required\n", av[1]);
 		exc->exit_code = 2;
-		exit(exc->exit_code);
+		if (exc->process->pipe_flag == false)
+		{
+			free_before_readline(exc);
+			freeing(exc);
+		}
+		exit(2);
 	}
 	num = num % 256;
-	if (exc->process->pipe_flag == false)
-		freeing(exc);
 	exc->exit_code = (unsigned char)num;
-	exit(exc->exit_code);
+	if (exc->process->pipe_flag == false)
+	{
+		free_before_readline(exc);
+		freeing(exc);
+	}
+	exit((unsigned char)num);
 }
 
 // theres no % for printf for __int128_t

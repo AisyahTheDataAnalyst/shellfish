@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:18:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:12:49 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:15:24 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,7 @@ static void	invalid_export_var_helper(char *var, int i, t_exc *exc)
 	if (var[i] && var[i + 1])
 	{
 		if (var[i] == '=' && var[i + 1] == '=')
-		{
 			exc->exit_code = 1;
-			printf("me2\n");
-		}
 	}
 }
 

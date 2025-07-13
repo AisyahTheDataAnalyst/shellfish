@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 11:44:16 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:36:13 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ static bool	is_limiter(char *limiter, char *line);
 
 void	rd_heredoc(t_ast *ast, t_exc *exc)
 {
+	printf("entering heredoc\n");
 	exc->process->limiters[exc->process->limiter_index] = \
 ft_strdup(ast->token->basin_buff[0]);
 	exc->process->limiter_index++;
 	if (exc->process->limiter_index == exc->process->total_hd)
 	{
-		exc->process->limiters[exc->process->limiter_index] = NULL;
+		// exc->process->limiters[exc->process->limiter_index] = NULL;
 		heredoc_process(exc);
+		free_double_array(exc->process->limiters);
 	}
 	ast_execution(ast->left, exc);
 }
@@ -42,6 +44,7 @@ static void	heredoc_process(t_exc *exc)
 	if (heredoc_fd == -1)
 	{
 		printf("Failed to open heredoc temp file\n");
+		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
 	// signals_for_heredoc();
@@ -56,20 +59,8 @@ static void	heredoc_process(t_exc *exc)
 	reset_signals();
 	// printf("replacing heredoc with infile\n");
 	// heredoc_fd = expand_heredoc(heredoc_fd);
-	heredoc_fd = reset_cursor_heredocfd(heredoc_fd);
+	heredoc_fd = reset_cursor_heredocfd(heredoc_fd, exc);
 	exc->process->infile = heredoc_fd;
-}
-
-int	reset_cursor_heredocfd(int heredoc_fd)
-{
-	close(heredoc_fd); // bincang dengan wei yee if dia close dekat expand_heredoc
-	heredoc_fd = open("heredoc_fd", O_RDONLY);
-	if (heredoc_fd == -1)
-	{
-		printf("Failed to open heredoc_fd for reading as a infile\n");
-		return (-1);
-	}
-	return (heredoc_fd);
 }
 
 static void	start_heredoc(t_exc *exc, int heredoc_fd)
@@ -91,6 +82,8 @@ exc->process->total_hd, exc->process);
 		line = readline("\033[0;34m> \033[0m");
 	}
 	free(line);
+	close(heredoc_fd);
+	free_double_array(exc->process->limiters);
 	exc->exit_code = EXIT_SUCCESS;
 	exit(exc->exit_code);
 }

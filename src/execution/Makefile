@@ -6,7 +6,7 @@
 #    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 13:45:31 by aimokhta          #+#    #+#              #
-#    Updated: 2025/07/12 11:47:19 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/07/13 08:33:26 by aimokhta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = execution
 CC = cc
 
 #compilation flags
-CFLAGS = -Wall -Wextra -Werror -O0 -g3 -fsanitize=address \
+CFLAGS = -Wall -Wextra -Werror -O0 -g3 #-fsanitize=address \
 -fsanitize-recover=leak 
 #valgrind --leak-check=full --show-leak-kinds=all ./execution - 204215 bytes in 21 blocks
 

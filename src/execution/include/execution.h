@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 14:13:58 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:40:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define READ 0
 # define WRITE 1
+# define PERMISSION_DENIED 126
 # define CMD_NOT_FOUND 127
 
 extern int	g_signal;
@@ -96,6 +97,7 @@ typedef struct s_process
 	int		limiter_index;
 	int		total_hd;
 	bool	pipe_flag;
+	char	*input;
 }	t_process;
 
 // typedef struct s_list
@@ -128,7 +130,7 @@ void	ast_execution(t_ast *ast, t_exc *exc);
 void	ast_pipe(t_ast *ast, t_exc *exc);
 void	ast_redirection(t_ast *ast, t_exc *exc);
 void	rd_heredoc(t_ast *ast, t_exc *exc);
-int		reset_cursor_heredocfd(int heredoc_fd);
+int		reset_cursor_heredocfd(int heredoc_fd, t_exc *exc);
 void	rd_append(t_ast *ast, t_exc *exc);
 void	rd_in(t_ast *ast, t_exc *exc);
 void	rd_out(t_ast *ast, t_exc *exc);
@@ -137,7 +139,7 @@ void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
 void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc);
 
-//fake_ast.c
+//fake_ast.c // delete this later
 t_ast	*create_ast_node(char **args, t_type type);
 void 	insert_left_node(t_ast *parent, char **args, t_type type);
 void	insert_right_node(t_ast *parent, char **args, t_type type);
@@ -164,6 +166,8 @@ void	bi_unset(char **av, t_exc *exc);
 void	free_double_array(char **s);
 void	free_temp_list(t_list *temp_list);
 void	freeing(t_exc *exc);
+void	free_before_readline(t_exc *exc);
+
 	// init.c
 void	get_splitted_path(t_process *process);
 void	envp_to_envparray(char **envp, t_list *exec);
