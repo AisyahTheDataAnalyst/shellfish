@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 09:16:04 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/11 17:35:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:36:13 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	rd_out(t_ast *ast, t_exc *exc)
 	{
 		printf("Failed to open %s for redirection out\n", \
 ast->token->basin_buff[0]);
+		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
 	printf("temp_fd: %d\n", temp_fd);
@@ -41,6 +42,7 @@ void	rd_in(t_ast *ast, t_exc *exc)
 	{
 		printf("Failed to open %s for redirection in\n", \
 ast->token->basin_buff[0]);
+		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
 	printf("temp_fd: %d\n", temp_fd);
@@ -61,6 +63,7 @@ void	rd_append(t_ast *ast, t_exc *exc)
 	{
 		printf("Failed to open %s for redirection append\n", \
 ast->token->basin_buff[0]);
+		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
 	printf("temp_fd: %d\n", temp_fd);
@@ -71,6 +74,17 @@ ast->token->basin_buff[0]);
 	ast_execution(ast->left, exc);
 }
 
+int	reset_cursor_heredocfd(int heredoc_fd, t_exc *exc)
+{
+	heredoc_fd = open("heredoc_fd", O_RDONLY);
+	if (heredoc_fd == -1)
+	{
+		printf("Failed to open heredoc_fd for reading as a infile\n");
+		exc->exit_code = PERMISSION_DENIED;
+		return (-1);
+	}
+	return (heredoc_fd);
+}
 
 //restoring by dupped_ to put back the original stdout/stdin for readline
 // void	rd_append(t_ast *ast, t_exc *exc)

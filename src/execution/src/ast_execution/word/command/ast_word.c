@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 11:42:03 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:20:56 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 	args = ast->token->basin_buff;
 	if (!args || !args[0] || !args[0][0])
 		fail_exit_word(args, exc);
-	if (ft_strncmp("./", args[0], 2) == 0)
-		fail_exit_word(args, exc);
+	// if (ft_strncmp("./", args[0], 2) == 0) // cannot do this in case want to run ./minishell within ./minishell
+	// 	fail_exit_word(args, exc);
 	if (access(args[0], F_OK) != -1)
 		pathname = args[0];
 	else
@@ -119,6 +119,6 @@ static void	fail_exit_word(char **args, t_exc *exc)
 {
 	free_double_array(args);
 	//freeing done
-	exc->exit_code = EXIT_FAILURE;
+	exc->exit_code = CMD_NOT_FOUND;
 	exit(exc->exit_code);
 }

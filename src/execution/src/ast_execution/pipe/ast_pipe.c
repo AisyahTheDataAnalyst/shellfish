@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:40:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 10:27:48 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:32:48 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
 	ast_execution(ast->left, exc);
-	exit(exc->exit_code); // exit(0);
+	exit(exc->exit_code);
 }
 
 //put exit(0) at the end in case its a builtin or ast's NULL
@@ -79,8 +79,5 @@ pid_t right_pid)
 	waitpid(left_pid, &exit_status, 0);
 	waitpid(right_pid, &exit_status, 0);
 	if (WIFEXITED(exit_status) != 0)
-	{
 		exc->exit_code = WEXITSTATUS(exit_status);
-		// exit(exc->exit_code);
-	}
 }

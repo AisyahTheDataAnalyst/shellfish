@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 13:48:22 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 14:14:59 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 16:07:03 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	int_main_init(t_exc *exc, char **envp);
 static void	int_main_loop(t_exc *exc);
-static void free_before_readline(t_exc *exc, char *input);
 static void mallocing_heredoc(t_exc *exc);
 
 int	g_signal = 0;
@@ -62,29 +61,31 @@ static void	int_main_init(t_exc *exc, char **envp)
 // only add_history if theres not an empty readline
 static void	int_main_loop(t_exc *exc) //, t_data *data)
 {
-	char	*input;
 	// char	**basin;
 
 	while (1)
 	{
-		input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-		if (!input)
+		exc->process->input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+		if (!exc->process->input)
 		{
-			free(input);
+			free_before_readline(exc);
 			break ;
 		}
-		// if (!init_tokens(data, input))
+		// if (!init_tokens(data, exc->process->input))
 		// {
 		// 	//free
 		// 	continue ;
 		// }
-		if (ft_strncmp(input, "\n", 2) > 0)
-			add_history(input);
-		t_ast *root = create_ast_node((char *[]){"e1", NULL}, TOKEN_HEREDOC);
-		// insert_right_node(root, (char *[]){"out2", NULL}, TOKEN_REDIRECT_OUT);
-		insert_left_node(root, (char *[]){"catjhvbjhvb", NULL}, TOKEN_WORD);
-		// insert_left_node(root->right, (char *[]){"cat", "-e", NULL}, TOKEN_WORD);
-		// insert_right_node(root->left, (char *[]){"wc", "-l", NULL}, TOKEN_WORD);
+		if (ft_strncmp(exc->process->input, "\n", 2) > 0)
+			add_history(exc->process->input);
+		t_ast *root = create_ast_node((char *[]){NULL}, TOKEN_PIPE);
+		insert_left_node(root, (char *[]){NULL}, TOKEN_PIPE);
+		insert_right_node(root, (char *[]){"out", NULL}, TOKEN_REDIRECT_OUT);
+		insert_left_node(root->right, (char *[]){"wc", "-l", NULL}, TOKEN_WORD);
+		insert_left_node(root->left, (char *[]){"export", NULL}, TOKEN_WORD);
+		insert_right_node(root->left, (char *[]){"cat", "-e", NULL}, TOKEN_WORD);
+		// insert_left_node(root->left, (char *[]){"e3", NULL}, TOKEN_HEREDOC);
+		// insert_left_node(root->left->left, (char *[]){"cat", "-e", NULL}, TOKEN_WORD);
 		// insert_left_node(root->left, (char *[]){"cat", NULL}, TOKEN_WORD);
 		// insert_left_node(root, (char *[]){"out", NULL}, TOKEN_REDIRECT_OUT);
 		// insert_left_node(root, (char *[]){"out", NULL}, TOKEN_APPEND);
@@ -115,26 +116,18 @@ static void	int_main_loop(t_exc *exc) //, t_data *data)
 		mallocing_heredoc(exc);
 		ast_execution(exc->ast, exc);
 		reset_g_signal_code(exc);
-		free_before_readline(exc, input);
+		free_before_readline(exc);
 		printf("exit_code : %d\n", exc->exit_code);
 	}
 }
 
 static void mallocing_heredoc(t_exc *exc)
 {
-	exc->process->total_hd = 1; //total_heredocs(exc->token);
-	if (exc->process->total_hd)
+	exc->process->total_hd = 0; //total_heredocs(exc->token);
+	if (exc->process->total_hd > 0)
+	{
 		exc->process->limiters = malloc(sizeof(char *) * \
 (exc->process->total_hd + 1));
-}
-
-static void free_before_readline(t_exc *exc, char *input)
-{
-	free_ast(exc->ast); // will be replaced with the real AST
-	if (exc->process->total_hd)
-	{
-		free_double_array(exc->process->limiters);
-		exc->process->limiter_index = 0;
+	exc->process->limiters[exc->process->total_hd] = NULL;
 	}
-	free(input);
 }

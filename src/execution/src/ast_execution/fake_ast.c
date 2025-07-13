@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:14:40 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 14:13:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 10:16:41 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void insert_left_node(t_ast *parent, char **args, t_type type)
 {
 	if (!parent)
 		return ;
+	if (parent->left)
+		free_ast(parent->left);
 	parent->left = create_ast_node(args, type);
 }
 
@@ -131,6 +133,8 @@ void insert_right_node(t_ast *parent, char **args, t_type type)
 {
 	if (!parent)
 		return ;
+	if (parent->right)
+			free_ast(parent->right);
 	parent->right = create_ast_node(args, type);
 }
 
