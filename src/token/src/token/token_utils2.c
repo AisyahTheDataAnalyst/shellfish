@@ -20,9 +20,8 @@ int	init_tokens(t_data *data, t_input_info *b_token, char *input)
 		exit(1);
 	init_data(b_token, data);
 	b_token->input = ft_strdup(input);
-	free(input);
-	if (!b_token->input)
-		return (0);
+	if (b_token->input)
+		free(input);
 	if (!quote_check(b_token))
 		return (free(b_token->input), 0);
 	if (!normalize_input(b_token))

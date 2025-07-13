@@ -12,6 +12,7 @@
 
 #include "../include/token.h"
 
+// Create all redirection nodes and append at the end
 static t_token	*loop_and_append(t_input_info *data, t_token *new)
 {
 	t_token	*current;
