@@ -67,7 +67,6 @@ static void print_tokens(t_token *head)
 int main(int argc, char **argv, char **env)
 {
 	(void)argv;
-	//(void)env;
 	char		*input;
 	t_input_info	b_input;
 	t_data		data;

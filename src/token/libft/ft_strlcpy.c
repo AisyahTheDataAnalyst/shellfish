@@ -38,7 +38,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 int main()
 {
     char source [] = "abcdef";
-    char dest[] = "ddd";
+    char dest[] = NULL;
     size_t len = ft_strlcpy(dest, source, 6);
     printf("Destination: %s\n", dest);
     printf("Length: %zu", len);
