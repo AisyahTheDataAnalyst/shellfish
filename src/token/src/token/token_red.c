@@ -13,10 +13,21 @@
 #include "../include/token.h"
 
 // Create all redirection nodes and append at the end
+static t_token	*loop_and_append(t_input_info *data, t_token *new)
+{
+	t_token	*current;
+
+	current = data->token;
+	while (current->next)
+		current = current->next;
+	current->next = new;
+	return (new);
+}
+
+// Create all redirection nodes and append at the end
 t_token	*create_redirects(char *s1, t_input_info *data, int type)
 {
 	t_token	*new;
-	t_token	*current;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
@@ -37,11 +48,6 @@ t_token	*create_redirects(char *s1, t_input_info *data, int type)
 		return (new);
 	}
 	else
-	{
-		current = data->token;
-		while (current->next)
-			current = current->next;
-		current->next = new;
-	}
+		new = loop_and_append(data, new);
 	return (new);
 }
