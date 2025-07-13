@@ -25,7 +25,7 @@ static void	pipe_creation(t_input_info *b_token, t_token **current, int type)
 	b_token->index++;
 }
 
-t_type check_token_type(char *basin)
+t_type	check_token_type(char *basin)
 {
 	if (basin == NULL)
 	{
@@ -48,14 +48,14 @@ t_type check_token_type(char *basin)
 
 void	create_token(t_input_info *b_token)
 {
-	int	type;
-	int	i;
+	int		type;
+	int		i;
 	t_token	*current_word_token;
 
 	i = 0;
 	current_word_token = create_word_token(b_token);
 	b_token->index++;
-	while(b_token->split_array[i])
+	while (b_token->split_array[i])
 	{
 		type = check_token_type(b_token->split_array[i]);
 		if (type == TOKEN_PIPE)

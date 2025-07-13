@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:07:05 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/12 12:16:33 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/13 18:04:24 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@
 
 typedef struct s_data
 {
-	t_token     *token;
-    t_ast       *root;
-} t_data;
+	t_token	*token;
+	t_ast	*root;
+}	t_data;
 
 #endif
