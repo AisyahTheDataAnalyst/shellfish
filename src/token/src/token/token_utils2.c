@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/12 20:38:07 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/12 15:54:02 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ int	init_tokens(t_data *data, t_input_info *b_token, char *input)
 		exit(1);
 	init_data(b_token, data);
 	b_token->input = ft_strdup(input);
-	free(input);
-	if (!b_token->input)
-		return (0);
+	if (b_token->input)
+		free(input);
 	if (!quote_check(b_token))
 		return (free(b_token->input), 0);
 	if (!normalize_input(b_token))
