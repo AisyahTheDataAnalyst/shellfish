@@ -14,17 +14,6 @@
 #include "../include/minishell.h"
 #include "../libft/libft.h"
 
-static void	pipe_creation(t_input_info *b_token, t_token **current, int type)
-{
-	(*current)->basin_buff = b_token->word.array;
-	b_token->word.array = NULL;
-	b_token->word.count = 0;
-	create_pipe(b_token, type);
-	b_token->index++;
-	(*current) = create_word_token(b_token);
-	b_token->index++;
-}
-
 t_type check_token_type(char *basin)
 {
 	if (basin == NULL)
@@ -46,21 +35,30 @@ t_type check_token_type(char *basin)
 		return (TOKEN_WORD);
 }
 
-void	create_token(t_input_info *b_token)
+void    create_token(t_input_info *b_token)
 {
-	int	type;
-	int	i;
+    int type;
+    int i;
 	t_token	*current_word_token;
 
-	i = 0;
+    i = 0;
 	current_word_token = create_word_token(b_token);
 	b_token->index++;
-	while(b_token->split_array[i])
-	{
+    while(b_token->split_array[i])
+    {
 		type = check_token_type(b_token->split_array[i]);
 		if (type == TOKEN_PIPE)
-			pipe_creation(b_token, &current_word_token, type);
-		else if (type >= TOKEN_HEREDOC && type <= TOKEN_REDIRECT_OUT)
+		{
+			current_word_token->basin_buff = b_token->word.array;
+			b_token->word.array = NULL;
+			b_token->word.count = 0;
+			create_pipe(b_token, type);
+			b_token->index++;
+			current_word_token = create_word_token(b_token);
+			b_token->index++;
+		}
+		else if (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT ||
+			type == TOKEN_APPEND || type == TOKEN_HEREDOC)
 		{
 			i++;
 			create_redirects(b_token->split_array[i], b_token, type);
