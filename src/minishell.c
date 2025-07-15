@@ -22,7 +22,6 @@ int main(int argc, char **argv, char **env)
 	t_exc	*exc;
 
 	(void)argv;
-	// (void)argc;
 	if (argc != 1)
 	{
 		ft_putstr_fd("No such files or directory", 2);

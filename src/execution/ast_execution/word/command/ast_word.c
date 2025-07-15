@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 20:36:32 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:59:06 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	ast_word(t_ast *ast, t_exc *exc)
 		waitpid(pid, &exit_status, 0);
 		if (WIFEXITED(exit_status) != 0)
 			exc->exit_code = WEXITSTATUS(exit_status);
-		// printf("after execve\n");
 		reset_stdin_stdout_unlink_heredocfd(exc);
-		// printf("after ast\n");
 	}
 }
 

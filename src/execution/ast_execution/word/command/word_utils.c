@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 20:57:21 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:48:39 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc)
 
 int	is_bi(char **args)
 {
-	if (!args[0][0])
-		return (0);
+	// if (!args[0][0])
+	// 	return (0);
 	if (ft_strncmp(args[0], "echo", 5) == 0)
 		return (1);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
