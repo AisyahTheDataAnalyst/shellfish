@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 20:49:56 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:44:43 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	freeing(t_exc *exc)
 	rl_clear_history();
 }
 
-void free_before_readline(t_exc *exc)
+void	free_before_readline(t_exc *exc)
 {
 	if (exc->data->token)
 		free_token_list(exc->data);

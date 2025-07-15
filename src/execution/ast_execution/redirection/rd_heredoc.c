@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 16:36:13 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:37:57 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ ft_strdup(ast->token->basin_buff[0]);
 	exc->process->limiter_index++;
 	if (exc->process->limiter_index == exc->process->total_hd)
 	{
-		// exc->process->limiters[exc->process->limiter_index] = NULL;
 		heredoc_process(exc);
 		free_double_array(exc->process->limiters);
 	}
@@ -47,7 +46,6 @@ static void	heredoc_process(t_exc *exc)
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
-	// signals_for_heredoc();
 	pid = fork();
 	if (pid < 0)
 		perror("Heredoc's fork failed");
@@ -57,7 +55,6 @@ static void	heredoc_process(t_exc *exc)
 	if (WIFEXITED(exit_status) != 0)
 		exc->exit_code = WEXITSTATUS(exit_status);
 	reset_signals();
-	// printf("replacing heredoc with infile\n");
 	// heredoc_fd = expand_heredoc(heredoc_fd);
 	heredoc_fd = reset_cursor_heredocfd(heredoc_fd, exc);
 	exc->process->infile = heredoc_fd;
@@ -93,7 +90,6 @@ int total_hd, t_process *process)
 {
 	bool	curr_limiter;
 
-	printf("in multiple_heredocs\n");
 	process->limiter_index = 0;
 	while (process->limiter_index < total_hd)
 	{
@@ -114,7 +110,6 @@ static bool	is_limiter(char *limiter, char *line)
 	size_t	len;
 
 	len = ft_strlen(limiter);
-	// printf("limiter: %s, line: %s, len of limiter:%zu\n", limiter, line, len);
 	if (!limiter || !line)
 		return (false);
 	if (ft_strncmp(limiter, line, len) == 0)

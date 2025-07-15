@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/12 15:54:02 by yelu             ###   ########.fr       */
+/*   Updated: 2025/07/15 12:06:04 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,20 @@ void	free_token_list(t_data *data)
 		data->token = temp;
 	}
 	data->token = NULL;
+}
+
+void	quote_copy(char *input, char *cleaned, int *i, int *j)
+{
+	if (input[*i] == '"')
+	{
+		cleaned[(*j)++] = input[(*i)++];
+		while (input[*i] != '"' && input[*i])
+			cleaned[(*j)++] = input[(*i)++];
+	}
+	else if (input[*i] == '\'')
+	{
+		cleaned[(*j)++] = input[(*i)++];
+		while (input[*i] != '\'' && input[*i])
+			cleaned[(*j)++] = input[(*i)++];
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:40:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 14:32:48 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:36:23 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2])
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
 	ast_execution(ast->right, exc);
-	exit(exc->exit_code); // exit(0);
+	exit(exc->exit_code);
 }
 
 static void	parent_process(t_exc *exc, int fd[2], pid_t left_pid, \

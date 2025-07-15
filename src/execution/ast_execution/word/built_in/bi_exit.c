@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 19:41:39 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:41:16 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ exit: %s: numeric argument required\n", av[i]);
 	}
 }
 
-// 2- control overflow what __int128_t cannot handle which is more than 39 digits
+// 2- control overflow what __int128_t cannot handle 
+// which is more than 39 digits
 // 9223372036854775807 is 19 digits, so i just make it to 20 digits
 static void	exit_error_handling_2(char **av, t_exc *exc)
 {
@@ -83,7 +84,8 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 	}
 	if (ft_strlen(av[1]) >= 20)
 	{
-		printf("exit\nshellfish: exit: %s: numeric argument required\n", av[1]);
+		printf("exit\n");
+		printf("shellfish: exit: %s: numeric argument required\n", av[1]);
 		exc->exit_code = 2;
 		if (exc->process->pipe_flag == false)
 		{

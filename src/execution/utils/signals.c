@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/12 11:42:48 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:45:47 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	handle_cntrl_c_heredoc(int sig)
 {
 	if (sig == SIGINT)
 		g_signal = 130;
-	// write(STDOUT_FILENO, "\n", 2);
 	exit(g_signal);
 }
 

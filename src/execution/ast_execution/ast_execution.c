@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:53:16 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 11:00:55 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:35:38 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,3 @@ token_type == TOKEN_REDIRECT_OUT || token_type == TOKEN_REDIRECT_IN)
 		return (1);
 	return (0);
 }
-
-
-
-
-
-
-
-

@@ -13,13 +13,14 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
+# include "minishell.h"
 # include "../libft/libft.h"
-typedef struct s_data	t_data;
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include "minishell.h"
+
+typedef struct s_data	t_data;
 
 typedef enum token_type
 {
@@ -84,6 +85,7 @@ char	**first_malloc(t_input_info *input, char *element);
 char	**ft_realloc(t_input_info *input, char **old_array, char *element);
 void	token_free_and_exit(t_input_info *input, char *str);
 void	free_token_list(t_data *data);
+void	quote_copy(char *input, char *cleaned, int *i, int *j);
 // =============================
 
 #endif

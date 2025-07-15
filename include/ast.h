@@ -12,17 +12,19 @@
 
 #ifndef AST_H
 # define AST_H
-
+# include "minishell.h"
 # include "token.h"
 
-typedef	struct	s_token	t_token;
+typedef struct s_token	t_token;
 
 typedef struct s_ast
 {
-	t_token     *token;
-	struct s_ast *left;
-	struct s_ast *right;
-} t_ast;
+	t_token			*token;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
+
+typedef struct s_data	t_data;
 
 // Binary tree creation
 

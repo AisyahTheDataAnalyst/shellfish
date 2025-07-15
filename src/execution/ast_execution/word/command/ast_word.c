@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 10:59:06 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:44:30 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		ast_word(t_ast *ast, t_exc *exc);
 static void	access_and_execve(t_exc *exc, t_ast *ast);
 static char	*access_path(t_exc *exc, char **args);
-static void	pathname_error_handling(t_exc *exc, char *pathname, char **args); //, t_exc *exc);
+static void	pathname_error_handling(t_exc *exc, char *pathname, char **args);
 static void	fail_exit_word(char **args, t_exc *exc);
 
 void	ast_word(t_ast *ast, t_exc *exc)
@@ -96,13 +96,13 @@ static char	*access_path(t_exc *exc, char **args)
 	return (NULL);
 }
 
-static void	pathname_error_handling(t_exc *exc, char *pathname, char **args) //, t_exc *exc)
+static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 {
 	if (!pathname || !pathname[0])
 	{
 		free_double_array(args);
+		printf("%s: command not found", pathname);
 		free(pathname);
-		perror("pathname is an invalid command");
 		exc->exit_code = CMD_NOT_FOUND;
 		exit(exc->exit_code);
 	}

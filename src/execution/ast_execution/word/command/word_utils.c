@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 10:48:39 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:45:23 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ void	dupping_stdin_stdout(t_exc *exc)
 
 void	dup2_close_infile_outfile(t_exc *exc)
 {
-	// printf("infile = %d\n", exc->process->infile);
 	if (exc->process->infile != -1)
 	{
 		dup2(exc->process->infile, STDIN_FILENO);
 		close(exc->process->infile);
 	}
-	// printf("outfile = %d\n\n", exc->process->outfile);
 	if (exc->process->outfile != -1)
 	{
 		dup2(exc->process->outfile, STDOUT_FILENO);
@@ -46,8 +44,6 @@ void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc)
 
 int	is_bi(char **args)
 {
-	// if (!args[0][0])
-	// 	return (0);
 	if (ft_strncmp(args[0], "echo", 5) == 0)
 		return (1);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)

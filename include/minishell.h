@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:07:05 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/13 18:28:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:04:24 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@
 # define RL_CYAN "\001\033[1;36m\002"
 # define RL_COLOR "\001\033[0m\002"
 
+# include "libft.h"
 # include "token.h"
 # include "ast.h"
 # include "execution.h"
 
+//minishell
 typedef struct s_data
 {
-	t_token     *token;
-    t_ast       *root;
-} t_data;
+	t_token	*token;
+	t_ast	*root;
+}	t_data;
 
 #endif

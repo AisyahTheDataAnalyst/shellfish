@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:54:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 20:47:32 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:45:38 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	reset_g_signal_code_limiter_index(t_exc *exc)
 		exc->exit_code = g_signal;
 		g_signal = 0;
 	}
-	if (exc->process->total_hd  > 0)
+	if (exc->process->total_hd > 0)
 		exc->process->limiter_index = 0;
 }

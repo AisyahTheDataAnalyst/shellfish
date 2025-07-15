@@ -28,6 +28,7 @@ SRC_DIR = src
 
 # Directories of Token 
 SRC_TOKEN = token
+SRC_AST = ast
 OBJ_DIR = obj
 INC_DIR = include
 LIBFT_DIR = libft
@@ -35,8 +36,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INC = -I$(INC_DIR) 
 
 # Directories of Execution
-SRC_EXEC_DIR = execution
-SRC_AST = ast_execution
+SRC_EXEC = execution
+SRC_AST_EXEC = ast_execution
 SRC_PIPE = pipe
 SRC_RD = redirection
 SRC_WD = word
@@ -52,8 +53,9 @@ RM = rm -rf
 # Source files
 SRC = $(addprefix $(SRC_DIR)/, \
 		minishell.c \
-		ast/ast_parse.c \
-		ast/ast_utils.c \
+		$(addprefix $(SRC_AST)/, \
+		ast_parse.c \
+		ast_utils.c) \
 		$(addprefix $(SRC_TOKEN)/, \
 		array_word.c \
 		check_input.c \
@@ -66,27 +68,28 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		token_utils2.c \
 		token_word.c \
 		tokenization.c) \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_PIPE)/ast_pipe.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_RD)/ast_redirection.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_RD)/rd_heredoc.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_RD)/rd_others.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_cd.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_echo.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_env.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_exit.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export_add.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export_only.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_export.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_pwd.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/bi_unset.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_BI)/built_ins.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_CMD)/ast_word.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/$(SRC_WD)/$(SRC_CMD)/word_utils.c \
-		$(SRC_EXEC_DIR)/$(SRC_AST)/ast_execution.c \
-		$(SRC_EXEC_DIR)/$(SRC_UTILS)/free.c \
-		$(SRC_EXEC_DIR)/$(SRC_UTILS)/init.c \
-		$(SRC_EXEC_DIR)/$(SRC_UTILS)/reset_signal.c \
-		$(SRC_EXEC_DIR)/$(SRC_UTILS)/signals.c)
+		$(addprefix $(SRC_EXEC)/, \
+		$(SRC_AST_EXEC)/$(SRC_PIPE)/ast_pipe.c \
+		$(SRC_AST_EXEC)/$(SRC_RD)/ast_redirection.c \
+		$(SRC_AST_EXEC)/$(SRC_RD)/rd_heredoc.c \
+		$(SRC_AST_EXEC)/$(SRC_RD)/rd_others.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_cd.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_echo.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_env.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_exit.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_export_add.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_export_only.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_export.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_pwd.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_unset.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/built_ins.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_CMD)/ast_word.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_CMD)/word_utils.c \
+		$(SRC_AST_EXEC)/ast_execution.c \
+		$(SRC_UTILS)/free.c \
+		$(SRC_UTILS)/init.c \
+		$(SRC_UTILS)/reset_signal.c \
+		$(SRC_UTILS)/signals.c))
 
 #$(wildcard $(SRC_DIR)/token/*.c)
 

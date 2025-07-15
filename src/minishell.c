@@ -15,9 +15,9 @@
 static void	int_main_init(t_exc *exc, char **envp);
 static void	int_main_loop(t_exc *exc);
 
-int g_signal = 0;
+int	g_signal = 0;
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	t_exc	*exc;
 
@@ -57,7 +57,7 @@ static void	int_main_loop(t_exc *exc)
 	t_input_info	b_input;
 	t_data			data;
 
-	exc->data = &data; 
+	exc->data = &data;
 	while (1)
 	{
 		exc->process->input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
@@ -79,73 +79,3 @@ static void	int_main_loop(t_exc *exc)
 		printf("exit_code : %d\n", exc->exit_code);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// static void print_ast(t_ast *node, int depth, char side)
-// {
-//     const char *arr[] = {
-//         "WORD",
-//         "HEREDOC",
-//         "APPEND",
-//         "REDIR_IN",
-//         "REDIR_OUT",
-//         "PIPE",
-//         NULL
-//     };
-
-//     if (!node) return;
-//     for (int i = 0; i < depth; i++) printf(CYAN"|  "COLOR);
-//     printf("%c[%s:%d]\n", side, arr[node->token->token_type], node->token->index);
-//     print_ast(node->left, depth + 1, 'L');
-//     print_ast(node->right, depth + 1, 'R');
-// }
-
-// static void print_tokens(t_token *head)
-// {
-//     const char *arr[7] = {
-//         "WORD",
-//         "HEREDOC",
-//         "APPEND",
-//         "REDIR_IN",
-//         "REDIR_OUT",
-//         "PIPE",
-//         NULL
-//     };
-
-//     printf("\n=== Token Linked List ===\n");
-//     while (head)
-//     {
-//         printf("Token index: %d\n", head->index);
-//         printf("Token type: %s\n", arr[head->token_type]);
-//         if (head->basin_buff)
-//         {
-//             printf("Token basin_buff content:\n");
-//             for (int i = 0; head->basin_buff[i]; i++)
-//                 printf("  - %s\n", head->basin_buff[i]);
-//         }
-//         else
-//             printf("Token basin_buff is NULL\n");
-//         printf("---------------------------\n");
-//         head = head->next;
-//     }
-//     printf("=== END OF LINKED LIST ===\n");
-// }

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 19:01:09 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:45:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	get_splitted_path(t_process *process)
 	char	*full_path;
 
 	full_path = getenv("PATH");
-	// printf("%s\n", full_path);
 	split = ft_split(full_path, ':');
 	if (!split)
 		return ;
@@ -39,7 +38,6 @@ void	get_splitted_path(t_process *process)
 	while (split[i] && i < split_count)
 	{
 		process->splitted_path[i] = ft_strjoin(split[i], "/");
-		// printf("%s\n", process->splitted_path[i]);
 		i++;
 	}
 	process->splitted_path[i] = NULL;
@@ -56,9 +54,7 @@ void	envp_to_envparray(char **envp, t_list *exec)
 	i = 0;
 	while (envp[i])
 	{
-		// printf("%s - envp\n", envp[i]);
 		exec->envp_array[i] = ft_strdup(envp[i]);
-		// printf("%s- envp_array\n", exec->envp_array[i]);
 		i++;
 	}
 	exec->envp_array[i] = NULL;
@@ -80,14 +76,14 @@ int	total_heredocs(t_token *token)
 	return (total);
 }
 
-void mallocing_heredoc(t_exc *exc)
+void	mallocing_heredoc(t_exc *exc)
 {
 	exc->process->total_hd = total_heredocs(exc->token);
 	if (exc->process->total_hd > 0)
 	{
 		exc->process->limiters = malloc(sizeof(char *) * \
 (exc->process->total_hd + 1));
-	exc->process->limiters[exc->process->total_hd] = NULL;
+		exc->process->limiters[exc->process->total_hd] = NULL;
 	}
 	if (g_signal != 0)
 	{

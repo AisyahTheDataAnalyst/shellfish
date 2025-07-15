@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 20:46:53 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:34:12 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include <fcntl.h> // open
 # include <stdlib.h> // getenv, malloc, free, exit, NULL
 # include <stdio.h> // printf, perror
-// # include <limits.h> // PATH_MAX
 # include <unistd.h> // getcwd
 # include <stdbool.h> // bool
 # include <signal.h> //signal, kill
 # include <sys/wait.h> // wait, waitpid
 # include <readline/readline.h>
 # include <readline/history.h> // add_history
+# include "minishell.h"
 # include "libft.h"
 # include "token.h"
 # include "ast.h"
@@ -30,18 +30,13 @@
 // => readline, rl_clear_history
 // => rl_on_new_line, rl_replace_line, rl_redisplay
 
-typedef enum token_type t_type;
+extern int				g_signal;
+typedef enum token_type	t_type;
 
 # define READ 0
 # define WRITE 1
 # define PERMISSION_DENIED 126
 # define CMD_NOT_FOUND 127
-
-extern int	g_signal;
-
-// ---------------------------------------------
-//				EXECUTION'S STRUCTS
-// ---------------------------------------------
 
 typedef struct s_process
 {
@@ -77,13 +72,6 @@ typedef struct s_exc
 	int			exit_code;
 }	t_exc;
 
-// ---------------------------------------------
-// 
-//					EXECUTION's
-//					FUNCTIONS
-// 
-// ---------------------------------------------
-
 // ast_execution
 void	ast_execution(t_ast *ast, t_exc *exc);
 void	ast_pipe(t_ast *ast, t_exc *exc);
@@ -98,14 +86,9 @@ void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
 void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc);
 
-//fake_ast.c // delete this later
-t_ast	*create_ast_node(char **args, t_type type);
-void 	insert_left_node(t_ast *parent, char **args, t_type type);
-void	insert_right_node(t_ast *parent, char **args, t_type type);
-
 // built_ins
 void	built_ins(char **av, t_exc *exc);
-int 	is_bi(char **args);
+int		is_bi(char **args);
 void	ast_builtin(t_ast *ast, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);

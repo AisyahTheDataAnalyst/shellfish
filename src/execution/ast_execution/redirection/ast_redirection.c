@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:38:00 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/10 10:51:54 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:36:58 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ void	ast_redirection(t_ast *ast, t_exc *exc)
 	else if (ast->token->token_type == TOKEN_APPEND)
 		rd_append(ast, exc);
 }
-
