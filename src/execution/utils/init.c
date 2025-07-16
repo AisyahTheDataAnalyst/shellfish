@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 13:45:29 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:12:26 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_splitted_path(t_process *process)
 	process->splitted_path = malloc(sizeof(char *) * (split_count + 1));
 	if (!(process->splitted_path))
 	{
-		free_double_array(split);
+		free_array(split);
 		return ;
 	}
 	i = 0;
@@ -41,7 +41,7 @@ void	get_splitted_path(t_process *process)
 		i++;
 	}
 	process->splitted_path[i] = NULL;
-	free_double_array(split);
+	free_array(split);
 }
 
 void	envp_to_envparray(char **envp, t_list *exec)
@@ -78,16 +78,11 @@ int	total_heredocs(t_token *token)
 
 void	mallocing_heredoc(t_exc *exc)
 {
-	exc->process->total_hd = total_heredocs(exc->token);
+	exc->process->total_hd = total_heredocs(exc->data->token);
 	if (exc->process->total_hd > 0)
 	{
 		exc->process->limiters = malloc(sizeof(char *) * \
 (exc->process->total_hd + 1));
 		exc->process->limiters[exc->process->total_hd] = NULL;
-	}
-	if (g_signal != 0)
-	{
-		exc->exit_code = g_signal;
-		g_signal = 0;
 	}
 }

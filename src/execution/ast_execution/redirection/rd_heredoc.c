@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 12:37:57 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:31:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@ static bool	is_limiter(char *limiter, char *line);
 
 void	rd_heredoc(t_ast *ast, t_exc *exc)
 {
-	printf("entering heredoc\n");
+	printf("here in rd_heredoc\n");
 	exc->process->limiters[exc->process->limiter_index] = \
 ft_strdup(ast->token->basin_buff[0]);
 	exc->process->limiter_index++;
 	if (exc->process->limiter_index == exc->process->total_hd)
-	{
 		heredoc_process(exc);
-		free_double_array(exc->process->limiters);
-	}
 	ast_execution(ast->left, exc);
 }
 
@@ -39,10 +36,11 @@ static void	heredoc_process(t_exc *exc)
 	int		exit_status;
 	int		heredoc_fd;
 
+	printf("here in heredoc_process\n");
 	heredoc_fd = open("heredoc_fd", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (heredoc_fd == -1)
 	{
-		printf("Failed to open heredoc temp file\n");
+		printf("shellfish: heredoc_fd: Permission denied\n");
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -65,6 +63,7 @@ static void	start_heredoc(t_exc *exc, int heredoc_fd)
 	char	*final_limiter;
 	char	*line;
 
+	printf("in heredoc start\n");
 	signals_for_heredoc();
 	line = readline("\033[0;34m> \033[0m");
 	final_limiter = exc->process->limiters[exc->process->total_hd - 1];
@@ -79,8 +78,8 @@ exc->process->total_hd, exc->process);
 		line = readline("\033[0;34m> \033[0m");
 	}
 	free(line);
-	close(heredoc_fd);
-	free_double_array(exc->process->limiters);
+	// close(heredoc_fd);
+	free_array(exc->process->limiters);
 	exc->exit_code = EXIT_SUCCESS;
 	exit(exc->exit_code);
 }

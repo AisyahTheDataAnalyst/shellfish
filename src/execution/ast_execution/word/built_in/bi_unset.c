@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:26:11 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	unset_array(char **av, t_list *exec)
 	temp = NULL;
 	temp = unset_array_marking(av, exec);
 	count = mark_count(temp);
-	free_double_array(exec->envp_array);
+	free_array(exec->envp_array);
 	exec->envp_array = malloc(sizeof(char *) * (count + 1));
 	if (!exec->envp_array)
 		return ;
@@ -56,7 +56,7 @@ static void	unset_array(char **av, t_list *exec)
 		i++;
 	}
 	exec->envp_array[j] = NULL;
-	free_double_array(temp);
+	free_array(temp);
 }
 
 static char	**unset_array_marking(char **av, t_list *exec)

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 13:45:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:06:23 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	dup2_close_infile_outfile(t_exc *exc)
 		dup2(exc->process->outfile, STDOUT_FILENO);
 		close(exc->process->outfile);
 	}
+}
+
+void	close_infile_outfile_parent(t_exc *exc)
+{
+	if (exc->process->infile != -1)
+		close(exc->process->infile);
+	if (exc->process->outfile != -1)
+		close(exc->process->outfile);
 }
 
 void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc)
@@ -59,12 +67,4 @@ int	is_bi(char **args)
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		return (1);
 	return (0);
-}
-
-void	ast_builtin(t_ast *ast, t_exc *exc)
-{
-	dupping_stdin_stdout(exc);
-	dup2_close_infile_outfile(exc);
-	built_ins(ast->token->basin_buff, exc);
-	reset_stdin_stdout_unlink_heredocfd(exc);
 }

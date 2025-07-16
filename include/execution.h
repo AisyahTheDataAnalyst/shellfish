@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 12:34:12 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef enum token_type	t_type;
 
 # define READ 0
 # define WRITE 1
-# define PERMISSION_DENIED 126
+# define PERMISSION_DENIED 1
 # define CMD_NOT_FOUND 127
 
 typedef struct s_process
@@ -84,6 +84,7 @@ void	rd_out(t_ast *ast, t_exc *exc);
 void	ast_word(t_ast *ast, t_exc *exc);
 void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
+void	close_infile_outfile_parent(t_exc *exc);
 void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc);
 
 // built_ins
@@ -104,7 +105,7 @@ void	bi_unset(char **av, t_exc *exc);
 
 //utils
 	//free.c
-void	free_double_array(char **s);
+void	free_array(char **s);
 void	free_temp_list(t_list *temp_list);
 void	freeing(t_exc *exc);
 void	free_before_readline(t_exc *exc);
@@ -118,7 +119,7 @@ void	mallocing_heredoc(t_exc *exc);
 	//reset_signal.c
 void	signals_for_heredoc(void);
 void	reset_signals(void);
-void	reset_g_signal_code_limiter_index(t_exc *exc);
+void	reset_before_readline(t_exc *exc);
 
 	//signals.c
 void	handle_cntrl_c(int sig);

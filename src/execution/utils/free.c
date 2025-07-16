@@ -6,13 +6,13 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 13:44:43 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 11:33:30 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	free_double_array(char **s)
+void	free_array(char **s)
 {
 	int	i;
 
@@ -45,11 +45,11 @@ void	free_temp_list(t_list *temp_list)
 	}
 }
 
-// later after doing heredoc, need to free_double_array =**limiters instead
+// later after doing heredoc, need to free_array =**limiters instead
 void	freeing(t_exc *exc)
 {
-	free_double_array(exc->exec->envp_array);
-	free_double_array(exc->process->splitted_path);
+	free_array(exc->exec->envp_array);
+	free_array(exc->process->splitted_path);
 	free(exc->process);
 	free(exc->exec);
 	free(exc);
@@ -62,4 +62,8 @@ void	free_before_readline(t_exc *exc)
 		free_token_list(exc->data);
 	if (exc->data->root)
 		free_ast(exc->data);
+	if (exc->process->total_hd > 0)
+		free_array(exc->process->limiters);
+	else
+		free(exc->process->limiters);
 }

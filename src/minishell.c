@@ -14,6 +14,8 @@
 
 static void	int_main_init(t_exc *exc, char **envp);
 static void	int_main_loop(t_exc *exc);
+// static void print_ast(t_ast *node, int depth, char side);
+// static void print_tokens(t_token *head);
 
 int	g_signal = 0;
 
@@ -63,7 +65,7 @@ static void	int_main_loop(t_exc *exc)
 		exc->process->input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
 		if (!exc->process->input)
 		{
-			free(exc->process->input);
+			free (exc->process->input);
 			break ;
 		}
 		if (ft_strncmp(exc->process->input, "\n", 2) > 0)
@@ -72,10 +74,65 @@ static void	int_main_loop(t_exc *exc)
 			continue ;
 		if (!init_ast(&data))
 			continue ;
+		// print_tokens(data.token);
+		// print_ast(data.root, 20, '#');
 		mallocing_heredoc(exc);
 		ast_execution(data.root, exc);
-		reset_g_signal_code_limiter_index(exc);
+		reset_before_readline(exc);
 		free_before_readline(exc);
 		printf("exit_code : %d\n", exc->exit_code);
 	}
 }
+
+
+
+// static void print_ast(t_ast *node, int depth, char side)
+// {
+//     const char *arr[] = {
+//         "WORD",
+//         "HEREDOC",
+//         "APPEND",
+//         "REDIR_IN",
+//         "REDIR_OUT",
+//         "PIPE",
+//         NULL
+//     };
+
+//     if (!node) return;
+//     for (int i = 0; i < depth; i++) printf(CYAN"|  "COLOR);
+//     printf("%c[%s:%d]\n", side, arr[node->token->token_type], 
+// 				node->token->index);
+//     print_ast(node->left, depth + 1, 'L');
+//     print_ast(node->right, depth + 1, 'R');
+// }
+
+// static void print_tokens(t_token *head)
+// {
+//     const char *arr[7] = {
+//         "WORD",
+//         "HEREDOC",
+//         "APPEND",
+//         "REDIR_IN",
+//         "REDIR_OUT",
+//         "PIPE",
+//         NULL
+//     };
+
+//     printf("\n=== Token Linked List ===\n");
+//     while (head)
+//     {
+//         printf("Token index: %d\n", head->index);
+//         printf("Token type: %s\n", arr[head->token_type]);
+//         if (head->basin_buff)
+//         {
+//             printf("Token basin_buff content:\n");
+//             for (int i = 0; head->basin_buff[i]; i++)
+//                 printf("  - %s\n", head->basin_buff[i]);
+//         }
+//         else
+//             printf("Token basin_buff is NULL\n");
+//         printf("---------------------------\n");
+//         head = head->next;
+//     }
+//     printf("=== END OF LINKED LIST ===\n");
+// }

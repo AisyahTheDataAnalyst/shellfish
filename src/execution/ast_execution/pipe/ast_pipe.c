@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:40:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 12:36:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:26:40 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ast_pipe(t_ast *ast, t_exc *exc)
 	else if (left_pid == 0)
 		child_process_left(ast, exc, fd);
 	right_pid = fork();
-	if (left_pid < 0)
+	if (right_pid < 0)
 		perror("Fork failed\n");
 	else if (right_pid == 0)
 		child_process_right(ast, exc, fd);
@@ -49,10 +49,12 @@ void	ast_pipe(t_ast *ast, t_exc *exc)
 //put exit(0) at the end in case its a builtin or ast's NULL
 static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 {
+	printf("in child process left, with left is token type : %d which is %s\n", ast->left->token->token_type, ast->left->token->basin_buff[0]);
 	reset_signals();
 	close(fd[READ]);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
+	printf("next basin buff after pipe = %s\n", ast->left->token->basin_buff[0]);
 	ast_execution(ast->left, exc);
 	exit(exc->exit_code);
 }
@@ -61,6 +63,7 @@ static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 // only pipe has the power to do ast->right
 static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2])
 {
+	printf("in child process right, with right is token type : %d which is %s\n", ast->right->token->token_type, ast->right->token->basin_buff[0]);
 	reset_signals();
 	close(fd[WRITE]);
 	dup2(fd[READ], STDIN_FILENO);

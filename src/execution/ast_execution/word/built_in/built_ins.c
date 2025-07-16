@@ -6,11 +6,19 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/11 08:28:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:57:17 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+void	ast_builtin(t_ast *ast, t_exc *exc)
+{
+	dupping_stdin_stdout(exc);
+	dup2_close_infile_outfile(exc);
+	built_ins(ast->token->basin_buff, exc);
+	reset_stdin_stdout_unlink_heredocfd(exc);
+}
 
 void	built_ins(char **args, t_exc *exc)
 {

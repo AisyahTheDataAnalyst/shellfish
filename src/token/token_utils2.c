@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/15 12:06:04 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:29:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	free_token_list(t_data *data)
 		free(data->token);
 		data->token = temp;
 	}
-	data->token = NULL;
+	data->token = NULL; //not necessary
 }
 
 void	quote_copy(char *input, char *cleaned, int *i, int *j)

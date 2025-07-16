@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:18:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/13 16:15:24 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	export_add(char **av, t_exc *exc)
 	vars_size = ft_array_size(av);
 	temp = malloc(sizeof(char *) * (envp_size + vars_size + 1));
 	temp = building_envp_temp(av, exc, temp);
-	free_double_array(exc->exec->envp_array);
+	free_array(exc->exec->envp_array);
 	exc->exec->envp_array = temp;
 }
 
@@ -77,7 +77,6 @@ static int	invalid_export_var(char *var, t_exc *exc)
 		else
 		{
 			exc->exit_code = 1;
-			printf("me1\n");
 			break ;
 		}
 	}

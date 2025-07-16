@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ static void	cd_update_env(char *oldpwd, t_list *exec)
 		}
 	}
 	temp[i] = NULL;
-	free_double_array(exec->envp_array);
+	free_array(exec->envp_array);
 	exec->envp_array = temp;
 }

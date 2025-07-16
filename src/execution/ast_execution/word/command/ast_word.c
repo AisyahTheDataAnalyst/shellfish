@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 13:44:30 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void		ast_word(t_ast *ast, t_exc *exc);
 static void	access_and_execve(t_exc *exc, t_ast *ast);
 static char	*access_path(t_exc *exc, char **args);
 static void	pathname_error_handling(t_exc *exc, char *pathname, char **args);
-static void	fail_exit_word(char **args, t_exc *exc);
 
 void	ast_word(t_ast *ast, t_exc *exc)
 {
@@ -39,6 +38,7 @@ void	ast_word(t_ast *ast, t_exc *exc)
 			dup2_close_infile_outfile(exc);
 			access_and_execve(exc, ast);
 		}
+		close_infile_outfile_parent(exc);
 		waitpid(pid, &exit_status, 0);
 		if (WIFEXITED(exit_status) != 0)
 			exc->exit_code = WEXITSTATUS(exit_status);
@@ -54,14 +54,19 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 	reset_signals();
 	args = ast->token->basin_buff;
 	if (!args || !args[0] || !args[0][0])
-		fail_exit_word(args, exc);
+	{
+		free_array(args);
+		exc->exit_code = CMD_NOT_FOUND;
+		exit(exc->exit_code);
+	}
 	if (access(args[0], F_OK) != -1)
 		pathname = args[0];
 	else
 		pathname = access_path(exc, args);
 	pathname_error_handling(exc, pathname, args);
 	execve(pathname, args, exc->exec->envp_array);
-	free_double_array(args);
+	perror(pathname);
+	free_array(args);
 	free(pathname);
 	exc->exit_code = CMD_NOT_FOUND;
 	exit(exc->exit_code);
@@ -100,17 +105,10 @@ static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 {
 	if (!pathname || !pathname[0])
 	{
-		free_double_array(args);
-		printf("%s: command not found", pathname);
+		printf("%s: command not found\n", args[0]);
+		free_array(args);
 		free(pathname);
 		exc->exit_code = CMD_NOT_FOUND;
 		exit(exc->exit_code);
 	}
-}
-
-static void	fail_exit_word(char **args, t_exc *exc)
-{
-	free_double_array(args);
-	exc->exit_code = CMD_NOT_FOUND;
-	exit(exc->exit_code);
 }

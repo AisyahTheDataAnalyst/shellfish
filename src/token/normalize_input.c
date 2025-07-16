@@ -14,7 +14,7 @@
 
 static int	syntax_error(char *input, char *cleaned, char c)
 {
-	printf("bash: syntax error near unexpected token `%c\'\n", c);
+	printf("shellfish: syntax error near unexpected token `%c\'\n", c);
 	free(cleaned);
 	free(input);
 	return (0);
