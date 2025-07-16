@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rd_others.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 09:16:04 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 11:17:47 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:22:52 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	rd_out(t_ast *ast, t_exc *exc)
 | O_TRUNC, 0644);
 	if (temp_fd == -1)
 	{
-		printf("shellfish: %s: Permission denied\n", \
+		printf("shellfish: %s: out denied\n", \
 ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
@@ -39,7 +39,7 @@ void	rd_in(t_ast *ast, t_exc *exc)
 	temp_fd = open(ast->token->basin_buff[0], O_RDONLY);
 	if (temp_fd == -1)
 	{
-		printf("shellfish: %s: Permission denied\n", \
+		printf("shellfish: %s: in denied\n", \
 ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
@@ -58,7 +58,7 @@ void	rd_append(t_ast *ast, t_exc *exc)
 | O_APPEND, 0644);
 	if (temp_fd == -1)
 	{
-		printf("shellfish: %s: Permission denied\n", \
+		printf("shellfish: %s: append denied\n", \
 ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
@@ -75,7 +75,7 @@ int	reset_cursor_heredocfd(int heredoc_fd, t_exc *exc)
 	heredoc_fd = open("heredoc_fd", O_RDONLY);
 	if (heredoc_fd == -1)
 	{
-		printf("shellfish: heredoc_fd: Permission denied\n");
+		printf("shellfish: heredoc_fd: heredoc denied\n");
 		exc->exit_code = PERMISSION_DENIED;
 		return (-1);
 	}
