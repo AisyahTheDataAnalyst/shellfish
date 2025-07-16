@@ -68,16 +68,15 @@ static void	int_main_loop(t_exc *exc)
 			free (exc->process->input);
 			break ;
 		}
-		if (ft_strncmp(exc->process->input, "\n", 2) > 0)
+		if (ft_strncmp(exc->process->input, "\n", 1) != 0)
 			add_history(exc->process->input);
 		if (!init_tokens(&data, &b_input, exc->process->input))
 			continue ;
 		if (!init_ast(&data))
 			continue ;
-		// print_tokens(data.token);
-		// print_ast(data.root, 20, '#');
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
+		//expansion	
 		ast_execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);

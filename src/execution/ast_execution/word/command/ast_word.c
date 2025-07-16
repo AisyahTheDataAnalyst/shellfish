@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 18:13:53 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,11 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 		exit(exc->exit_code);
 	}
 	if (access(args[0], F_OK) != -1)
-		pathname = args[0];
+		pathname = ft_strdup(args[0]);
 	else
 		pathname = access_path(exc, args);
 	pathname_error_handling(exc, pathname, args);
 	execve(pathname, args, exc->exec->envp_array);
-	perror(pathname);
 	free_array(args);
 	free(pathname);
 	exc->exit_code = CMD_NOT_FOUND;
