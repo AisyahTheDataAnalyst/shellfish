@@ -47,7 +47,7 @@ SRC_UTILS = utils
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
 RM = rm -rf
 
 # Source files

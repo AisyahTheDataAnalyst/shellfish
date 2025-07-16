@@ -77,6 +77,7 @@ static void	int_main_loop(t_exc *exc)
 		// print_tokens(data.token);
 		// print_ast(data.root, 20, '#');
 		mallocing_heredoc(exc);
+		combine_all_heredoc(data.root, exc);
 		ast_execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);

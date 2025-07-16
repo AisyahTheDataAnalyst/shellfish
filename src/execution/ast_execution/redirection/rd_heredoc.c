@@ -6,28 +6,33 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 11:31:29 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:46:09 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void		rd_heredoc(t_ast *ast, t_exc *exc);
+void	combine_all_heredoc(t_ast *ast, t_exc *exc);
 static void	heredoc_process(t_exc *exc);
 static void	start_heredoc(t_exc *exc, int heredoc_fd);
 static char	*multiple_heredocs(char *final_limiter, char *line, \
 int total_hd, t_process *process);
 static bool	is_limiter(char *limiter, char *line);
 
-void	rd_heredoc(t_ast *ast, t_exc *exc)
+void	combine_all_heredoc(t_ast *ast, t_exc *exc)
 {
-	printf("here in rd_heredoc\n");
-	exc->process->limiters[exc->process->limiter_index] = \
+	if (!ast)
+		return ;
+	if (ast->token->token_type == TOKEN_HEREDOC)
+	{
+		exc->process->limiters[exc->process->limiter_index] = \
 ft_strdup(ast->token->basin_buff[0]);
-	exc->process->limiter_index++;
-	if (exc->process->limiter_index == exc->process->total_hd)
-		heredoc_process(exc);
-	ast_execution(ast->left, exc);
+		exc->process->limiter_index++;
+		if (exc->process->limiter_index == exc->process->total_hd)
+			heredoc_process(exc);
+	}
+	combine_all_heredoc(ast->left, exc);
+	combine_all_heredoc(ast->right, exc);
 }
 
 static void	heredoc_process(t_exc *exc)

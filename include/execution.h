@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:48:18 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef enum token_type	t_type;
 
 typedef struct s_process
 {
-	pid_t	last_pid;
 	char	**splitted_path;
 	int		infile;
 	int		outfile;
@@ -76,7 +75,7 @@ typedef struct s_exc
 void	ast_execution(t_ast *ast, t_exc *exc);
 void	ast_pipe(t_ast *ast, t_exc *exc);
 void	ast_redirection(t_ast *ast, t_exc *exc);
-void	rd_heredoc(t_ast *ast, t_exc *exc);
+void	combine_all_heredoc(t_ast *ast, t_exc *exc);
 int		reset_cursor_heredocfd(int heredoc_fd, t_exc *exc);
 void	rd_append(t_ast *ast, t_exc *exc);
 void	rd_in(t_ast *ast, t_exc *exc);
