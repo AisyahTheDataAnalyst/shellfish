@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 11:33:30 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:03:32 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ void	free_array(char **s)
 
 void	free_temp_list(t_list *temp_list)
 {
-	int		i;
 	t_list	*temp;
 	t_list	*node;
 
-	i = 0;
 	temp = temp_list;
 	while (temp)
 	{
