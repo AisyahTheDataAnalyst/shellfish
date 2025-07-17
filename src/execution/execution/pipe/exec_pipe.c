@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_pipe.c                                         :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 11:40:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 15:47:16 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/07/17 10:08:35 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void		ast_pipe(t_ast *ast, t_exc *exc);
+void		exec_pipe(t_ast *ast, t_exc *exc);
 static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2]);
 static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2]);
 static void	parent_process(t_exc *exc, int fd[2], pid_t left_pid, \
@@ -21,7 +21,7 @@ pid_t right_pid);
 // when passing the fd[2] to another function as a parameter,
 // should pass the whole array, not just a single element
 // this will pass int fd[2] array as a pointer
-void	ast_pipe(t_ast *ast, t_exc *exc)
+void	exec_pipe(t_ast *ast, t_exc *exc)
 {
 	int		fd[2];
 	pid_t	left_pid;
@@ -53,7 +53,7 @@ static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 	close(fd[READ]);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
-	ast_execution(ast->left, exc);
+	execution(ast->left, exc);
 	exit(exc->exit_code);
 }
 
@@ -65,7 +65,7 @@ static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2])
 	close(fd[WRITE]);
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);
-	ast_execution(ast->right, exc);
+	execution(ast->right, exc);
 	exit(exc->exit_code);
 }
 

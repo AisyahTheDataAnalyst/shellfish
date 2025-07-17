@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_redirection.c                                  :+:      :+:    :+:   */
+/*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 13:38:00 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 15:39:22 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/07/17 10:08:12 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/07/17 10:08:16 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 // coz in pipex, need to dup2 fd with stdout/stdin, so need int return
 // discuss with wendy about to put all the multiple files in separate ll or 
 // combine all in char **basin_buff - better
-void	ast_redirection(t_ast *ast, t_exc *exc)
+void	exec_redirection(t_ast *ast, t_exc *exc)
 {
 	if (ast->token->token_type == TOKEN_REDIRECT_IN)
 		rd_in(ast, exc);
 	else if (ast->token->token_type == TOKEN_HEREDOC)
-		ast_execution(ast->left, exc);
+		rd_heredoc(ast, exc);
 	else if (ast->token->token_type == TOKEN_REDIRECT_OUT)
 		rd_out(ast, exc);
 	else if (ast->token->token_type == TOKEN_APPEND)

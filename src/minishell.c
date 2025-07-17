@@ -77,14 +77,12 @@ static void	int_main_loop(t_exc *exc)
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
 		//expansion	
-		ast_execution(data.root, exc);
+		execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);
 		printf("exit_code : %d\n", exc->exit_code);
 	}
 }
-
-
 
 // static void print_ast(t_ast *node, int depth, char side)
 // {

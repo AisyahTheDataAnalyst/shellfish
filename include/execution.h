@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 15:48:18 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 10:08:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_process
 	int		limiter_index;
 	int		total_hd;
 	bool	pipe_flag;
+	int		heredoc_fd;
 	char	*input;
 }	t_process;
 
@@ -71,16 +72,17 @@ typedef struct s_exc
 	int			exit_code;
 }	t_exc;
 
-// ast_execution
-void	ast_execution(t_ast *ast, t_exc *exc);
-void	ast_pipe(t_ast *ast, t_exc *exc);
-void	ast_redirection(t_ast *ast, t_exc *exc);
+// execution
+void	execution(t_ast *ast, t_exc *exc);
+void	exec_pipe(t_ast *ast, t_exc *exc);
+void	exec_redirection(t_ast *ast, t_exc *exc);
 void	combine_all_heredoc(t_ast *ast, t_exc *exc);
-int		reset_cursor_heredocfd(int heredoc_fd, t_exc *exc);
+int		reset_cursor_heredocfd(t_exc *exc);
 void	rd_append(t_ast *ast, t_exc *exc);
 void	rd_in(t_ast *ast, t_exc *exc);
 void	rd_out(t_ast *ast, t_exc *exc);
-void	ast_word(t_ast *ast, t_exc *exc);
+void	rd_heredoc(t_ast *ast, t_exc *exc);
+void	exec_word(t_ast *ast, t_exc *exc);
 void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
 void	close_infile_outfile_parent(t_exc *exc);
@@ -89,7 +91,7 @@ void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc);
 // built_ins
 void	built_ins(char **av, t_exc *exc);
 int		is_bi(char **args);
-void	ast_builtin(t_ast *ast, t_exc *exc);
+void	exec_builtin(t_ast *ast, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
 void	bi_env(t_exc *exc);

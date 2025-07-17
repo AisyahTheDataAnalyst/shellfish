@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_word.c                                         :+:      :+:    :+:   */
+/*   exec_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 09:22:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 08:38:46 by aimokhta         ###   ########.fr       */
+/*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
+/*   Updated: 2025/07/17 10:08:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void		ast_word(t_ast *ast, t_exc *exc);
+void		exec_word(t_ast *ast, t_exc *exc);
 static void	access_and_execve(t_exc *exc, t_ast *ast);
 static char	*access_path(t_exc *exc, char **args);
 static void	pathname_error_handling(t_exc *exc, char *pathname, char **args);
 
-void	ast_word(t_ast *ast, t_exc *exc)
+void	exec_word(t_ast *ast, t_exc *exc)
 {
 	pid_t	pid;
 	int		exit_status;
 
 	if (is_bi(ast->token->basin_buff) == 1)
-		ast_builtin(ast, exc);
+		exec_builtin(ast, exc);
 	else
 	{
 		pid = fork();

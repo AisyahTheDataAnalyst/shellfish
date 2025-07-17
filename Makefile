@@ -37,7 +37,7 @@ INC = -I$(INC_DIR)
 
 # Directories of Execution
 SRC_EXEC = execution
-SRC_AST_EXEC = ast_execution
+SRC_AST_EXEC = execution
 SRC_PIPE = pipe
 SRC_RD = redirection
 SRC_WD = word
@@ -47,7 +47,7 @@ SRC_UTILS = utils
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address 
 RM = rm -rf
 
 # Source files
@@ -69,9 +69,9 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		token_word.c \
 		tokenization.c) \
 		$(addprefix $(SRC_EXEC)/, \
-		$(SRC_AST_EXEC)/$(SRC_PIPE)/ast_pipe.c \
-		$(SRC_AST_EXEC)/$(SRC_RD)/ast_redirection.c \
-		$(SRC_AST_EXEC)/$(SRC_RD)/rd_heredoc.c \
+		$(SRC_AST_EXEC)/$(SRC_PIPE)/exec_pipe.c \
+		$(SRC_AST_EXEC)/$(SRC_RD)/exec_redirection.c \
+		$(SRC_AST_EXEC)/$(SRC_RD)/combine_all_heredoc.c \
 		$(SRC_AST_EXEC)/$(SRC_RD)/rd_others.c \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_cd.c \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_echo.c \
@@ -83,9 +83,9 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_pwd.c \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_unset.c \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_BI)/built_ins.c \
-		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_CMD)/ast_word.c \
+		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_CMD)/exec_word.c \
 		$(SRC_AST_EXEC)/$(SRC_WD)/$(SRC_CMD)/word_utils.c \
-		$(SRC_AST_EXEC)/ast_execution.c \
+		$(SRC_AST_EXEC)/execution.c \
 		$(SRC_UTILS)/free.c \
 		$(SRC_UTILS)/init.c \
 		$(SRC_UTILS)/reset_signal.c \

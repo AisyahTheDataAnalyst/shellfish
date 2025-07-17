@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rd_heredoc.c                                       :+:      :+:    :+:   */
+/*   combine_all_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 18:17:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 10:17:30 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	combine_all_heredoc(t_ast *ast, t_exc *exc);
+void		combine_all_heredoc(t_ast *ast, t_exc *exc);
 static void	heredoc_process(t_exc *exc);
-static void	start_heredoc(t_exc *exc, int heredoc_fd);
+static void	start_heredoc(t_exc *exc);
 static char	*multiple_heredocs(char *final_limiter, char *line, \
 int total_hd, t_process *process);
 static bool	is_limiter(char *limiter, char *line);
@@ -39,12 +39,12 @@ static void	heredoc_process(t_exc *exc)
 {
 	pid_t	pid;
 	int		exit_status;
-	int		heredoc_fd;
 
-	heredoc_fd = open("heredoc_fd", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (heredoc_fd == -1)
+	exc->process->heredoc_fd = open("heredoc_fd", \
+O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (exc->process->heredoc_fd == -1)
 	{
-		printf("shellfish: heredoc_fd: Permission denied\n");
+		printf("shellfish: heredoc_fd: permission denied\n");
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -52,17 +52,17 @@ static void	heredoc_process(t_exc *exc)
 	if (pid < 0)
 		perror("Heredoc's fork failed");
 	if (pid == 0)
-		start_heredoc(exc, heredoc_fd);
+		start_heredoc(exc);
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status) != 0)
 		exc->exit_code = WEXITSTATUS(exit_status);
 	reset_signals();
-	// heredoc_fd = expand_heredoc(heredoc_fd);
-	heredoc_fd = reset_cursor_heredocfd(heredoc_fd, exc);
-	exc->process->infile = heredoc_fd;
+	// exc->process->heredoc_fd = expand_heredoc(exc->process->heredoc_fd);
+	exc->process->heredoc_fd = reset_cursor_heredocfd(exc);
+	exc->process->infile = exc->process->heredoc_fd;
 }
 
-static void	start_heredoc(t_exc *exc, int heredoc_fd)
+static void	start_heredoc(t_exc *exc)
 {
 	char	*final_limiter;
 	char	*line;
@@ -75,13 +75,13 @@ static void	start_heredoc(t_exc *exc, int heredoc_fd)
 exc->process->total_hd, exc->process);
 	while (line && is_limiter(final_limiter, line) == false)
 	{
-		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "\n", 1);
+		write(exc->process->heredoc_fd, line, ft_strlen(line));
+		write(exc->process->heredoc_fd, "\n", 1);
 		free(line);
 		line = readline("\033[0;34m> \033[0m");
 	}
 	free(line);
-	// close(heredoc_fd);
+	close(exc->process->heredoc_fd);
 	free_array(exc->process->limiters);
 	exc->exit_code = EXIT_SUCCESS;
 	exit(exc->exit_code);

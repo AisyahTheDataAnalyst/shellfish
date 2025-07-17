@@ -46,7 +46,8 @@ static int	redirect_check(char **basin, int i)
 		|| next_type == TOKEN_REDIRECT_IN
 		|| next_type == TOKEN_REDIRECT_OUT || next_type == TOKEN_PIPE)
 	{
-		printf("shellfish: syntax error near unexpected token `%s'\n", basin[i]);
+		printf("shellfish: ");
+		printf("syntax error near unexpected token `%s'\n", basin[i]);
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:06:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:51:12 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	dup2_close_infile_outfile(t_exc *exc)
 	{
 		dup2(exc->process->infile, STDIN_FILENO);
 		close(exc->process->infile);
+		if (exc->process->infile != exc->process->heredoc_fd)
+			close(exc->process->heredoc_fd);
 	}
 	if (exc->process->outfile != -1)
 	{
@@ -35,7 +37,11 @@ void	dup2_close_infile_outfile(t_exc *exc)
 void	close_infile_outfile_parent(t_exc *exc)
 {
 	if (exc->process->infile != -1)
+	{
 		close(exc->process->infile);
+		if (exc->process->infile != exc->process->heredoc_fd)
+			close(exc->process->heredoc_fd);
+	}
 	if (exc->process->outfile != -1)
 		close(exc->process->outfile);
 }
