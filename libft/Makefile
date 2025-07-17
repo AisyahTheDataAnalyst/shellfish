@@ -3,12 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+         #
+#    By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 12:24:26 by aimokhta          #+#    #+#              #
-#    Updated: 2025/05/22 20:38:44 by aimokhta         ###   ########.fr        #
+#    Updated: 2025/07/17 15:03:22 by yelu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# Colors
+RED		=	\033[1;31m
+GREEN	=	\033[1;32m
+YELLOW	=	\033[1;33m
+BLUE	=	\033[1;34m
+PINK 	=	\033[35m
+RESET	=	\033[0m
 
 NAME =	libft.a
 
@@ -73,16 +81,18 @@ FLAG	= -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(LIBC) $(NAME) $(OBJ)
+	@$(LIBC) $(NAME) $(OBJ)
+	@echo "$(CLEAR_LINE)"
 
 %.o: %.c
-	$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAG) -c $< -o $@
+	@printf "$(YELLOW)Compiling\t%-33.33s\r$(RESET)" $@
 # $@ (the target), $< (the first prerequisite).
 # Stick to $() unless theres a specific reason to use ${}. It works in most cases without issues.
 # Use ${} only if you’re combining variables with text directly (ex: echo ${VAR}world ) || referencing shell-specific variables like (ex: echo ${PATH}) or ${HOME}
 
 bonus: $(NAME) $(OBJ_B)
-	$(LIBC) $(NAME) $(OBJ_B)
+	@$(LIBC) $(NAME) $(OBJ_B)
 
 fclean: clean
 	$(RM) $(NAME)
