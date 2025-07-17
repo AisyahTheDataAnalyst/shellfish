@@ -82,7 +82,7 @@ int	normalize_input(t_input_info *data)
 	int		len;
 
 	len = strlen(data->input);
-	cleaned_input = malloc(len * 2 + 1);
+	cleaned_input = malloc(len * 3 + 1);
 	if (!cleaned_input)
 	{
 		ft_putstr_fd("Input allocation failed", 2);

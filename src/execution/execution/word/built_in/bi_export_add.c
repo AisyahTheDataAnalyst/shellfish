@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:18:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:54:11 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void			export_add(char **av, t_exc *exc);
 static char		**building_envp_temp(char **vars, t_exc *exc, char **temp);
 static int		invalid_export_var(char *var, t_exc *exc);
 static int		already_existed_var(char *var, char **temp, int i);
-static void		invalid_export_var_helper(char *var, int i, t_exc *exc);
 
 //you can do this aisyah!
 void	export_add(char **av, t_exc *exc)
@@ -80,24 +79,15 @@ static int	invalid_export_var(char *var, t_exc *exc)
 			break ;
 		}
 	}
-	invalid_export_var_helper(var, i, exc);
 	if (exc->exit_code == 1)
 	{
-		printf("export: not a valid identifier: %s\n", var);
+		printf("shellfish: export: \'%s\': not a valid identifier\n", var);
 		return (1);
 	}
 	return (0);
 }
 
-static void	invalid_export_var_helper(char *var, int i, t_exc *exc)
-{
-	if (var[i] && var[i + 1])
-	{
-		if (var[i] == '=' && var[i + 1] == '=')
-			exc->exit_code = 1;
-	}
-}
-
+// buat dia return -1 because if it want to return index, it must return positive numbers
 static int	already_existed_var(char *var, char **temp, int i)
 {
 	int		j;

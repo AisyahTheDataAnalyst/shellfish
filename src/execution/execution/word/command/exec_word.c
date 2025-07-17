@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 10:08:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:42:07 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 	char	**args;
 	char	*pathname;
 
-	reset_signals();
+	// reset_signals();
 	args = ast->token->basin_buff;
 	if (!args || !args[0] || !args[0][0])
 	{
@@ -104,7 +104,7 @@ static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 {
 	if (!pathname || !pathname[0])
 	{
-		printf("%s: command not found\n", args[0]);
+		printf("shellfish: command not found: %s\n", args[0]);
 		free_array(args);
 		free(pathname);
 		exc->exit_code = CMD_NOT_FOUND;

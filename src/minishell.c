@@ -46,6 +46,7 @@ static void	int_main_init(t_exc *exc, char **envp)
 	ft_bzero(exc->process, sizeof(t_process));
 	exc->process->infile = -1;
 	exc->process->outfile = -1;
+	exc->process->heredoc_fd = -1;
 	exc->process->dupped_stdin = -1;
 	exc->process->dupped_stdout = -1;
 	exc->process->limiters = NULL;
@@ -68,7 +69,7 @@ static void	int_main_loop(t_exc *exc)
 			free (exc->process->input);
 			break ;
 		}
-		if (ft_strncmp(exc->process->input, "\n", 1) != 0)
+		if (ft_strncmp(exc->process->input, "", 1) != 0)
 			add_history(exc->process->input);
 		if (!init_tokens(&data, &b_input, exc->process->input))
 			continue ;

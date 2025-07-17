@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 11:33:30 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:09:39 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ void	free_array(char **s)
 
 void	free_temp_list(t_list *temp_list)
 {
-	int		i;
 	t_list	*temp;
 	t_list	*node;
 
-	i = 0;
 	temp = temp_list;
 	while (temp)
 	{
@@ -64,6 +62,4 @@ void	free_before_readline(t_exc *exc)
 		free_ast(exc->data);
 	if (exc->process->total_hd > 0)
 		free_array(exc->process->limiters);
-	else
-		free(exc->process->limiters);
 }

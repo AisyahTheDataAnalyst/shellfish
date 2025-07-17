@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 10:17:30 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:58:34 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ O_RDWR | O_CREAT | O_TRUNC, 0644);
 		perror("Heredoc's fork failed");
 	if (pid == 0)
 		start_heredoc(exc);
+	close(exc->process->heredoc_fd);
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status) != 0)
 		exc->exit_code = WEXITSTATUS(exit_status);
-	reset_signals();
-	// exc->process->heredoc_fd = expand_heredoc(exc->process->heredoc_fd);
+	// reset_signals();
+	// expand_heredoc(exc);
 	exc->process->heredoc_fd = reset_cursor_heredocfd(exc);
 	exc->process->infile = exc->process->heredoc_fd;
 }

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 10:08:35 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:41:20 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 //put exit(0) at the end in case its a builtin or ast's NULL
 static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 {
-	reset_signals();
 	close(fd[READ]);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);
@@ -61,7 +60,6 @@ static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 // only pipe has the power to do ast->right
 static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2])
 {
-	reset_signals();
 	close(fd[WRITE]);
 	dup2(fd[READ], STDIN_FILENO);
 	close(fd[READ]);

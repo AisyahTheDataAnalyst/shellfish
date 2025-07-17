@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/15 18:29:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/17 10:58:30 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_tokens(t_data *data, t_input_info *b_token, char *input)
 	if (!input)
 		exit(1);
 	init_data(b_token, data);
-	b_token->input = ft_strdup(input);
+	b_token->input = ft_strdup(input); // handle ignore everything else starting # (this is a comment in CLI)
 	if (b_token->input)
 		free(input);
 	if (!quote_check(b_token))
