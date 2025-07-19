@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 13:42:07 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/19 23:22:02 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 	args = ast->token->basin_buff;
 	if (!args || !args[0] || !args[0][0])
 	{
-		free_array(args);
+		free_before_readline(exc);
 		exc->exit_code = CMD_NOT_FOUND;
 		exit(exc->exit_code);
 	}
@@ -65,7 +65,7 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 		pathname = access_path(exc, args);
 	pathname_error_handling(exc, pathname, args);
 	execve(pathname, args, exc->exec->envp_array);
-	free_array(args);
+	free_before_readline(exc);
 	free(pathname);
 	exc->exit_code = CMD_NOT_FOUND;
 	exit(exc->exit_code);
@@ -105,7 +105,7 @@ static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 	if (!pathname || !pathname[0])
 	{
 		printf("shellfish: command not found: %s\n", args[0]);
-		free_array(args);
+		free_before_readline(exc);
 		free(pathname);
 		exc->exit_code = CMD_NOT_FOUND;
 		exit(exc->exit_code);

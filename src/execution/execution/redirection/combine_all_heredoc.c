@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 13:58:34 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/19 23:21:15 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ exc->process->total_hd, exc->process);
 	}
 	free(line);
 	close(exc->process->heredoc_fd);
-	free_array(exc->process->limiters);
+	free_before_readline(exc);
 	exc->exit_code = EXIT_SUCCESS;
 	exit(exc->exit_code);
 }

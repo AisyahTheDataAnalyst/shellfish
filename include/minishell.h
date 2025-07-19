@@ -43,6 +43,7 @@ typedef struct s_data
 {
 	t_token	*token;
 	t_ast	*root;
+	char	*input;
 }	t_data;
 
 #endif

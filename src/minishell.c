@@ -63,15 +63,12 @@ static void	int_main_loop(t_exc *exc)
 	exc->data = &data;
 	while (1)
 	{
-		exc->process->input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-		if (!exc->process->input)
-		{
-			free (exc->process->input);
+		data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+		if (!data.input)
 			break ;
-		}
-		if (ft_strncmp(exc->process->input, "", 1) != 0)
-			add_history(exc->process->input);
-		if (!init_tokens(&data, &b_input, exc->process->input))
+		if (ft_strncmp(data.input, "", 1) != 0)
+			add_history(data.input);
+		if (!init_tokens(&data, &b_input, data.input))
 			continue ;
 		if (!init_ast(&data))
 			continue ;
