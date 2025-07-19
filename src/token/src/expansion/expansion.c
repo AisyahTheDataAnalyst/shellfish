@@ -1,10 +1,9 @@
 # include "../include/minishell.h"
 
-void parameter_expansion(char **str, char **env);
+void parameter_expansion(char *str, int *j, char quote, char **env);
 char *value_expansion(char *param, char **env);
 void get_value(char **param, char **env, char **result);
-void handle_quote(char *str, int *j, char quote, char **env);
-//bool check_need_expansion(char *str);
+void handle_quote(char *str, char **env);
 
 void expand_tokens(t_token *token, char **env)
 {
@@ -13,12 +12,12 @@ void expand_tokens(t_token *token, char **env)
 		int i = 0;
         while (token->basin_buff && token->basin_buff[i])
         {
-			//check single/double quote- need to expand or not
-			//if (check_need_expansion(token->basin_buff[i]) == 1)
-			parameter_expansion(&token->basin_buff[i], env);
-				//handle exit code
-				//tilde epansion(optional)
-				//quote_removal
+			// check single/double quote- need to expand or not
+            handle_quote(&token->basin_buff[i], env);
+            // parameter_expansion(&token->basin_buff[i], env);
+			// handle exit code
+			// tilde epansion(optional)
+			// quote_removal
 			printf("token[%d][%d]: %s\n", token->index, i, token->basin_buff[i]);
             i++;
         }
@@ -26,10 +25,86 @@ void expand_tokens(t_token *token, char **env)
     }
 }
 
-// if see double quote - need expand (return 1)
-// if see single quote - no need expand (return 0)
-// check to see if the quote is close
-void parameter_expansion(char **str, char **env)
+void handle_quote(char *str, char **env)
+{
+    int i;
+
+    i = 0;
+    //search for double quote - expand
+    if (str[i] == '"')
+    {
+        // skip the first double quote
+        i++;
+        //do expansion on the string between double quote
+        while(str[i] != '"')
+        {
+            if (str[i + 1] == '$')
+                parameter_expansion(str, &i, &str[i], env);
+            else
+                append_token();
+            i++;
+        }
+        //skip the second double quote
+        i++;
+    }
+    //search for single quote - not expand
+    else if (str[i] == '\'')
+    {
+        //skip the first single quote
+        i++;
+        while(str[i] != '\'')
+            append_token();
+        //skip the second single quote
+        i++;
+    }
+    //if starts with $
+    else if (str[i] == '$')
+        parameter_expansion();
+    else
+        append_token();
+}
+
+void parameter_expansion(char *str, int *j, char quote, char **env)
+{
+    int start;
+    char *param;
+    char *result;
+
+    start = 0;
+    param = NULL;
+    result = NULL;
+    while ((str)[*j] == quote || (str)[(*j)] == '\0' || (str)[(*j)] == '$')
+    {
+        if ((str)[(*j)] == '$')
+        {
+            printf("Before ++(*j): %d\n", (*j));
+            start = ++(*j);
+            printf("start: %d\n", start);
+            //printf("isalpha: %d\n", ft_isalpha(str[*j]));
+            // check if is a valid starting char (must be alpha or _ only)
+            if (!ft_isalpha((str)[(*j)]) && !((str)[(*j)] == '_'))
+            {
+                ft_putstr_fd("not a valid identifier\n", 2);
+                exit(1);
+            }
+            // the following char can be alpha, number or _
+            while (ft_isalnum((str)[(*j)]))
+            {
+                //|| (str)[(*j)] != '\0'
+                (*j)++;
+            }
+            printf("start: %d, j = %d\n", start, *j);
+            param = ft_substr((str), start, (*j) - start);
+            //printf("param before expansion: %s\n", param);
+            get_value(&param, env, &result);
+            printf("str[%d]: %c\n", *j, str[*j]);
+        }
+        else
+            (*j)++;
+    }
+}
+
+void parameter_expansion_first_try(char **str, char **env)
 {
     char *param;
 	char *result;
@@ -101,43 +176,6 @@ void parameter_expansion(char **str, char **env)
 	}
 }
 
-void handle_quote(char *str, int *j, char quote, char **env)
-{
-	int start;
-	char *param;
-	char *result;
-
-	start = 0;
-	param = NULL;
-	result = NULL;
-	while ((str)[*j] == quote || (str)[(*j)] == '\0' || (str)[(*j)] == '$')
-	{
-		if ((str)[(*j)] == '$')
-		{
-			printf("Before ++(*j): %d\n", (*j));
-			start = ++(*j);
-			printf("start: %d\n", start);
-			//printf("isalpha: %d\n", ft_isalpha(str[*j]));
-			if (!ft_isalpha((str)[(*j)]) && !((str)[(*j)] == '_'))
-			{
-				ft_putstr_fd("not a valid identifier\n", 2);
-				exit(1);
-			}
-			while (ft_isalnum((str)[(*j)]))
-			{
-				//|| (str)[(*j)] != '\0'
-				(*j)++;
-			}
-			printf("start: %d, j = %d\n", start, *j);
-			param = ft_substr((str), start, (*j) - start);
-			//printf("param before expansion: %s\n", param);
-			get_value(&param, env, &result);
-			printf("str[%d]: %c\n", *j, str[*j]);
-		}
-		else
-			(*j)++;
-	}
-}
 
 void get_value(char **param, char **env, char **result)
 {
