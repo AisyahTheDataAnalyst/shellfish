@@ -1,5 +1,7 @@
 # include "../include/minishell.h"
 
+//TODO: solve memoery leak
+//TODO: handle exit code (get from the execution struct)
 char *parameter_expansion(char *str, char **env);
 char *value_expansion(char *param, char **env);
 void get_value(char **param, char **env, char **result);
