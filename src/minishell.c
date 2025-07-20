@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("No such files or directory", 2);
 		return (1);
 	}
-	// exc = malloc(sizeof(t_exc));
 	int_main_init(&exc, env);
 	int_main_loop(&exc);
 	freeing(&exc);
