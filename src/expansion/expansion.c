@@ -9,7 +9,7 @@ void handle_quote(char **str, char **env);
 char *append_results(char *result, char *str_to_append);
 bool is_valid_param_char(char letter);
 
-void expand_tokens(t_token *token, char **env)
+void expand_tokens(t_token *token, t_exc *exc)
 {
 	while (token)
 	{
@@ -17,7 +17,7 @@ void expand_tokens(t_token *token, char **env)
         while (token->basin_buff && token->basin_buff[i])
         {
 			// check single/double quote- need to expand or not
-            handle_quote(&token->basin_buff[i], env);
+            handle_quote(&token->basin_buff[i], exc->exec->envp_array);
             // parameter_expansion(&token->basin_buff[i], env);
 			// handle exit code
 			// tilde epansion(optional)

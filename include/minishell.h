@@ -6,7 +6,7 @@
 /*   By: welow <welow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 00:07:05 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/20 19:15:51 by welow            ###   ########.fr       */
+/*   Updated: 2025/07/20 19:22:36 by welow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include "token.h"
 # include "ast.h"
 # include "execution.h"
+# include "expansion.h"
 
 //minishell
 typedef struct s_data

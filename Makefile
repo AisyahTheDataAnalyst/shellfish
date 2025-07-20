@@ -44,6 +44,7 @@ SRC_WD = word
 SRC_BI = built_in
 SRC_CMD = command
 SRC_UTILS = utils
+SRC_EXPANSION = expansion
 
 # Compiler & flags
 CC = cc
@@ -68,6 +69,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		token_utils2.c \
 		token_word.c \
 		tokenization.c) \
+		$(addprefix $(SRC_EXPANSION)/, \
+		expansion.c) \
 		$(addprefix $(SRC_EXECUTION)/, \
 		$(SRC_EXEC)/$(SRC_PIPE)/exec_pipe.c \
 		$(SRC_EXEC)/$(SRC_RD)/exec_redirection.c \

@@ -73,7 +73,7 @@ static void	int_main_loop(t_exc *exc)
 			continue ;
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
-		//expansion
+		expand_tokens(data.token, exc);
 		execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);
