@@ -21,7 +21,7 @@ int	g_signal = 0;
 
 int	main(int argc, char **argv, char **env)
 {
-	t_exc	*exc;
+	t_exc	exc;
 
 	(void)argv;
 	if (argc != 1)
@@ -29,10 +29,10 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("No such files or directory", 2);
 		return (1);
 	}
-	exc = malloc(sizeof(t_exc));
-	int_main_init(exc, env);
-	int_main_loop(exc);
-	freeing(exc);
+	// exc = malloc(sizeof(t_exc));
+	int_main_init(&exc, env);
+	int_main_loop(&exc);
+	freeing(&exc);
 	printf("exit\n");
 	return (0);
 }
@@ -78,7 +78,7 @@ static void	int_main_loop(t_exc *exc)
 		execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);
-		printf("exit_code : %d\n", exc->exit_code);
+		// printf("exit_code : %d\n", exc->exit_code);
 	}
 }
 

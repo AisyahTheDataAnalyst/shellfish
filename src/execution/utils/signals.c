@@ -6,22 +6,41 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:22:52 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/20 14:14:53 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+// write newline -> to print out every ^C for every new prompt
+// rl_on_new_line() -> to create the next prompt
+// rl_replace_line("", 0) -> to empty thye next prompt
+// rl_redisplay() -> to display next prompt instantly waiting for input
 // signal Cntrl+C
+// void	handle_cntrl_c(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		g_signal = 130;
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		rl_redisplay();
+// 	}
+// }
+
 void	handle_cntrl_c(int sig)
 {
 	if (sig == SIGINT)
+	{
 		g_signal = 130;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
+
 
 // signal Cntrl+D
 // when in env -i, exit isnt on newline ???
@@ -37,6 +56,10 @@ void	handle_cntrl_c_heredoc(int sig)
 {
 	if (sig == SIGINT)
 		g_signal = 130;
+	write(STDOUT_FILENO, "\n", 5);
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
+	// rl_redisplay();
 	exit(g_signal);
 }
 

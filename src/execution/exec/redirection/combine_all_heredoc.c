@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/19 23:21:15 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/20 14:19:13 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ O_RDWR | O_CREAT | O_TRUNC, 0644);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		perror("Heredoc's fork failed");
@@ -78,6 +79,7 @@ exc->process->total_hd, exc->process);
 	{
 		write(exc->process->heredoc_fd, line, ft_strlen(line));
 		write(exc->process->heredoc_fd, "\n", 1);
+		// rl_replace_line("", 0);
 		free(line);
 		line = readline("\033[0;34m> \033[0m");
 	}

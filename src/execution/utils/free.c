@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 14:29:16 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:14:02 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	freeing(t_exc *exc)
 	free_array(exc->process->splitted_path);
 	free(exc->process);
 	free(exc->exec);
-	free(exc);
 	rl_clear_history();
 }
 

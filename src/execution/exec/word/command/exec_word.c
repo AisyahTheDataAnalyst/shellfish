@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/19 23:22:02 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:24:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		exec_builtin(ast, exc);
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		pid = fork();
 		dupping_stdin_stdout(exc);
 		if (pid < 0)
@@ -42,6 +43,8 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		waitpid(pid, &exit_status, 0);
 		if (WIFEXITED(exit_status) != 0)
 			exc->exit_code = WEXITSTATUS(exit_status);
+		if (WTERMSIG(exit_status) == SIGINT)
+			write(1, "\n", 1);
 		reset_stdin_stdout_unlink_heredocfd(exc);
 	}
 }
@@ -51,8 +54,8 @@ static void	access_and_execve(t_exc *exc, t_ast *ast)
 	char	**args;
 	char	*pathname;
 
-	// reset_signals();
 	args = ast->token->basin_buff;
+	reset_signals_child();
 	if (!args || !args[0] || !args[0][0])
 	{
 		free_before_readline(exc);

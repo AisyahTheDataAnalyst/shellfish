@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/19 23:08:43 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/20 11:30:46 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,13 @@ void	mallocing_heredoc(t_exc *exc);
 	//reset_signal.c
 void	signals_for_heredoc(void);
 void	reset_signals(void);
+void	reset_signals_child(void);
 void	reset_before_readline(t_exc *exc);
 
 	//signals.c
 void	handle_cntrl_c(int sig);
 void	handle_cntrl_d(int sig);
+void	handle_cntrl_c_child(int sig);
 void	handle_cntrl_c_heredoc(int sig);
 void	handle_cntrl_d_heredoc(int sig);
 
