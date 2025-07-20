@@ -80,8 +80,9 @@ int main(int argc, char **argv, char **env)
 				continue ;
 			print_tokens(data.token);
 			expand_tokens(data.token, env);
-			printf("\033[1;32m\nAFTER EXPANSION\n\033[0m");
+			printf("\033[1;32m\nAFTER EXPANSION\n");
 			print_tokens(data.token);
+			printf("\033[0m");
 			if (!init_ast(&data))
 				continue ;
 			if (data.token)
