@@ -8,6 +8,7 @@ void get_value(char **param, char **env, char **result);
 void handle_quote(char **str, char **env);
 char *append_results(char *result, char *str_to_append);
 bool is_valid_param_char(char letter);
+char *get_my_env(char *param, char **env);
 
 void expand_tokens(t_token *token, t_exc *exc)
 {
@@ -189,78 +190,6 @@ bool is_valid_param_char(char letter)
 	return(true);
 }
 
-//void parameter_expansion_first_try(char **str, char **env)
-//{
-//    char *param;
-//	char *result;
-//	int start;
-//	int j;
-//	bool expand;
-
-//	param = NULL;
-//	result = NULL;
-//	start = 0;
-//	j = 0;
-//	expand = false;
-//	while ((*str)[j] != '\0')
-//	{
-//		//printf("str[%d] = %c\n", j, (*str)[j]);
-//		if ((*str)[j] == '"' || (*str)[j] == '\'')
-//		{
-//			//if ((*str)[j] == '$')
-//			//{
-//			++j;
-//			printf("j = %d\n", j);
-//			//	handle_quote(*str, &j, (*str)[j], env);
-//			//}
-//			//else
-//			//handle_quote(*str, &j, (*str)[j], env);
-//		}
-//	// handle quote in str
-//	// create a new function
-//	// figure out how to handle both with quote or without quote
-//		//if ((*str)[j] == '"' || (*str)[j] == '\'' || (*str)[j] == '$')
-//		//{
-//		//	if ((*str)[j] == '$')
-//		//		handle_quote(*str, j, (*str)[j]);
-//		//	else
-//		//		handle_quote(*str, ++j, (*str)[j]);
-//		//}
-//		//while ((*str)[j] != '\0' && ((*str)[j] != quote))
-//		//{
-//		//	if ((*str)[j] == '$' && quote == '"' || quote == '$')
-//		//	{
-//		//		start = ++j;
-//		//		while (validEnvironVariableChar)
-//		//			++j;
-//		//		param = ft_substr((*str), start, j - start);
-//		//		get_value(param, env, &result);
-//		//	}
-//		//	++j;
-//		//}
-//	// end
-
-//		//if ((*str)[j] == '$')
-//		//{
-//		//	start = ++j;
-//		//	//printf("start: %d\n", start);
-//		//	while ((*str)[j] != '$' && (*str)[j] != '\0')
-//		//		j++;
-//		//	//printf("len: %d\n", param_len);
-//		//	param = ft_substr((*str), start, j - start);
-//		//	//printf("param before expansion: %s\n", param);
-//		//	get_value(param, env, &result);
-//		//}
-//		else
-//			j++;
-//	}
-//	if (result)
-//	{
-//		free((*str));  // Free the original string
-//		(*str) = result;  // Make a copy
-//	}
-//}
-
 void get_value(char **param, char **env, char **result)
 {
 	char *value;
@@ -294,11 +223,32 @@ char *value_expansion(char *param, char **env)
     {
 		if (ft_strncmp(param, env[i], ft_strlen(param)) == 0)
         {
-            value = getenv(param);
+            value = get_my_env(param, env);
 			printf("value: %s\n", value);
             return(value);
         }
         i++;
     }
     return (NULL);
+}
+
+char *get_my_env(char *param, char **env)
+{
+	char *value;
+	char *var;
+	int i;
+
+	i = 0;
+	while (env[i])
+	{
+		var = ft_strrchr(env[i], '=');
+		printf("var: %s\n", var);
+		if (ft_strncmp(env[i], param, ft_strlen(param)) == 0)
+		{
+			value = ft_strchr(env[i], '=') + 1;
+			return (value);
+		}
+		i++;
+	}
+	return(NULL);
 }
