@@ -38,7 +38,7 @@ static int	redirect_check(char **basin, int i)
 	{
 		ft_putstr_fd("shellfish: syntax error near unexpected token ", 2);
 		ft_putstr_fd(basin[i], 2);
-		printf("\n");
+		ft_putstr_fd("\n", 2);
 		return (0);
 	}
 	next_type = check_token_type(basin[i + 1]);
@@ -46,8 +46,9 @@ static int	redirect_check(char **basin, int i)
 		|| next_type == TOKEN_REDIRECT_IN
 		|| next_type == TOKEN_REDIRECT_OUT || next_type == TOKEN_PIPE)
 	{
-		printf("shellfish: ");
-		printf("syntax error near unexpected token `%s'\n", basin[i]);
+		ft_putstr_fd("shellfish: syntax error near unexpected token ", 2);
+		ft_putstr_fd(basin[i], 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
 	}
 	return (1);

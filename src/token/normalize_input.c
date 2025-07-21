@@ -14,7 +14,9 @@
 
 static int	syntax_error(char *input, char *cleaned, char c)
 {
-	printf("shellfish: syntax error near unexpected token `%c\'\n", c);
+	ft_putstr_fd("shellfish: syntax error near unexpected token ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\n", 2);
 	free(cleaned);
 	free(input);
 	return (0);

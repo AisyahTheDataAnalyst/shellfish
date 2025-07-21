@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/20 18:54:16 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:43:29 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	free_token_list(t_data *data)
 		free(data->token);
 		data->token = temp;
 	}
-	data->token = NULL; //not necessary
+	data->token = NULL;
 }
 
 void	quote_copy(char *input, char *cleaned, int *i, int *j)
