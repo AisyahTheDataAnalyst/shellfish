@@ -1,7 +1,7 @@
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 
 typedef struct s_exc	t_exc;
 
