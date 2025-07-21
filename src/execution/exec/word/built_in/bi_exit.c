@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/15 13:41:16 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:56:17 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ static void	exit_error_handling_1(char **av, t_exc *exc, int i, int j)
 				j++;
 			else
 			{
-				printf("exit\nshellfish: \
-exit: %s: numeric argument required\n", av[i]);
+				ft_putendl_fd("exit", 2);
+				ft_putstr_fd("shellfish: exit: ", 2);
+				ft_putstr_fd(av[i], 2);
+				ft_putendl_fd(": numeric argument required", 2);
 				exc->exit_code = 2;
 				if (exc->process->pipe_flag == false)
 				{
@@ -78,14 +80,17 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 	i = 1;
 	if (av[++i] != NULL)
 	{
-		printf("exit\nshellfish: exit: too many arguments\n");
+		ft_putendl_fd("exit", 2);
+		ft_putendl_fd("shellfish: exit: too many arguments", 2);
 		exc->exit_code = 1;
 		return ;
 	}
 	if (ft_strlen(av[1]) >= 20)
 	{
-		printf("exit\n");
-		printf("shellfish: exit: %s: numeric argument required\n", av[1]);
+		ft_putendl_fd("exit", 2);
+		ft_putstr_fd("shellfish: exit: ", 2);
+		ft_putstr_fd(av[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		exc->exit_code = 2;
 		if (exc->process->pipe_flag == false)
 		{
@@ -103,8 +108,10 @@ static void	exit_error_handling_3(char **av, t_exc *exc)
 	num = ft_ato_int128(av[1]);
 	if (num > 9223372036854775807)
 	{
-		printf("exit\nshellfish: \
-exit: %s: numeric argument required\n", av[1]);
+		ft_putendl_fd("exit", 2);
+		ft_putstr_fd("shellfish: exit: ", 2);
+		ft_putstr_fd(av[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		exc->exit_code = 2;
 		if (exc->process->pipe_flag == false)
 		{

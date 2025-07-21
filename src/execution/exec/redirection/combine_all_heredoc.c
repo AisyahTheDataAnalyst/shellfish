@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 09:48:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:03:12 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ void	combine_all_heredoc(t_ast *ast, t_exc *exc)
 ft_strdup(ast->token->basin_buff[0]);
 		exc->process->limiter_index++;
 		if (exc->process->limiter_index == exc->process->total_hd)
-		{
-			exc->exit_code = 0;
 			heredoc_process(exc);
-		}
 	}
 	combine_all_heredoc(ast->left, exc);
 	combine_all_heredoc(ast->right, exc);
@@ -47,7 +44,7 @@ static void	heredoc_process(t_exc *exc)
 O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (exc->process->heredoc_fd == -1)
 	{
-		printf("shellfish: heredoc_fd: permission denied\n");
+		ft_putendl_fd("shellfish: heredoc_fd: permission denied", 2);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -61,8 +58,6 @@ O_RDWR | O_CREAT | O_TRUNC, 0644);
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status) != 0)
 		exc->exit_code = WEXITSTATUS(exit_status);
-	// reset_signals();
-	// expand_heredoc(exc);
 	exc->process->heredoc_fd = reset_cursor_heredocfd(exc);
 	exc->process->infile = exc->process->heredoc_fd;
 }
@@ -82,7 +77,6 @@ exc->process->total_hd, exc->process);
 	{
 		write(exc->process->heredoc_fd, line, ft_strlen(line));
 		write(exc->process->heredoc_fd, "\n", 1);
-		// rl_replace_line("", 0);
 		free(line);
 		line = readline("\033[0;34m> \033[0m");
 	}

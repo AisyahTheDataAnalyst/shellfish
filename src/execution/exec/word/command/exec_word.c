@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/20 17:16:24 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:07:25 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void		exec_word(t_ast *ast, t_exc *exc);
 static void	access_and_execve(t_exc *exc, t_ast *ast);
 static char	*access_path(t_exc *exc, char **args);
 static void	pathname_error_handling(t_exc *exc, char *pathname, char **args);
+static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc);
 
 void	exec_word(t_ast *ast, t_exc *exc)
 {
 	pid_t	pid;
 	int		exit_status;
 
+	exit_status = 0;
 	if (is_bi(ast->token->basin_buff) == 1)
 		exec_builtin(ast, exc);
 	else
@@ -40,11 +42,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 			access_and_execve(exc, ast);
 		}
 		close_infile_outfile_parent(exc);
-		waitpid(pid, &exit_status, 0);
-		if (WIFEXITED(exit_status) != 0)
-			exc->exit_code = WEXITSTATUS(exit_status);
-		if (WTERMSIG(exit_status) == SIGINT)
-			write(1, "\n", 1);
+		waiting_exec_word(pid, exit_status, exc);
 		reset_stdin_stdout_unlink_heredocfd(exc);
 	}
 }
@@ -107,10 +105,37 @@ static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 {
 	if (!pathname || !pathname[0])
 	{
-		printf("shellfish: command not found: %s\n", args[0]);
+		ft_putstr_fd("shellfish: command not found: ", 2);
+		ft_putendl_fd(args[0], 2);
 		free_before_readline(exc);
 		free(pathname);
 		exc->exit_code = CMD_NOT_FOUND;
 		exit(exc->exit_code);
+	}
+}
+
+// WIFEXITED(status) 
+//	= returns true - child exited normally: using exit() / return from main()
+// WIFEXITED(status) 
+//	= returns false - child killed by signal (SIGINT / SIGSEGV)
+// WEXITSTATUS (used only when WIFEXITED(status) is true) 
+//	= the exit code the child returned 
+// WIFSIGNALED(status) 
+//	= returns true - child killed by smthg (SIGINT / kill() / SIGSEGV)
+// WTERMSIG(status) (used only if WIFSIGNALED(status) is true) 
+//	= what signal killed the child 
+// ( == 0) ---> false
+// ( != 0) ---> true
+// we need WIFSIGNALED coz we dont have signal_handler function (SIG_DFL)
+static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc)
+{
+	waitpid(pid, &exit_status, 0);
+	if (WIFEXITED(exit_status) != 0)
+		exc->exit_code = WEXITSTATUS(exit_status);
+	else if (WIFSIGNALED(exit_status) != 0)
+	{
+		exc->exit_code = 128 + WTERMSIG(exit_status);
+		if (WTERMSIG(exit_status) == SIGINT)
+			write(1, "\n", 1);
 	}
 }

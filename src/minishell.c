@@ -63,7 +63,6 @@ static void	int_main_loop(t_exc *exc)
 	while (1)
 	{
 		data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-		// exc->exit_code = 0;
 		if (!data.input)
 			break ;
 		if (ft_strncmp(data.input, "", 1) != 0)
