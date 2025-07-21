@@ -25,15 +25,15 @@ NAME = minishell
 
 # Directories
 SRC_DIR = src
-
-# Directories of Token
-SRC_TOKEN = token
-SRC_AST = ast
 OBJ_DIR = obj
 INC_DIR = include
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INC = -I$(INC_DIR)
+
+# Directories of Token & AST
+SRC_TOKEN = token
+SRC_AST = ast
 
 # Directories of Execution
 SRC_EXECUTION = execution
@@ -44,11 +44,13 @@ SRC_WD = word
 SRC_BI = built_in
 SRC_CMD = command
 SRC_UTILS = utils
+
+#Directories of Expansion
 SRC_EXPANSION = expansion
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address
 RM = rm -rf
 
 # Source files

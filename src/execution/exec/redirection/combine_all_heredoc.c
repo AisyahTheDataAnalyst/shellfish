@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/20 14:19:13 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 09:48:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	combine_all_heredoc(t_ast *ast, t_exc *exc)
 ft_strdup(ast->token->basin_buff[0]);
 		exc->process->limiter_index++;
 		if (exc->process->limiter_index == exc->process->total_hd)
+		{
+			exc->exit_code = 0;
 			heredoc_process(exc);
+		}
 	}
 	combine_all_heredoc(ast->left, exc);
 	combine_all_heredoc(ast->right, exc);
