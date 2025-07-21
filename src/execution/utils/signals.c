@@ -6,29 +6,17 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/20 14:14:53 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 11:34:33 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 // write newline -> to print out every ^C for every new prompt
-// rl_on_new_line() -> to create the next prompt
-// rl_replace_line("", 0) -> to empty thye next prompt
+// rl_on_new_line() -> to create the next prompt onto the next newline
+// rl_replace_line("", 0) -> to empty the next prompt
 // rl_redisplay() -> to display next prompt instantly waiting for input
 // signal Cntrl+C
-// void	handle_cntrl_c(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		g_signal = 130;
-// 		rl_replace_line("", 0);
-// 		rl_on_new_line();
-// 		write(STDOUT_FILENO, "\n", 1);
-// 		rl_redisplay();
-// 	}
-// }
-
 void	handle_cntrl_c(int sig)
 {
 	if (sig == SIGINT)
@@ -41,9 +29,8 @@ void	handle_cntrl_c(int sig)
 	}
 }
 
-
-// signal Cntrl+D
-// when in env -i, exit isnt on newline ???
+// signal Cntrl+D (EOF)
+// when in env -i, exit isnt on newline -- same with bash, so its good.
 void	handle_cntrl_d(int sig)
 {
 	(void)sig;
@@ -51,15 +38,11 @@ void	handle_cntrl_d(int sig)
 	exit(EXIT_SUCCESS);
 }
 
-//how to update this exit_code? using waitpid later okay in the child
 void	handle_cntrl_c_heredoc(int sig)
 {
 	if (sig == SIGINT)
 		g_signal = 130;
-	write(STDOUT_FILENO, "\n", 5);
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
-	// rl_redisplay();
+	write(STDOUT_FILENO, "\n", 1);
 	exit(g_signal);
 }
 

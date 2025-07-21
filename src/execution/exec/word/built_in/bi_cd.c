@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/16 09:19:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:45:49 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ void	bi_cd(char **av, t_exc *exc)
 	}
 	else if (av[2])
 	{
-		printf("shellfish: cd: too many arguments\n");
+		ft_putendl_fd("shellfish: cd: too many arguments", 2);
 		exc->exit_code = 1;
 	}
 	else if (chdir(av[1]) == 0)
 		cd_update_env(old_pwd, exc->exec);
 	else if (chdir(av[1]) == -1)
 	{
-		printf("shellfish: cd: %s: No such file or directory\n", av[1]);
+		ft_putstr_fd("shellfish: cd: ", 2);
+		ft_putstr_fd(av[1], 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		exc->exit_code = 1;
 	}
 }

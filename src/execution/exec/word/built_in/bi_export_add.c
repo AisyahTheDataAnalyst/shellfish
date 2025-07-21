@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:18:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/19 23:06:25 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:10:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	invalid_export_var(char *var, t_exc *exc)
 		}
 	}
 	if (invalid_export_var_helper(var, exc, invalid_var_flag) == 1)
-		return (1);	
+		return (1);
 	return (0);
 }
 
@@ -94,7 +94,9 @@ bool invalid_var_flag)
 	if (invalid_var_flag == true)
 	{
 		exc->exit_code = 1;
-		printf("shellfish: export: \'%s\': not a valid identifier\n", var);
+		ft_putstr_fd("shellfish: export: \'", 2);
+		ft_putstr_fd(var, 2);
+		ft_putendl_fd("\': not a valid identifier", 2);
 		return (1);
 	}
 	return (0);
