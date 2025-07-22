@@ -2,13 +2,12 @@
 
 //TODO: solve memoery leak
 //TODO: handle exit code (get from the execution struct)
-char *parameter_expansion(char *str, char **env);
+char *parameter_expansion(char *str, t_exc *exc);
 char *value_expansion(char *param, char **env);
 void get_value(char **param, char **env, char **result);
-void handle_quote(char **str, char **env);
+void handle_quote(char **str, t_exc *exc);
 char *append_results(char *result, char *str_to_append);
 bool is_valid_param_char(char letter);
-char *get_my_env(char *param, char **env);
 
 void expand_tokens(t_token *token, t_exc *exc)
 {
@@ -18,12 +17,12 @@ void expand_tokens(t_token *token, t_exc *exc)
         while (token->basin_buff && token->basin_buff[i])
         {
 			// check single/double quote- need to expand or not
-            handle_quote(&token->basin_buff[i], exc->exec->envp_array);
+            handle_quote(&token->basin_buff[i], exc);
             // parameter_expansion(&token->basin_buff[i], env);
 			// handle exit code
 			// tilde epansion(optional)
 			// quote_removal
-			printf("token[%d][%d]: %s\n", token->index, i, token->basin_buff[i]);
+			// printf("token[%d][%d]: %s\n", token->index, i, token->basin_buff[i]);
             i++;
         }
         token = token->next;
@@ -36,10 +35,9 @@ void expand_tokens(t_token *token, t_exc *exc)
 	// store in result
 // if not quote
 	// append to result
-void handle_quote(char **str, char **env)
+void handle_quote(char **str, t_exc *exc)
 {
     int i;
-	int j;
 	int start;
 	char *str_quote;
 	char *str_not_quote;
@@ -48,7 +46,6 @@ void handle_quote(char **str, char **env)
 	char *result;
 
     i = 0;
-	j = 0;
 	start = 0;
 	str_quote = NULL;
 	expanded_str = NULL;
@@ -59,18 +56,18 @@ void handle_quote(char **str, char **env)
 		{
 			quote = (*str)[i];
 			start = ++i;
-			printf("quote %c\n", (*str)[start]);
+			// printf("quote %c\n", (*str)[start]);
 			while ((*str)[i] != quote && (*str)[i] != '\0')
 				i++;
-			printf("quote %c\n", (*str)[i]);
+			// printf("quote %c\n", (*str)[i]);
 			str_quote = ft_substr((*str), start, i - start);
 			if (!str_quote)
 				printf("Failed to get the string inside the quote\n");
-			printf("inside quote: %s\n", str_quote);
+			// printf("inside quote: %s\n", str_quote);
 			if (quote == '"')
 			{
-				expanded_str = parameter_expansion(str_quote, env);
-				printf("expanded: %s\n", expanded_str);
+				expanded_str = parameter_expansion(str_quote, exc);
+				// printf("expanded: %s\n", expanded_str);
 				free(str_quote);
 				if (expanded_str)
 					result = append_results(result, expanded_str);
@@ -79,7 +76,7 @@ void handle_quote(char **str, char **env)
 			else
 				result = append_results(result, str_quote);
 			i++;
-			printf("result quote: %s\n", result);
+			// printf("result quote: %s\n", result);
 		}
 		else
 		{
@@ -87,8 +84,8 @@ void handle_quote(char **str, char **env)
 			while (!((*str)[i] == '"' || (*str)[i] == '\'') && (*str)[i] != '\0')
 				i++;
 			str_not_quote = ft_substr(*str, start, i - start);
-			printf("str_not_quote: %s\n", str_not_quote);
-			expanded_str = parameter_expansion(str_not_quote, env);
+			// printf("str_not_quote: %s\n", str_not_quote);
+			expanded_str = parameter_expansion(str_not_quote, exc);
 			free(str_not_quote);
 			if (expanded_str)
 				result = append_results(result, expanded_str);
@@ -111,12 +108,12 @@ char *append_results(char *result, char *str_to_append)
 		result = ft_strdup("");
 	temp = result;
 	result = ft_strjoin(result, str_to_append);
-	//free (temp);
+	free (temp);
 	(str_to_append) = NULL;
 	return(result);
 }
 
-char *parameter_expansion(char *str, char **env)
+char *parameter_expansion(char *str, t_exc *exc)
 {
     char *param;
 	char *result;
@@ -133,6 +130,11 @@ char *parameter_expansion(char *str, char **env)
 	j = 0;
 	while (str[j] != '\0')
 	{
+		if (str[j] == '$' && str[j + 1] == '?')
+		{
+			printf("%d\n", exc->exit_code);
+			return(ft_itoa(exc->exit_code));
+		}
 		if (str[j] == '$')
 		{
 			start = ++j;
@@ -142,8 +144,8 @@ char *parameter_expansion(char *str, char **env)
 			//printf("len: %d\n", param_len);
 			param = ft_substr(str, start, j - start);
 			//printf("param before expansion: %s\n", param);
-			after_expand = value_expansion(param, env);
-			printf("after_expand: %s\n", after_expand);
+			after_expand = value_expansion(param, exc->exec->envp_array);
+			// printf("after_expand: %s\n", after_expand);
 			if(after_expand)
 				result = append_results(result, after_expand);
 			after_expand = NULL;
@@ -154,12 +156,12 @@ char *parameter_expansion(char *str, char **env)
 			while(str[j] != '$' && str[j] != '\0')
 				j++;
 			not_expand = ft_substr(str, start , j - start);
-			printf("not_expand: %s\n", not_expand);
+			// printf("not_expand: %s\n", not_expand);
 			if (not_expand)
 				result = append_results(result, not_expand);
 			not_expand = NULL;
 		}
-		printf("result: %s\n", result);
+		// printf("result: %s\n", result);
 	}
 	//if (result)
 	//{
@@ -172,19 +174,6 @@ char *parameter_expansion(char *str, char **env)
 //check if the param is valid
 bool is_valid_param_char(char letter)
 {
-	//int i;
-
-	//i = 0;
-	//// check if is a valid starting char (must be alpha or _ only)
-	//if (!ft_isalpha(str[i]) && !(str[i] == '_'))
-	//	return(false);
-	//// the following char can be alpha, number or _
-	//while (str[i])
-	//{
-	//	if (!(ft_isalnum(str[i]) || str[i] == '_'))
-	//		return(false);
-	//	i++;
-	//}
 	if (!(ft_isalnum(letter) || letter == '_'))
 			return(false);
 	return(true);
@@ -217,38 +206,28 @@ char *value_expansion(char *param, char **env)
 {
     char *value;
     int i = 0;
+	char var[100];
 
-    printf("param: %s\n", param);
+	value = NULL;
+    // printf("param: %s\n", param);
     while(env[i])
     {
-		if (ft_strncmp(param, env[i], ft_strlen(param)) == 0)
+		int j = 0;
+		while (env[i][j] != '=' && env[i][j] != '\0')
+		{
+			var[j] = env[i][j];
+			j++;
+		}
+		var[j] = '\0';
+		// printf("j: %d\n", j);
+		// printf("var[%ld]: %s\n", ft_strlen(var), var);
+		if (ft_strncmp(param, var, ft_strlen(var) + 1) == 0)
         {
-            value = get_my_env(param, env);
-			printf("value: %s\n", value);
+			value = ft_strchr(env[i], '=') + 1;
+			// printf("value: %s\n", value);
             return(value);
         }
         i++;
     }
     return (NULL);
-}
-
-char *get_my_env(char *param, char **env)
-{
-	char *value;
-	char *var;
-	int i;
-
-	i = 0;
-	while (env[i])
-	{
-		var = ft_strrchr(env[i], '=');
-		printf("var: %s\n", var);
-		if (ft_strncmp(env[i], param, ft_strlen(param)) == 0)
-		{
-			value = ft_strchr(env[i], '=') + 1;
-			return (value);
-		}
-		i++;
-	}
-	return(NULL);
 }
