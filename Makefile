@@ -90,6 +90,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_BI)/built_ins.c \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_CMD)/exec_word.c \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_CMD)/word_utils.c \
+		$(SRC_EXEC)/$(SRC_WD)/$(SRC_CMD)/access_and_execve.c \
 		$(SRC_EXEC)/execution.c \
 		$(SRC_UTILS)/free.c \
 		$(SRC_UTILS)/init.c \
