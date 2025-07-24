@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 11:57:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 09:47:25 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ void	mallocing_heredoc(t_exc *exc)
 	exc->process->total_hd = total_heredocs(exc->data->token);
 	if (exc->process->total_hd > 0)
 	{
+		exc->process->heredoc_exists = true;
 		exc->process->limiters = malloc(sizeof(char *) * \
 (exc->process->total_hd + 1));
 		exc->process->limiters[exc->process->total_hd] = NULL;
 	}
-	else
-		exc->exit_code = 0;
 }

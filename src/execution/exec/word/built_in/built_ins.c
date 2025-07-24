@@ -6,11 +6,17 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/17 10:08:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:45:41 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+// builtins - dont use execve coz it need to make actual changes 
+// in the current room/process
+// if it use execve, execve will bring it to the new room,
+// but then come back to the original room remain unchanged
+// other than builtins - called external programs (ls, cat, etc)
 
 void	exec_builtin(t_ast *ast, t_exc *exc)
 {

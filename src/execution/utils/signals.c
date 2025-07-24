@@ -6,11 +6,13 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 11:34:33 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:30:29 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+//signals = a message/noti sent by your computer to a running program
 
 // write newline -> to print out every ^C for every new prompt
 // rl_on_new_line() -> to create the next prompt onto the next newline

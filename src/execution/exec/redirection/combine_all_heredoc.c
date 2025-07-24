@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 17:03:12 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 08:53:21 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	heredoc_process(t_exc *exc)
 O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (exc->process->heredoc_fd == -1)
 	{
-		ft_putendl_fd("shellfish: heredoc_fd: permission denied", 2);
+		ft_putendl_fd("shellfish: heredoc_fd: Permission denied", 2);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}

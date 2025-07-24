@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/20 11:30:46 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 09:47:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_process
 	char	**limiters;
 	int		limiter_index;
 	int		total_hd;
+	bool	heredoc_exists;
 	bool	pipe_flag;
 	int		heredoc_fd;
 }	t_process;

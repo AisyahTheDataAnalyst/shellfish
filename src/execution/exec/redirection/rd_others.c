@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 09:16:04 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 16:43:50 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 09:01:27 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	rd_out(t_ast *ast, t_exc *exc)
 	if (temp_fd == -1)
 	{
 		ft_putstr_fd("shellfish: ", 2);
-		ft_putstr_fd(ast->token->basin_buff[0], 2);
-		ft_putendl_fd(": permission denied", 2);
+		perror(ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -42,8 +41,7 @@ O_APPEND, 0644);
 	if (temp_fd == -1)
 	{
 		ft_putstr_fd("shellfish: ", 2);
-		ft_putstr_fd(ast->token->basin_buff[0], 2);
-		ft_putendl_fd(": permission denied", 2);
+		perror(ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -61,8 +59,7 @@ void	rd_in(t_ast *ast, t_exc *exc)
 	if (temp_fd == -1)
 	{
 		ft_putstr_fd("shellfish: ", 2);
-		ft_putstr_fd(ast->token->basin_buff[0], 2);
-		ft_putendl_fd(": permission denied", 2);
+		perror(ast->token->basin_buff[0]);
 		exc->exit_code = PERMISSION_DENIED;
 		return ;
 	}
@@ -87,7 +84,8 @@ int	reset_cursor_heredocfd(t_exc *exc)
 	exc->process->heredoc_fd = open("heredoc_fd", O_RDONLY);
 	if (exc->process->heredoc_fd == -1)
 	{
-		ft_putendl_fd("shellfish: heredoc_fd: permission denied", 2);
+		ft_putstr_fd("shellfish: ", 2);
+		perror("heredoc_fd");
 		exc->exit_code = PERMISSION_DENIED;
 		return (-1);
 	}
