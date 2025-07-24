@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 08:53:21 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:15:52 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,18 @@ static void	heredoc_process(t_exc *exc)
 	pid_t	pid;
 	int		exit_status;
 
-	exc->process->heredoc_fd = open("heredoc_fd", \
-O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (exc->process->heredoc_fd == -1)
-	{
-		ft_putendl_fd("shellfish: heredoc_fd: Permission denied", 2);
-		exc->exit_code = PERMISSION_DENIED;
-		return ;
-	}
+	pipe(exc->process->heredoc_fd);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		perror("Heredoc's fork failed");
 	if (pid == 0)
 		start_heredoc(exc);
-	close(exc->process->heredoc_fd);
 	waitpid(pid, &exit_status, 0);
+	close(exc->process->heredoc_fd[WRITE]);
 	if (WIFEXITED(exit_status) != 0)
 		exc->exit_code = WEXITSTATUS(exit_status);
-	exc->process->heredoc_fd = reset_cursor_heredocfd(exc);
-	exc->process->infile = exc->process->heredoc_fd;
+	exc->process->infile = exc->process->heredoc_fd[READ];
 }
 
 static void	start_heredoc(t_exc *exc)
@@ -75,13 +67,14 @@ static void	start_heredoc(t_exc *exc)
 exc->process->total_hd, exc->process);
 	while (line && is_limiter(final_limiter, line) == false)
 	{
-		write(exc->process->heredoc_fd, line, ft_strlen(line));
-		write(exc->process->heredoc_fd, "\n", 1);
+		write(exc->process->heredoc_fd[WRITE], line, ft_strlen(line));
+		write(exc->process->heredoc_fd[WRITE], "\n", 1);
 		free(line);
 		line = readline("\033[0;34m> \033[0m");
 	}
 	free(line);
-	close(exc->process->heredoc_fd);
+	close(exc->process->heredoc_fd[WRITE]);
+	close(exc->process->heredoc_fd[READ]);
 	free_before_readline(exc);
 	exc->exit_code = EXIT_SUCCESS;
 	exit(exc->exit_code);

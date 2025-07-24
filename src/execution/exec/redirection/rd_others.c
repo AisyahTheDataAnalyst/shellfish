@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 09:16:04 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 09:01:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:05:27 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	rd_in(t_ast *ast, t_exc *exc)
 		return ;
 	}
 	if (exc->process->infile != -1)
-		if (exc->process->infile != exc->process->heredoc_fd)
+		if (exc->process->infile != exc->process->heredoc_fd[READ])
 			close(exc->process->infile);
 	exc->process->infile = temp_fd;
 	execution(ast->left, exc);
@@ -73,21 +73,8 @@ void	rd_in(t_ast *ast, t_exc *exc)
 void	rd_heredoc(t_ast *ast, t_exc *exc)
 {
 	if (exc->process->infile != -1)
-		if (exc->process->infile != exc->process->heredoc_fd)
+		if (exc->process->infile != exc->process->heredoc_fd[READ])
 			close(exc->process->infile);
-	exc->process->infile = exc->process->heredoc_fd;
+	exc->process->infile = exc->process->heredoc_fd[READ];
 	execution(ast->left, exc);
-}
-
-int	reset_cursor_heredocfd(t_exc *exc)
-{
-	exc->process->heredoc_fd = open("heredoc_fd", O_RDONLY);
-	if (exc->process->heredoc_fd == -1)
-	{
-		ft_putstr_fd("shellfish: ", 2);
-		perror("heredoc_fd");
-		exc->exit_code = PERMISSION_DENIED;
-		return (-1);
-	}
-	return (exc->process->heredoc_fd);
 }

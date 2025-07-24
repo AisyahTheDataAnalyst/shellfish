@@ -45,7 +45,6 @@ static void	int_main_init(t_exc *exc, char **envp)
 	ft_bzero(exc->process, sizeof(t_process));
 	exc->process->infile = -1;
 	exc->process->outfile = -1;
-	exc->process->heredoc_fd = -1;
 	exc->process->dupped_stdin = -1;
 	exc->process->dupped_stdout = -1;
 	exc->process->limiters = NULL;

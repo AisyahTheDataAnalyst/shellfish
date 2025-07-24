@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:54:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 09:48:03 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:58:15 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ void	reset_before_readline(t_exc *exc)
 	}
 	exc->process->infile = -1;
 	exc->process->outfile = -1;
-	exc->process->heredoc_fd = -1;
 	exc->process->pipe_flag = false;
 }
