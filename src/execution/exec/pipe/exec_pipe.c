@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 17:02:59 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:34:15 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 //put exit(0) at the end in case its a builtin or ast's NULL
 static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2])
 {
+// 	if (exc->process->infile != -1 && exc->process->dup_heredoc == false)
+// 	{
+// 		// if (exc->process->infile == exc->process->heredoc_fd)
+// 			// fprintf(stderr, "heredoc_fd bring dup2 !!\n");
+// 		dup2(exc->process->infile, STDIN_FILENO);
+// 		close(exc->process->infile);
+// 		if (exc->process->heredoc_fd != -1 && \
+// exc->process->infile != exc->process->heredoc_fd)
+// 			close(exc->process->heredoc_fd);
+// 		exc->process->dup_heredoc = true;
+// 	}
+//
 	close(fd[READ]);
 	dup2(fd[WRITE], STDOUT_FILENO);
 	close(fd[WRITE]);

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:39:07 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_process
 	bool	heredoc_exists;
 	bool	pipe_flag;
 	int		heredoc_fd;
+	bool	dup_heredoc;
 }	t_process;
 
 // typedef struct s_list

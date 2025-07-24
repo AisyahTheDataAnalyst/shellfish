@@ -6,20 +6,21 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:15:47 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void		exec_word(t_ast *ast, t_exc *exc);
-static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc);
+static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc, t_ast *ast);
 
 void	exec_word(t_ast *ast, t_exc *exc)
 {
 	pid_t	pid;
 	int		exit_status;
 
+	// fprintf(stderr, "exit_code current in exec_word b4 execve = %d\n", exc->exit_code);
 	exit_status = 0;
 	if (is_bi(ast->token->basin_buff) == 1)
 		exec_builtin(ast, exc);
@@ -39,7 +40,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 			access_and_execve(exc, ast);
 		}
 		close_infile_outfile_parent(exc);
-		waiting_exec_word(pid, exit_status, exc);
+		waiting_exec_word(pid, exit_status, exc, ast);
 		reset_stdin_stdout(exc);
 	}
 }
@@ -57,14 +58,18 @@ void	exec_word(t_ast *ast, t_exc *exc)
 // ( == 0) ---> false
 // ( != 0) ---> true
 // we need WIFSIGNALED coz we dont have signal_handler function (SIG_DFL)
-static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc)
+static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc, t_ast *ast)
 {
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status) != 0)
+	{
 		exc->exit_code = WEXITSTATUS(exit_status);
+		fprintf(stderr, "exit_code current in waiting_exec_word in WIFEXITED= %d, command: %s\n", exc->exit_code, ast->token->basin_buff[0]);
+	}
 	else if (WIFSIGNALED(exit_status) != 0)
 	{
 		exc->exit_code = 128 + WTERMSIG(exit_status);
+		// fprintf(stderr, "exit_code current in waiting_exec_word in WIFSIGNALED= %d\n", exc->exit_code);
 		if (WTERMSIG(exit_status) == SIGINT)
 			write(1, "\n", 1);
 	}
