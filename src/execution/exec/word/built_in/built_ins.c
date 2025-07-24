@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 11:47:57 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_builtin(t_ast *ast, t_exc *exc)
 	dupping_stdin_stdout(exc);
 	dup2_close_infile_outfile(exc);
 	built_ins(ast->token->basin_buff, exc);
-	reset_stdin_stdout_unlink_heredocfd(exc);
+	reset_stdin_stdout(exc);
 }
 
 // for 

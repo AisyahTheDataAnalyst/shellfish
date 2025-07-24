@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 11:47:37 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ exc->process->infile != exc->process->heredoc_fd)
 		close(exc->process->outfile);
 }
 
-void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc)
+void	reset_stdin_stdout(t_exc *exc)
 {
 	dup2(exc->process->dupped_stdin, STDIN_FILENO);
 	close(exc->process->dupped_stdin);
 	dup2(exc->process->dupped_stdout, STDOUT_FILENO);
 	close(exc->process->dupped_stdout);
-	if (access("heredoc_fd", F_OK) == 0)
-		unlink("heredoc_fd");
 }
 
 

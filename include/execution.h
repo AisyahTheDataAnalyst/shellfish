@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 11:46:22 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	access_and_execve(t_exc *exc, t_ast *ast);;
 void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
 void	close_infile_outfile_parent(t_exc *exc);
-void	reset_stdin_stdout_unlink_heredocfd(t_exc *exc);
+void	reset_stdin_stdout(t_exc *exc);
 
 // built_ins
 void	built_ins(char **av, t_exc *exc);

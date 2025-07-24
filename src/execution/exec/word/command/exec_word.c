@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 12:03:11 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		}
 		close_infile_outfile_parent(exc);
 		waiting_exec_word(pid, exit_status, exc);
-		reset_stdin_stdout_unlink_heredocfd(exc);
+		reset_stdin_stdout(exc);
 	}
 }
 
