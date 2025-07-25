@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:06:27 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void	exec_builtin(t_ast *ast, t_exc *exc)
 // for 
 void	built_ins(char **args, t_exc *exc)
 {
-	// if (!args[0])
-	// 	return ;
 	if (ft_strncmp(args[0], "echo", 5) == 0)
 		bi_echo(args, exc);
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
@@ -65,8 +63,5 @@ void	built_ins(char **args, t_exc *exc)
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		bi_exit(args, exc);
 	else
-	{
-		fprintf(stderr, "args is empty\n");
 		return ;
-	}
 }

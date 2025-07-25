@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:09:54 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,3 @@ void	reset_stdin_stdout(t_exc *exc)
 	dup2(exc->process->dupped_stdout, STDOUT_FILENO);
 	close(exc->process->dupped_stdout);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:35:20 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	exec_word(t_ast *ast, t_exc *exc)
 //	= what signal killed the child 
 // ( == 0) ---> false
 // ( != 0) ---> true
-// we need WIFSIGNALED coz we dont have signal_handler function (SIG_DFL)
+// we need WIFSIGNALED coz we dont have signal_handler function 
+// like (SIG_DFL / SIG_IGN)
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc)
 {
 	waitpid(pid, &exit_status, 0);

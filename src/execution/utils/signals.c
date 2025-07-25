@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:40:59 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/22 10:30:29 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:24:04 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	handle_cntrl_d(int sig)
 {
 	(void)sig;
 	printf("exit\n");
-	exit(EXIT_SUCCESS);
+	g_signal = EXIT_SUCCESS;
+	exit(g_signal);
 }
 
 void	handle_cntrl_c_heredoc(int sig)

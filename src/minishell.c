@@ -77,7 +77,7 @@ static void	int_main_loop(t_exc *exc)
 		expand_tokens(data.token, exc);
 		printf("------------------\n");
 		printf("exit_code before execution: %d\n", exc->exit_code);
-		if (!(exc->exit_code == 130 && exc->process->heredoc_exists == true))
+		if (!(exc->exit_code == 130 && exc->process->total_hd > 0))
 			execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);

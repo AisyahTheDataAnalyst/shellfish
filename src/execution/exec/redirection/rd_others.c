@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 09:16:04 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 09:01:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:09:24 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,14 @@ void	rd_in(t_ast *ast, t_exc *exc)
 
 void	rd_heredoc(t_ast *ast, t_exc *exc)
 {
-	if (exc->process->infile != -1)
-		if (exc->process->infile != exc->process->heredoc_fd)
-			close(exc->process->infile);
+	if (exc->process->reset_cursor_hd == false)
+	{
+		exc->process->heredoc_fd = reset_cursor_heredocfd(exc);
+		exc->process->reset_cursor_hd = true;
+	}
+	if (exc->process->infile != -1 && \
+exc->process->infile != exc->process->heredoc_fd)
+		close(exc->process->infile);
 	exc->process->infile = exc->process->heredoc_fd;
 	execution(ast->left, exc);
 }
