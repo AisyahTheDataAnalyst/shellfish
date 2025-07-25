@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 17:15:47 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:30:44 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
+		signal(EOF, SIG_IGN);
 		pid = fork();
 		dupping_stdin_stdout(exc);
 		if (pid < 0)
@@ -57,7 +58,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 //	= what signal killed the child 
 // ( == 0) ---> false
 // ( != 0) ---> true
-// we need WIFSIGNALED coz we dont have signal_handler function (SIG_DFL)
+// we need WIFSIGNALED coz we dont have signal_handler function (SIG_DFL / SIG_IGN)
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc, t_ast *ast)
 {
 	waitpid(pid, &exit_status, 0);

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 20:33:21 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 16:51:37 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 10:56:56 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,19 @@ void	dup2_close_infile_outfile(t_exc *exc)
 {
 	if (exc->process->infile != -1)
 	{
-		if (exc->process->infile == exc->process->heredoc_fd)
-			// fprintf(stderr, "heredoc_fd bring dup2 !!\n");
 		dup2(exc->process->infile, STDIN_FILENO);
+		if (exc->process->infile == exc->process->heredoc_fd)
+		{
+			fprintf(stderr, "heredoc_fd being dup2 !!\n");
+			fprintf(stderr, "FD CLOSE: %d\n", exc->process->heredoc_fd);
+		}
 		close(exc->process->infile);
 		if (exc->process->heredoc_fd != -1 && \
 exc->process->infile != exc->process->heredoc_fd)
+		{
+			fprintf(stderr, "latest infile is not heredoc\n");
 			close(exc->process->heredoc_fd);
+		}
 	}
 	if (exc->process->outfile != -1)
 	{
@@ -42,6 +48,7 @@ void	close_infile_outfile_parent(t_exc *exc)
 	if (exc->process->infile != -1)
 	{
 		close(exc->process->infile);
+		fprintf(stderr, "FD CLOSE: %d\n", exc->process->heredoc_fd);
 		if (exc->process->heredoc_fd != -1 && \
 exc->process->infile != exc->process->heredoc_fd)
 			close(exc->process->heredoc_fd);

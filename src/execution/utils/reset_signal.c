@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:54:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 15:39:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:30:58 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	reset_signals_child(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
-	signal(EOF, SIG_IGN);
+	signal(EOF, SIG_DFL);
 }
 
 void	reset_before_readline(t_exc *exc)
@@ -51,6 +51,7 @@ void	reset_before_readline(t_exc *exc)
 	exc->process->heredoc_fd = -1;
 	exc->process->pipe_flag = false;
 	exc->process->dup_heredoc = false;
+	exc->process->reset_cursor_hd = false;
 	if (access("heredoc_fd", F_OK) == 0)
 		unlink("heredoc_fd");
 }
