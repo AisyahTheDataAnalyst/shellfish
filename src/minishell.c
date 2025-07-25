@@ -51,7 +51,7 @@ static void	int_main_init(t_exc *exc, char **envp)
 	exc->process->limiters = NULL;
 	get_splitted_path(exc->process);
 	envp_to_envparray(envp, exc->exec);
-	reset_signals();
+	reset_signals_original();
 }
 
 static void	int_main_loop(t_exc *exc)

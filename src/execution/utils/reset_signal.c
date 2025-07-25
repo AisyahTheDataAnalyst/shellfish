@@ -6,27 +6,27 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:54:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:35:30 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:28:00 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	signals_for_heredoc(void)
+void	reset_signals_for_heredoc(void)
 {
 	signal(SIGINT, handle_cntrl_c_heredoc);
 	signal(SIGQUIT, SIG_IGN);
 	signal(EOF, handle_cntrl_d_heredoc);
 }
 
-void	reset_signals(void)
+void	reset_signals_original(void)
 {
 	signal(SIGINT, handle_cntrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	signal(EOF, handle_cntrl_d);
 }
 
-void	reset_signals_child(void)
+void	reset_signals_tokenword(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
@@ -40,7 +40,7 @@ void	reset_before_readline(t_exc *exc)
 		exc->exit_code = g_signal;
 		g_signal = 0;
 	}
-	reset_signals();
+	reset_signals_original();
 	if (exc->process->total_hd > 0)
 		exc->process->limiter_index = 0;
 	exc->process->infile = -1;

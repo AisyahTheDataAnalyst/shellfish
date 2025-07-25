@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:31:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:25:43 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	start_heredoc(t_exc *exc)
 	char	*final_limiter;
 	char	*line;
 
-	signals_for_heredoc();
+	reset_signals_for_heredoc();
 	line = readline("\033[0;34m> \033[0m");
 	final_limiter = exc->process->limiters[exc->process->total_hd - 1];
 	if (exc->process->total_hd > 1)

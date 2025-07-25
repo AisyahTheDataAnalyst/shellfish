@@ -77,7 +77,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		$(SRC_EXEC)/$(SRC_PIPE)/exec_pipe.c \
 		$(SRC_EXEC)/$(SRC_RD)/exec_redirection.c \
 		$(SRC_EXEC)/$(SRC_RD)/combine_all_heredoc.c \
-		$(SRC_EXEC)/$(SRC_RD)/rd_others.c \
+		$(SRC_EXEC)/$(SRC_RD)/rd_all.c \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_cd.c \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_echo.c \
 		$(SRC_EXEC)/$(SRC_WD)/$(SRC_BI)/bi_env.c \

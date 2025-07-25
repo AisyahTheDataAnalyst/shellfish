@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:43 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:06:37 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:26:40 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	access_and_execve(t_exc *exc, t_ast *ast)
 	char	*pathname;
 
 	args = ast->token->basin_buff;
-	reset_signals_child();
+	reset_signals_tokenword();
 	if (!args || !args[0] || !args[0][0])
 		exit_access_and_execve(exc);
 	if (!ft_strncmp(args[0], "./", 2))
