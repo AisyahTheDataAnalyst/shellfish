@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 15:25:43 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 19:13:50 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ O_RDWR | O_CREAT | O_TRUNC, 0644);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
+	{
+		ft_putstr_fd("shellfish: ", 2);
 		perror("Heredoc's fork failed");
+		exc->exit_code = EXIT_FAILURE;
+		return ;
+	}
 	if (pid == 0)
 		start_heredoc(exc);
 	close(exc->process->heredoc_fd);

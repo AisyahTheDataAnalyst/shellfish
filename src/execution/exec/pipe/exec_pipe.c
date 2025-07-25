@@ -6,13 +6,14 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:35:25 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 19:21:11 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void		exec_pipe(t_ast *ast, t_exc *exc);
+static void	fork_error_message_pipe(t_exc *exc);
 static void	child_process_left(t_ast *ast, t_exc *exc, int fd[2]);
 static void	child_process_right(t_ast *ast, t_exc *exc, int fd[2]);
 static void	parent_process(t_exc *exc, int fd[2], pid_t left_pid, \
@@ -31,20 +32,30 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 	exc->process->pipe_flag = true;
 	if (pipe(fd) == -1)
 	{
+		ft_putstr_fd("shellfish: ", 2);
 		perror("Pipe failed to open\n");
+		exc->exit_code = EXIT_FAILURE;
 		return ;
 	}
 	left_pid = fork();
 	if (left_pid < 0)
-		perror("Fork failed\n");
+		return (fork_error_message_pipe(exc));
 	else if (left_pid == 0)
 		child_process_left(ast, exc, fd);
 	right_pid = fork();
 	if (right_pid < 0)
-		perror("Fork failed\n");
+		return (fork_error_message_pipe(exc));
 	else if (right_pid == 0)
 		child_process_right(ast, exc, fd);
 	parent_process(exc, fd, left_pid, right_pid);
+}
+
+static void	fork_error_message_pipe(t_exc *exc)
+{
+	ft_putstr_fd("shellfish: ", 2);
+	perror("Fork for TOKEN_PIPE failed\n");
+	exc->exit_code = EXIT_FAILURE;
+	return ;
 }
 
 //put exit(0) at the end in case its a builtin or ast's NULL

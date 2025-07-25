@@ -6,13 +6,14 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 15:46:22 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 19:20:07 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void		exec_word(t_ast *ast, t_exc *exc);
+static void	fork_error_message_word(t_exc *exc);
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc);
 
 // In practice, most shells just reapply SIG_IGN before every fork 
@@ -31,10 +32,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		pid = fork();
 		dupping_stdin_stdout(exc);
 		if (pid < 0)
-		{
-			perror("Fork for TOKEN_WORD failed");
-			return ;
-		}
+			fork_error_message_word(exc);
 		if (pid == 0)
 		{
 			dup2_close_infile_outfile(exc);
@@ -44,6 +42,16 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		waiting_exec_word(pid, exit_status, exc);
 		reset_stdin_stdout(exc);
 	}
+}
+
+static void	fork_error_message_word(t_exc *exc)
+{
+	close_infile_outfile_parent(exc);
+	reset_stdin_stdout(exc);
+	ft_putstr_fd("shellfish: ", 2);
+	perror("Fork for TOKEN_WORD failed");
+	exc->exit_code = EXIT_FAILURE;
+	return ;
 }
 
 // WIFEXITED(status) 
