@@ -24,12 +24,12 @@ int	main(int argc, char **argv, char **env)
 	t_exc	exc;
 
 	(void)argv;
-	(void)argc;
-	// if (argc != 1)
-	// {
-	// 	ft_putendl_fd("No such files or directory", 2);
-	// 	return (1);
-	// }
+	// (void)argc;
+	if (argc != 1)
+	{
+		ft_putendl_fd("No such files or directory", 2);
+		return (1);
+	}
 	int_main_init(&exc, env);
 	int_main_loop(&exc);
 	freeing(&exc);
