@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:35:20 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:46:22 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void		exec_word(t_ast *ast, t_exc *exc);
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc);
 
+// In practice, most shells just reapply SIG_IGN before every fork 
+// because it's cleaner, safer, and avoids strange bugs.
 void	exec_word(t_ast *ast, t_exc *exc)
 {
 	pid_t	pid;
