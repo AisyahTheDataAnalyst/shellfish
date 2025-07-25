@@ -94,7 +94,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		$(SRC_EXEC)/execution.c \
 		$(SRC_UTILS)/free.c \
 		$(SRC_UTILS)/init.c \
-		$(SRC_UTILS)/reset_signal.c \
+		$(SRC_UTILS)/reset.c \
 		$(SRC_UTILS)/signals.c))
 
 #$(wildcard $(SRC_DIR)/token/*.c)
