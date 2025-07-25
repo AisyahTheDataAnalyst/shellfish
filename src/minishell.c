@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_putstr_fd("No such files or directory", 2);
+		ft_putendl_fd("No such files or directory", 2);
 		return (1);
 	}
 	int_main_init(&exc, env);
