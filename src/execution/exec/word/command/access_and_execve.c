@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:43 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/24 17:14:24 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:06:37 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	access_and_execve(t_exc *exc, t_ast *ast)
 
 	args = ast->token->basin_buff;
 	reset_signals_child();
-	// fprintf(stderr, "%s\n", args[0]);
 	if (!args || !args[0] || !args[0][0])
 		exit_access_and_execve(exc);
 	if (!ft_strncmp(args[0], "./", 2))
@@ -35,10 +34,8 @@ void	access_and_execve(t_exc *exc, t_ast *ast)
 	else
 		pathname = access_path(exc, args);
 	pathname_error_handling(exc, pathname, args);
-	// fprintf(stderr, "exit_code current in access_execeve betul22222 b4 execve = %d with command: %s\n", exc->exit_code, ast->token->basin_buff[0]);
 	execve(pathname, args, exc->exec->envp_array);
 	free(pathname);
-	fprintf(stderr, "exit_code current in access_execveafter execve after exit = %d with command: %s\n", exc->exit_code, ast->token->basin_buff[0]);
 	exit_access_and_execve(exc);
 }
 

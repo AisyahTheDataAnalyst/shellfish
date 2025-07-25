@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:00:03 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 09:50:19 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:31:27 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ exc->process->total_hd, exc->process);
 	{
 		write(exc->process->heredoc_fd, line, ft_strlen(line));
 		write(exc->process->heredoc_fd, "\n", 1);
-		// fprintf(stderr, "writing user input of heredoc\n");
 		free(line);
 		line = readline("\033[0;34m> \033[0m");
 	}
@@ -98,7 +97,7 @@ int total_hd, t_process *process)
 			break ;
 		curr_limiter = is_limiter(process->limiters[process->limiter_index], \
 line);
-		if (curr_limiter == true)
+		if (curr_limiter == true || !line)
 			process->limiter_index++;
 		free(line);
 		line = readline("\033[0;34m> \033[0m");

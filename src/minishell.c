@@ -74,14 +74,11 @@ static void	int_main_loop(t_exc *exc)
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
 		printf("------------------\n");
-		// expand_tokens(data.token, exc);
+		expand_tokens(data.token, exc);
 		printf("------------------\n");
 		printf("exit_code before execution: %d\n", exc->exit_code);
-		if (!(exc->exit_code == 130 && exc->process->heredoc_exists == true))
-		{
-			// fprintf(stderr, "im entering ast_exec\n");
+		if (!(exc->exit_code == 130 && exc->process->total_hd > 0))
 			execution(data.root, exc);
-		}
 		reset_before_readline(exc);
 		free_before_readline(exc);
 		printf("exit_code before readline: %d\n", exc->exit_code);
