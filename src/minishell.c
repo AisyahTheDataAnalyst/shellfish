@@ -50,7 +50,6 @@ static void	int_main_init(t_exc *exc, char **envp)
 	exc->process->dupped_stdout = -1;
 	exc->process->limiters = NULL;
 	envp_to_envparray(envp, exc->exec);
-	get_splitted_path(exc->process);
 	reset_signals_original();
 }
 
@@ -71,6 +70,7 @@ static void	int_main_loop(t_exc *exc)
 			continue ;
 		if (!init_ast(&data))
 			continue ;
+		get_splitted_path(exc->process, exc->exec);
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
 		printf("------------------\n");
