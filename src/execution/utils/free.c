@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:47:24 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/20 11:14:02 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:32:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	free_temp_list(t_list *temp_list)
 void	freeing(t_exc *exc)
 {
 	free_array(exc->exec->envp_array);
-	free_array(exc->process->splitted_path);
 	free(exc->process);
 	free(exc->exec);
 	rl_clear_history();
@@ -59,6 +58,8 @@ void	free_before_readline(t_exc *exc)
 		free_token_list(exc->data);
 	if (exc->data->root)
 		free_ast(exc->data);
+	if (exc->process->splitted_path)
+		free_array(exc->process->splitted_path);
 	if (exc->process->total_hd > 0)
 		free_array(exc->process->limiters);
 }

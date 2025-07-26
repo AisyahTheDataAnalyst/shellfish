@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 15:27:59 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:30:28 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	freeing(t_exc *exc);
 void	free_before_readline(t_exc *exc);
 
 	// init.c
-void	get_splitted_path(t_process *process);
+void	get_splitted_path(t_process *process, t_list *exec);
 void	envp_to_envparray(char **envp, t_list *exec);
 int		total_heredocs(t_token *token);
 void	mallocing_heredoc(t_exc *exc);

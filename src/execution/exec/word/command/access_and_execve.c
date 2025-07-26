@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:43 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 11:21:47 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:10:24 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,12 @@ static char	*access_path(t_exc *exc, char **args)
 
 static int	is_path_var_exist(t_exc *exc)
 {
-	char	*full_path;
 	int		i;
 
-	full_path = "PATH=/home/aimokhta/bin:/home/aimokhta/bin:/usr/local/sbin:\
-/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:\
-/snap/bin";
 	i = 0;
 	while (exc->exec->envp_array[i])
 	{
-		if (!ft_strncmp(exc->exec->envp_array[i], full_path, \
-ft_strlen(full_path)))
+		if (!ft_strncmp(exc->exec->envp_array[i], "PATH=", 5))
 			break ;
 		i++;
 	}

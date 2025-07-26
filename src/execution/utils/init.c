@@ -6,26 +6,35 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 14:11:09 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:35:10 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+static char	*get_full_path(t_list *exec);
+
 // $PATH env variable = PATH=....
 // split = directory path (/usr/bin)
 // splitted_path = full/absolute path (/usr/bin/ + ls) 
 // void	get_splitted_path(t_list *exec, char *full_path)
-void	get_splitted_path(t_process *process)
+void	get_splitted_path(t_process *process, t_list *exec)
 {
 	char	**split;
 	int		split_count;
 	int		i;
 	char	*full_path;
 
-	full_path = getenv("PATH");
+	full_path = get_full_path(exec);
+	if (!full_path)
+	{
+		process->splitted_path = NULL;
+		return ;
+	}
 	split = ft_split(full_path, ':');
+	fprintf(stderr, "split[0]: %s\n", split[0]);
 	split_count = ft_wordcount(full_path, ':');
+	fprintf(stderr, "split_count: %d\n", split_count);
 	process->splitted_path = malloc(sizeof(char *) * (split_count + 1));
 	if (!(process->splitted_path))
 	{
@@ -40,6 +49,26 @@ void	get_splitted_path(t_process *process)
 	}
 	process->splitted_path[i] = NULL;
 	free_array(split);
+}
+
+static char	*get_full_path(t_list *exec)
+{
+	char	*full_path;
+	int		i;
+
+	full_path = NULL;
+	i = 0;
+	while (exec->envp_array[i])
+	{
+		if (!ft_strncmp(exec->envp_array[i], "PATH=", 5))
+		{
+			full_path = ft_strchr(exec->envp_array[i], '=') + 1;
+			break ;
+		}
+		else
+			i++;
+	}
+	return (full_path);
 }
 
 void	envp_to_envparray(char **envp, t_list *exec)
