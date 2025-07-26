@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 15:46:22 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:26:31 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc)
 		exc->exit_code = 128 + WTERMSIG(exit_status);
 		if (WTERMSIG(exit_status) == SIGINT)
 			write(1, "\n", 1);
+		else if (WTERMSIG(exit_status) == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 1);
 	}
 }

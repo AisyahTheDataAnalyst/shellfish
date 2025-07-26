@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:54:37 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 15:46:39 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:23:32 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	reset_signals_original(void)
 void	reset_signals_tokenword(void)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_DFL);
 	signal(EOF, SIG_DFL);
 }
 

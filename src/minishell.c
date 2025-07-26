@@ -49,8 +49,8 @@ static void	int_main_init(t_exc *exc, char **envp)
 	exc->process->dupped_stdin = -1;
 	exc->process->dupped_stdout = -1;
 	exc->process->limiters = NULL;
-	get_splitted_path(exc->process);
 	envp_to_envparray(envp, exc->exec);
+	get_splitted_path(exc->process);
 	reset_signals_original();
 }
 

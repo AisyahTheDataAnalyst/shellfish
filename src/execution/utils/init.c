@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:03:35 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:11:09 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	get_splitted_path(t_process *process)
 
 	full_path = getenv("PATH");
 	split = ft_split(full_path, ':');
-	if (!split)
-		return ;
 	split_count = ft_wordcount(full_path, ':');
 	process->splitted_path = malloc(sizeof(char *) * (split_count + 1));
 	if (!(process->splitted_path))
