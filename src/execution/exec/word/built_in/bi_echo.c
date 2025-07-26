@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:42 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:23:58 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	bi_echo(char **av, t_exc *exc)
 
 	i = 1;
 	j = 1;
-	if (!av[i])
-		return ;
 	n_option_exist = is_option_exist(av, j);
 	i = echo_start_printing(av, i, j);
 	while (av[i])
