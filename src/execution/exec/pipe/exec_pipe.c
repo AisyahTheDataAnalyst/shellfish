@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 19:21:11 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:14:12 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 	if (pipe(fd) == -1)
 	{
 		ft_putstr_fd("shellfish: ", 2);
-		perror("Pipe failed to open\n");
+		perror("Pipe failed to open");
 		exc->exit_code = EXIT_FAILURE;
 		return ;
 	}
@@ -53,7 +53,7 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 static void	fork_error_message_pipe(t_exc *exc)
 {
 	ft_putstr_fd("shellfish: ", 2);
-	perror("Fork for TOKEN_PIPE failed\n");
+	perror("Fork for TOKEN_PIPE failed");
 	exc->exit_code = EXIT_FAILURE;
 	return ;
 }

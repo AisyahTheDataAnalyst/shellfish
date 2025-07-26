@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 19:20:07 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:13:16 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		pid = fork();
 		dupping_stdin_stdout(exc);
 		if (pid < 0)
-			fork_error_message_word(exc);
+			return(fork_error_message_word(exc));
 		if (pid == 0)
 		{
 			dup2_close_infile_outfile(exc);
