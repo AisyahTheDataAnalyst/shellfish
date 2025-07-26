@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:55:41 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 15:35:10 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:31:06 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,16 @@ void	get_splitted_path(t_process *process, t_list *exec)
 		return ;
 	}
 	split = ft_split(full_path, ':');
-	fprintf(stderr, "split[0]: %s\n", split[0]);
 	split_count = ft_wordcount(full_path, ':');
-	fprintf(stderr, "split_count: %d\n", split_count);
 	process->splitted_path = malloc(sizeof(char *) * (split_count + 1));
 	if (!(process->splitted_path))
 	{
 		free_array(split);
 		return ;
 	}
-	i = 0;
-	while (split[i] && i < split_count)
-	{
+	i = -1;
+	while (split[++i] && i < split_count)
 		process->splitted_path[i] = ft_strjoin(split[i], "/");
-		i++;
-	}
 	process->splitted_path[i] = NULL;
 	free_array(split);
 }
