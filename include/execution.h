@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 11:38:42 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:04:23 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum token_type	t_type;
 # define WRITE 1
 # define PERMISSION_DENIED 1
 # define CMD_NOT_FOUND 127
+# define NON_EXECUTABLE 126
 
 typedef struct s_process
 {

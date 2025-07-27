@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:43 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 15:10:24 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:04:58 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*executable_files(char **args, t_exc *exc)
 		ft_putstr_fd("shellfish: ", 2);
 		perror(args[0]);
 		free_before_readline(exc);
-		exc->exit_code = CMD_NOT_FOUND;
+		exc->exit_code = NON_EXECUTABLE;
 		exit(exc->exit_code);
 	}
 	return (pathname);
@@ -119,6 +119,15 @@ static void	pathname_error_handling(t_exc *exc, char *pathname, char **args)
 		free(pathname);
 		free_before_readline(exc);
 		exc->exit_code = CMD_NOT_FOUND;
+		exit(exc->exit_code);
+	}
+	else if (!access(pathname, F_OK) && access(pathname, X_OK) == -1)
+	{
+		ft_putstr_fd("shellfish: ", 2);
+		perror(pathname);
+		free(pathname);
+		free_before_readline(exc);
+		exc->exit_code = NON_EXECUTABLE;
 		exit(exc->exit_code);
 	}
 }
