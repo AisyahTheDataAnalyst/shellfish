@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:08:31 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:35:25 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:24:54 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,15 @@ void	exec_pipe(t_ast *ast, t_exc *exc)
 	signal(SIGINT, SIG_IGN);
 	exc->process->pipe_flag = true;
 	if (pipe(fd) == -1)
-	{
-		perror("Pipe failed to open\n");
-		return ;
-	}
+		return (perror("shellfish: Pipe for TOKEN_PIPE failed"));
 	left_pid = fork();
 	if (left_pid < 0)
-		perror("Fork failed\n");
+		return (perror("shellfish: Fork for TOKEN_PIPE failed"));
 	else if (left_pid == 0)
 		child_process_left(ast, exc, fd);
 	right_pid = fork();
 	if (right_pid < 0)
-		perror("Fork failed\n");
+		return (perror("shellfish: Fork for TOKEN_PIPE failed"));
 	else if (right_pid == 0)
 		child_process_right(ast, exc, fd);
 	parent_process(exc, fd, left_pid, right_pid);

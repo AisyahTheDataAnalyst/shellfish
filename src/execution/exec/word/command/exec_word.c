@@ -6,13 +6,14 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 11:39:44 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:29:38 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void		exec_word(t_ast *ast, t_exc *exc);
+static void	fork_error_message_tokenword(t_exc *exc);
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc);
 
 // In practice, most shells just reapply SIG_IGN before every fork 
@@ -30,10 +31,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid < 0)
-		{
-			perror("Fork for TOKEN_WORD failed");
-			return ;
-		}
+			return (fork_error_message_tokenword(exc)); 
 		if (pid == 0)
 		{
 			dup2_close_infile_outfile(exc);
@@ -42,6 +40,13 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		close_infile_outfile_parent(exc);
 		waiting_exec_word(pid, exit_status, exc);
 	}
+}
+
+static void	fork_error_message_tokenword(t_exc *exc)
+{
+	close_infile_outfile_parent(exc);
+	perror("shellfish: Fork for TOKEN_WORD failed");
+	return ;
 }
 
 // WIFEXITED(status) 
