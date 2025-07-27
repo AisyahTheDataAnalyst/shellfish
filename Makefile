@@ -50,7 +50,7 @@ SRC_EXPANSION = expansion
 
 # Compiler & flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
 RM = rm -rf
 
 # Source files
@@ -72,7 +72,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		token_word.c \
 		tokenization.c) \
 		$(addprefix $(SRC_EXPANSION)/, \
-		expansion.c) \
+		expansion.c \
+		utils.c) \
 		$(addprefix $(SRC_EXECUTION)/, \
 		$(SRC_EXEC)/$(SRC_PIPE)/exec_pipe.c \
 		$(SRC_EXEC)/$(SRC_RD)/exec_redirection.c \
