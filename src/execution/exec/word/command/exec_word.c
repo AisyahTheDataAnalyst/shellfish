@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 10:26:31 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:39:44 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	exec_word(t_ast *ast, t_exc *exc)
 	{
 		signal(SIGINT, SIG_IGN);
 		pid = fork();
-		dupping_stdin_stdout(exc);
 		if (pid < 0)
 		{
 			perror("Fork for TOKEN_WORD failed");
@@ -42,7 +41,6 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		}
 		close_infile_outfile_parent(exc);
 		waiting_exec_word(pid, exit_status, exc);
-		reset_stdin_stdout(exc);
 	}
 }
 

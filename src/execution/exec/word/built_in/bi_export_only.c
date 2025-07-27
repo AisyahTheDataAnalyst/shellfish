@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:32:18 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:15:39 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:44:24 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static t_list	*ft_lstnew_export(char *name, char *value);
 static void		sort_export(t_list *temp_list);
 static void		swapped_name_value(t_list *a, t_list *b);
 
+// 31 => (export var1)
+// 30 => (export var2=)
 void	export_only(t_list *exec)
 {
 	char	**temp_array;
@@ -31,8 +33,10 @@ void	export_only(t_list *exec)
 	curr = temp_list;
 	while (curr)
 	{
-		if (!ft_strncmp(curr->export_value, "	", 1))
+		if (curr->export_value[0] == 31)
 			printf("declare -x %s\n", curr->export_name);
+		else if (curr->export_value[0] == 30)
+			printf("declare -x %s=\"\"\n", curr->export_name);
 		else
 			printf("declare -x %s=\"%s\"\n", curr->export_name, \
 curr->export_value);
@@ -57,10 +61,7 @@ static t_list	*tarray_to_tlist(char **temp_array, t_list *temp_list)
 			name_len++;
 		name_len = calculate_name_len(temp_array, i);
 		name = ft_substr(temp_array[i], 0, name_len);
-		if (!ft_strchr(temp_array[i], '='))
-			value = ft_strdup("	");
-		else
-			value = ft_strdup(ft_strchr(temp_array[i], '=') + 1);
+		value = allocating_value(temp_array, i);
 		new_node = ft_lstnew_export(name, value);
 		ft_lstadd_back(&temp_list, new_node);
 	}

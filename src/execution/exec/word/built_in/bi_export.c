@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:19:15 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/07 14:06:41 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:41:42 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,28 @@ int	calculate_name_len(char **temp_array, int i)
 	else
 		name_len = ft_strchr(temp_array[i], '=') - temp_array[i];
 	return (name_len);
+}
+
+// 31 => (export var1)
+// 30 => (export var2=)
+// ft_strdup => (export var3=[real values])
+char	*allocating_value(char **temp_array, int i)
+{
+	char	*value;
+
+	if (!ft_strchr(temp_array[i], '='))
+	{
+		value = malloc(2);
+		value[0] = 31;
+		value[1] = '\0';
+	}
+	else if (!(ft_strchr(temp_array[i], '=') + 1))
+	{
+		value = malloc(2);
+		value[0] = 30;
+		value[1] = '\0';
+	}
+	else
+		value = ft_strdup(ft_strchr(temp_array[i], '=') + 1);
+	return (value);
 }

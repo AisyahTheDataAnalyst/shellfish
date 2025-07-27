@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/25 12:06:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 10:26:49 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	exec_builtin(t_ast *ast, t_exc *exc)
 	reset_stdin_stdout(exc);
 }
 
-// for 
 void	built_ins(char **args, t_exc *exc)
 {
 	if (ft_strncmp(args[0], "echo", 5) == 0)

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 14:30:28 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:38:42 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,22 @@ void	execution(t_ast *ast, t_exc *exc);
 void	exec_pipe(t_ast *ast, t_exc *exc);
 void	exec_redirection(t_ast *ast, t_exc *exc);
 void	combine_all_heredoc(t_ast *ast, t_exc *exc);
-int		reset_cursor_heredocfd(t_exc *exc);
 void	rd_append(t_ast *ast, t_exc *exc);
 void	rd_in(t_ast *ast, t_exc *exc);
 void	rd_out(t_ast *ast, t_exc *exc);
 void	rd_heredoc(t_ast *ast, t_exc *exc);
+int		reset_cursor_heredocfd(t_exc *exc);
 void	exec_word(t_ast *ast, t_exc *exc);
 void	access_and_execve(t_exc *exc, t_ast *ast);;
-void	dupping_stdin_stdout(t_exc *exc);
 void	dup2_close_infile_outfile(t_exc *exc);
 void	close_infile_outfile_parent(t_exc *exc);
+void	dupping_stdin_stdout(t_exc *exc);
 void	reset_stdin_stdout(t_exc *exc);
 
-// built_ins
-void	built_ins(char **av, t_exc *exc);
-int		is_bi(char **args);
+// built_in
 void	exec_builtin(t_ast *ast, t_exc *exc);
+int		is_bi(char **args);
+void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
 void	bi_env(t_exc *exc);
@@ -102,6 +102,7 @@ void	export_add(char **av, t_exc *exc);
 void	export_only(t_list *exec);
 size_t	longer(int len_1, int len_2);
 int		calculate_name_len(char **temp_array, int i);
+char	*allocating_value(char **temp_array, int i);
 void	bi_pwd(char **av, t_exc *exc);
 void	bi_unset(char **av, t_exc *exc);
 
@@ -118,7 +119,7 @@ void	envp_to_envparray(char **envp, t_list *exec);
 int		total_heredocs(t_token *token);
 void	mallocing_heredoc(t_exc *exc);
 
-	//reset_signal.c
+	//reset.c
 void	reset_signals_for_heredoc(void);
 void	reset_signals_original(void);
 void	reset_signals_tokenword(void);
