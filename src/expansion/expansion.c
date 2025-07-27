@@ -38,31 +38,20 @@ void check_quote(char **str, t_exc *exc)
 {
 	int i;
 	int start;
-	char *str_not_quote;
 	char *result;
 
 	i = 0;
 	start = 0;
-	str_not_quote = NULL;
 	result = NULL;
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
-			handle_quote((*str)[i], &i, *str, exc, &result);
-		else
 		{
-			start = i;
-			while (!((*str)[i] == '"' || (*str)[i] == '\'') && (*str)[i] != '\0')
-				i++;
-			str_not_quote = ft_substr(*str, start, i - start);
-			printf("str_not_quote: %s\n", str_not_quote);
-			if (!str_not_quote)
-				ft_putstr_fd("Failed to substr the string not inside the quote", 2);
-			do_expansion(str_not_quote, exc, &result);
-			printf("result: %s\n", result);
-			free(str_not_quote);
+			i++;
+			handle_quote((*str)[i - 1], &i, *str, exc, &result);
 		}
-		printf("char[%d] = %c\n", i, (*str)[i]);
+		else
+			handle_quote('\0', &i, *str, exc, &result);
 	}
 	free(*str);
 	(*str) = result;
@@ -88,20 +77,19 @@ void handle_quote(char quote, int *i, char *str, t_exc *exc, char **result)
 
 	start = 0;
 	str_quote = NULL;
-	start = ++(*i);
-	printf("start: %d\n", start);
-	printf("quote: [%c]\n", quote);
-	while (str[(*i)] != quote && str[(*i)] != '\0')
+	start = (*i);
+	while (str[(*i)] != '"' && str[(*i)] != '\'' && str[(*i)] != '\0')
 		(*i)++;
 	str_quote = ft_substr(str, start, (*i) - start);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
-	if (quote == '"')
+	if (quote == '"' || quote == '\0')
 		do_expansion(str_quote, exc, result);
 	else
 		*result = append_results(*result, str_quote);
 	free(str_quote);
-	(*i)++;
+	if (quote == '"' && quote == '\'')
+		(*i)++;
 }
 
 char *append_results(char *result, char *str_to_append)
