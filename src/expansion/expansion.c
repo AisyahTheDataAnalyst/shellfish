@@ -1,32 +1,31 @@
 # include "../include/minishell.h"
 
-//TODO: solve memoery leak
-//TODO: handle exit code (get from the execution struct)
 char *parameter_expansion(char *str, t_exc *exc);
 char *value_expansion(char *param, char **env);
 void get_value(char **param, char **env, char **result);
-void handle_quote(char **str, t_exc *exc);
+void check_quote(char **str, t_exc *exc);
+void handle_quote(char quote, int *i, char *str, t_exc *exc, char **result);
+void do_expansion(char *str_to_expand, t_exc *exc, char **result);
 char *append_results(char *result, char *str_to_append);
 bool is_valid_param_char(char letter);
 
+// 1. check single/double quote- need to expand or not
+// 2. parameter_expansion if got $
+// 3. quote_removal
 void expand_tokens(t_token *token, t_exc *exc)
 {
+	int i;
+
+	i = 0;
 	while (token)
 	{
-		int i = 0;
-        while (token->basin_buff && token->basin_buff[i])
-        {
-			// check single/double quote- need to expand or not
-            handle_quote(&token->basin_buff[i], exc);
-            // parameter_expansion(&token->basin_buff[i], env);
-			// handle exit code
-			// tilde epansion(optional)
-			// quote_removal
-			// printf("token[%d][%d]: %s\n", token->index, i, token->basin_buff[i]);
-            i++;
-        }
-        token = token->next;
-    }
+		while (token->basin_buff && token->basin_buff[i])
+		{
+			check_quote(&token->basin_buff[i], exc);
+			i++;
+		}
+		token = token->next;
+	}
 }
 
 // if got quote
@@ -35,68 +34,74 @@ void expand_tokens(t_token *token, t_exc *exc)
 	// store in result
 // if not quote
 	// append to result
-void handle_quote(char **str, t_exc *exc)
+void check_quote(char **str, t_exc *exc)
 {
-    int i;
+	int i;
 	int start;
-	char *str_quote;
 	char *str_not_quote;
-	char quote;
-	char *expanded_str;
 	char *result;
 
-    i = 0;
+	i = 0;
 	start = 0;
-	str_quote = NULL;
-	expanded_str = NULL;
+	str_not_quote = NULL;
 	result = NULL;
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
-		{
-			quote = (*str)[i];
-			start = ++i;
-			// printf("quote %c\n", (*str)[start]);
-			while ((*str)[i] != quote && (*str)[i] != '\0')
-				i++;
-			// printf("quote %c\n", (*str)[i]);
-			str_quote = ft_substr((*str), start, i - start);
-			if (!str_quote)
-				printf("Failed to get the string inside the quote\n");
-			// printf("inside quote: %s\n", str_quote);
-			if (quote == '"')
-			{
-				expanded_str = parameter_expansion(str_quote, exc);
-				// printf("expanded: %s\n", expanded_str);
-				free(str_quote);
-				if (expanded_str)
-					result = append_results(result, expanded_str);
-				expanded_str = NULL;
-			}
-			else
-				result = append_results(result, str_quote);
-			i++;
-			// printf("result quote: %s\n", result);
-		}
+			handle_quote((*str)[i], &i, *str, exc, &result);
 		else
 		{
 			start = i;
 			while (!((*str)[i] == '"' || (*str)[i] == '\'') && (*str)[i] != '\0')
 				i++;
 			str_not_quote = ft_substr(*str, start, i - start);
-			// printf("str_not_quote: %s\n", str_not_quote);
-			expanded_str = parameter_expansion(str_not_quote, exc);
+			printf("str_not_quote: %s\n", str_not_quote);
+			if (!str_not_quote)
+				ft_putstr_fd("Failed to substr the string not inside the quote", 2);
+			do_expansion(str_not_quote, exc, &result);
+			printf("result: %s\n", result);
 			free(str_not_quote);
-			if (expanded_str)
-				result = append_results(result, expanded_str);
-			expanded_str = NULL;
 		}
+		printf("char[%d] = %c\n", i, (*str)[i]);
 	}
-	//if (result)
-	//{
-		free(*str);
-		(*str) = result;
-	//}
+	free(*str);
+	(*str) = result;
+}
+
+void do_expansion(char *str_to_expand, t_exc *exc, char **result)
+{
+	char *expanded_str;
+
+	expanded_str = NULL;
+	expanded_str = parameter_expansion(str_to_expand, exc);
+	if (expanded_str)
+	{
+		*result = append_results(*result, expanded_str);
+		free(expanded_str);
+	}
+}
+
+void handle_quote(char quote, int *i, char *str, t_exc *exc, char **result)
+{
+	int start;
+	char *str_quote;
+
+	start = 0;
+	str_quote = NULL;
+	start = ++(*i);
+	printf("start: %d\n", start);
+	printf("quote: [%c]\n", quote);
+	while (str[(*i)] != quote && str[(*i)] != '\0')
+		(*i)++;
+	str_quote = ft_substr(str, start, (*i) - start);
+	if (!str_quote)
+		ft_putstr_fd("Failed to substr the string inside the quote", 2);
+	if (quote == '"')
+		do_expansion(str_quote, exc, result);
+	else
+		*result = append_results(*result, str_quote);
+	free(str_quote);
+	(*i)++;
 }
 
 char *append_results(char *result, char *str_to_append)
@@ -109,13 +114,13 @@ char *append_results(char *result, char *str_to_append)
 	temp = result;
 	result = ft_strjoin(result, str_to_append);
 	free (temp);
-	(str_to_append) = NULL;
+	// (str_to_append) = NULL;
 	return(result);
 }
 
 char *parameter_expansion(char *str, t_exc *exc)
 {
-    char *param;
+	char *param;
 	char *result;
 	char *after_expand;
 	char *not_expand;
@@ -132,7 +137,7 @@ char *parameter_expansion(char *str, t_exc *exc)
 	{
 		if (str[j] == '$' && str[j + 1] == '?')
 		{
-			printf("%d\n", exc->exit_code);
+			// printf("%d\n", exc->exit_code);
 			return(ft_itoa(exc->exit_code));
 		}
 		if (str[j] == '$')
@@ -144,11 +149,19 @@ char *parameter_expansion(char *str, t_exc *exc)
 			//printf("len: %d\n", param_len);
 			param = ft_substr(str, start, j - start);
 			//printf("param before expansion: %s\n", param);
-			after_expand = value_expansion(param, exc->exec->envp_array);
-			// printf("after_expand: %s\n", after_expand);
-			if(after_expand)
-				result = append_results(result, after_expand);
-			after_expand = NULL;
+			if (param)
+			{
+				after_expand = value_expansion(param, exc->exec->envp_array);
+				// printf("after_expand: %s\n", after_expand);
+				free(param);
+				param = NULL;
+				if (after_expand)
+				{	result = append_results(result, after_expand);
+					// return(result);
+					// free(after_expand);
+					// after_expand = NULL;
+				}
+			}
 		}
 		else
 		{
@@ -158,8 +171,16 @@ char *parameter_expansion(char *str, t_exc *exc)
 			not_expand = ft_substr(str, start , j - start);
 			// printf("not_expand: %s\n", not_expand);
 			if (not_expand)
+			{
 				result = append_results(result, not_expand);
-			not_expand = NULL;
+				// if (!result)
+				// {
+				// 	free(result);
+				// 	result = NULL;
+				// }
+				free(not_expand);
+			}
+			// not_expand = NULL;
 		}
 		// printf("result: %s\n", result);
 	}
@@ -204,14 +225,14 @@ void get_value(char **param, char **env, char **result)
 
 char *value_expansion(char *param, char **env)
 {
-    char *value;
-    int i = 0;
+	char *value;
+	int i = 0;
 	char var[100];
 
 	value = NULL;
-    // printf("param: %s\n", param);
-    while(env[i])
-    {
+	// printf("param: %s\n", param);
+	while(env[i])
+	{
 		int j = 0;
 		while (env[i][j] != '=' && env[i][j] != '\0')
 		{
@@ -222,12 +243,12 @@ char *value_expansion(char *param, char **env)
 		// printf("j: %d\n", j);
 		// printf("var[%ld]: %s\n", ft_strlen(var), var);
 		if (ft_strncmp(param, var, ft_strlen(var) + 1) == 0)
-        {
+		{
 			value = ft_strchr(env[i], '=') + 1;
 			// printf("value: %s\n", value);
-            return(value);
-        }
-        i++;
-    }
-    return (NULL);
+			return(value);
+		}
+		i++;
+	}
+	return (NULL);
 }
