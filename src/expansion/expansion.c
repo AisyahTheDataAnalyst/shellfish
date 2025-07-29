@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/29 20:38:36 by wshee            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:36:57 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 	char	*str_quote;
 	char	*result;
 
-	start = 0;
+	start = (*i);
 	str_quote = NULL;
 	result = NULL;
-	start = (*i);
-	while (str[(*i)] != '"' && str[(*i)] != '\'' && str[(*i)] != '\0')
+	while (str[(*i)] != quote && str[(*i)] != '\0')
+	{
+		if (quote == '\0')
+			if (str[(*i)] == '"' || str[(*i)] == '\'')
+				break ;
 		(*i)++;
+	}
 	str_quote = ft_substr(str, start, (*i) - start);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
