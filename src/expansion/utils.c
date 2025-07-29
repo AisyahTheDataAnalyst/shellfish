@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:12:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/27 21:32:18 by wshee            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:46:19 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,18 @@ void	handle_exit_code(char **result, int *j, t_exc *exc)
 	(*j) += 1;
 }
 
-//check if the param is valid
-bool	is_valid_param_char(char letter)
+//check if the parameter character is valid in env
+// if not valid character append the original character to the string
+// without the dollar
+bool	valid_param(char letter)
 {
 	if (!(ft_isalnum(letter) || letter == '_'))
 		return (false);
 	return (true);
 }
 
+// if need to expand, find the value of the parameter in env
+// append to the result if got value
 void	get_value(char **param, char **env, char **result)
 {
 	char	*value;
@@ -65,6 +69,9 @@ void	get_value(char **param, char **env, char **result)
 	}
 }
 
+// store the param before = in the env in a temp arr
+// compare with the user input param
+// get the value after =
 char	*value_expansion(char *param, char **env)
 {
 	char	*value;

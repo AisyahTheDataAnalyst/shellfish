@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/27 22:09:54 by wshee            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:38:36 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	expand_tokens(t_token *token, t_exc *exc)
 	{
 		while (token->basin_buff && token->basin_buff[i])
 		{
-			check_quote(&token->basin_buff[i], exc);
+			check_got_quote(&token->basin_buff[i], exc);
 			i++;
 		}
 		token = token->next;
@@ -32,81 +32,78 @@ void	expand_tokens(t_token *token, t_exc *exc)
 }
 
 // if got quote
-	// search for quote open and closing
-	// substr the str inside the quote
-	// store in result
+// 	search for quote open and closing
+// 	substr the str inside the quote
+// 	store in result
 // if not quote
-	// append to result
-void	check_quote(char **str, t_exc *exc)
+// 	append to result
+void	check_got_quote(char **str, t_exc *exc)
 {
 	int		i;
 	int		start;
+	char	*str_quote;
 	char	*result;
 
 	i = 0;
 	start = 0;
+	str_quote = NULL;
 	result = NULL;
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
 		{
 			i++;
-			handle_quote((*str)[i - 1], &i, *str, exc, &result);
+			str_quote = handle_quote((*str)[i - 1], &i, *str, exc);
 		}
 		else
-			handle_quote('\0', &i, *str, exc, &result);
-		printf("result: %s\n", result);
+			str_quote = handle_quote('\0', &i, *str, exc);
+		if (str_quote)
+			result = append_results(result, str_quote);
+		free(str_quote);
 	}
 	free(*str);
 	(*str) = result;
 }
 
-// void	do_expansion(char *str_to_expand, t_exc *exc, char **result)
-// {
-// 	char	*expanded_str;
-
-// 	expanded_str = parameter_expansion(str_to_expand, exc);
-// 	if (expanded_str)
-// 	{
-// 		*result = append_results(*result, expanded_str);
-// 		free(expanded_str);
-// 	}
-// }
-
-void	handle_quote(char quote, int *i, char *str, t_exc *exc, char **result)
+// search for the other quote pair if got quote
+// if double quote or no quote - pass to expansion
+// else if single quote append the result
+// skip the quote character if is quote
+char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 {
 	int		start;
 	char	*str_quote;
+	char	*result;
 
 	start = 0;
 	str_quote = NULL;
+	result = NULL;
 	start = (*i);
 	while (str[(*i)] != '"' && str[(*i)] != '\'' && str[(*i)] != '\0')
 		(*i)++;
 	str_quote = ft_substr(str, start, (*i) - start);
-	printf("str_quote: %s\n", str_quote);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
 	if (quote == '"' || quote == '\0')
-		parameter_expansion(str_quote, exc, result);
-		// do_expansion(str_quote, exc, result);
+		parameter_expansion(str_quote, exc, &result);
 	else
-		*result = append_results(*result, str_quote);
+		result = append_results(result, str_quote);
 	free(str_quote);
-	if (quote == '"' && quote == '\'')
+	if (quote == '"' || quote == '\'')
 		(*i)++;
+	return (result);
 }
 
-//handle $? - exit code
-//expand the parameter in env if got $
+// check if the first character is $
+// expand the parameter when it see $
+// if not iterate throught the string and append the original string to result
+// check if there is another $ that need to be expand
 void	parameter_expansion(char *str, t_exc *exc, char **result)
 {
-	// char	*result;
 	char	*not_expand;
 	int		start;
 	int		j;
 
-	// result = NULL;
 	not_expand = NULL;
 	j = 0;
 	while (str[j] != '\0')
@@ -125,9 +122,12 @@ void	parameter_expansion(char *str, t_exc *exc, char **result)
 			free(not_expand);
 		}
 	}
-	// return (result);
 }
 
+//handle $? - exit code
+//expand the parameter in env if got $
+// stop the while loop when it sees another $
+// return to the original string
 void	need_to_expand(char *str, int *j, t_exc *exc, char **result)
 {
 	int		start;
@@ -146,8 +146,7 @@ void	need_to_expand(char *str, int *j, t_exc *exc, char **result)
 	else
 	{
 		start = (*j);
-		while (str[(*j)] != '$' && str[(*j)] != '\0' \
-			&& is_valid_param_char(str[(*j)]))
+		while (str[(*j)] != '$' && str[(*j)] != '\0' && valid_param(str[(*j)]))
 			(*j)++;
 		param = ft_substr(str, start, (*j) - start);
 		if (!param)
