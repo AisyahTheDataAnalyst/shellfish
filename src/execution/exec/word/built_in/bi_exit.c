@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 16:56:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:59:02 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void				bi_exit(char **av, t_exc *exc);
 static void			exit_error_handling_1(char **av, t_exc *exc, int i, int j);
-static void			exit_error_handling_2(char **av, t_exc *exc);
+static int			exit_error_handling_2(char **av, t_exc *exc);
 static void			exit_error_handling_3(char **av, t_exc *exc);
 static __int128_t	ft_ato_int128(const char *str);
 
@@ -36,7 +36,8 @@ void	bi_exit(char **av, t_exc *exc)
 		exit(0);
 	}
 	exit_error_handling_1(av, exc, i, j);
-	exit_error_handling_2(av, exc);
+	if (exit_error_handling_2(av, exc) == 1)
+		return ;
 	exit_error_handling_3(av, exc);
 }
 
@@ -73,7 +74,7 @@ static void	exit_error_handling_1(char **av, t_exc *exc, int i, int j)
 // 2- control overflow what __int128_t cannot handle 
 // which is more than 39 digits
 // 9223372036854775807 is 19 digits, so i just make it to 20 digits
-static void	exit_error_handling_2(char **av, t_exc *exc)
+static int	exit_error_handling_2(char **av, t_exc *exc)
 {
 	int			i;
 
@@ -83,7 +84,7 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 		ft_putendl_fd("exit", 2);
 		ft_putendl_fd("shellfish: exit: too many arguments", 2);
 		exc->exit_code = 1;
-		return ;
+		return (1);
 	}
 	if (ft_strlen(av[1]) >= 20)
 	{
@@ -99,6 +100,7 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 		}
 		exit(2);
 	}
+	return (0);
 }
 
 static void	exit_error_handling_3(char **av, t_exc *exc)

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 15:04:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:27:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		is_bi(char **args);
 void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
-void	bi_env(t_exc *exc);
+void	bi_env(char **av, t_exc *exc);
 void	bi_exit(char **av, t_exc *exc);
 void	bi_export(char **av, t_exc *exc);
 void	export_add(char **av, t_exc *exc);
