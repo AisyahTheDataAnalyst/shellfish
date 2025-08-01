@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_word.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/29 21:44:14 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/01 13:23:27 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 		if (pid == 0)
 		{
 			dup2_close_infile_outfile(exc);
+			reset_signals_tokenword();
 			access_and_execve(exc, ast);
 		}
 		close_infile_outfile_parent(exc);

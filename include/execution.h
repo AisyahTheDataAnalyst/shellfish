@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 15:04:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:26:05 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h> // wait, waitpid
 # include <readline/readline.h>
 # include <readline/history.h> // add_history
+# include <limits.h> // LLONG_MIN, LLONG_MAX
 # include "minishell.h"
 # include "libft.h"
 # include "token.h"
@@ -96,7 +97,7 @@ int		is_bi(char **args);
 void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
-void	bi_env(t_exc *exc);
+void	bi_env(char **av, t_exc *exc);
 void	bi_exit(char **av, t_exc *exc);
 void	bi_export(char **av, t_exc *exc);
 void	export_add(char **av, t_exc *exc);

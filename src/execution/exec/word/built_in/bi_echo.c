@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:42 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 18:23:58 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:09:44 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		bi_echo(char **av, t_exc *exc);
 static bool	is_option_exist(char **av, int j);
-static int	echo_start_printing(char **av, int i, int j);
+static int	echo_start_printing(char **av, int i);
 
 void	bi_echo(char **av, t_exc *exc)
 {
@@ -25,7 +25,7 @@ void	bi_echo(char **av, t_exc *exc)
 	i = 1;
 	j = 1;
 	n_option_exist = is_option_exist(av, j);
-	i = echo_start_printing(av, i, j);
+	i = echo_start_printing(av, i);
 	while (av[i])
 	{
 		printf("%s", av[i]);
@@ -56,10 +56,13 @@ static bool	is_option_exist(char **av, int j)
 }
 
 // to know starting from which variable need to print for echo
-static int	echo_start_printing(char **av, int i, int j)
+static int	echo_start_printing(char **av, int i)
 {
+	int	j;
+
 	while (av[i] && ft_strncmp(av[i], "-n", 2) == 0)
 	{
+		j = 1;
 		while (av[i][j])
 		{
 			if (av[i][j] == 'n')
