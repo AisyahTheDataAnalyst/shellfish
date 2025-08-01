@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:42:42 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/30 10:48:38 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:09:44 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	echo_start_printing(char **av, int i)
 			if (av[i][j] == 'n')
 				j++;
 			else
-				return (i);	
+				return (i);
 		}
 		i++;
 	}
