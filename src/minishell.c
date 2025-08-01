@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 	int_main_init(&exc, env);
 	int_main_loop(&exc);
 	freeing(&exc);
-	// printf("exit\n");
+	printf("exit\n");
 	return (0);
 }
 
@@ -61,16 +61,7 @@ static void	int_main_loop(t_exc *exc)
 	exc->data = &data;
 	while (1)
 	{
-		// data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
-		if (isatty(fileno(stdin)))
-			data.input = readline("\033[0;32mtest_shellfish 🦪🐠🐚 $\033[0m ");
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			data.input = ft_strtrim(line, "\n");
-			free(line);
-		}
+		data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
 		if (!data.input)
 			break ;
 		if (ft_strncmp(data.input, "", 1) != 0)
@@ -94,6 +85,17 @@ static void	int_main_loop(t_exc *exc)
 		// printf("------------------\n");
 	}
 }
+
+// minishell tester:
+// if (isatty(fileno(stdin)))
+// 	data.input = readline("\033[0;32mtest_shellfish 🦪🐠🐚 $\033[0m ");
+// else
+// {
+// 	char *line;
+// 	line = get_next_line(fileno(stdin));
+// 	data.input = ft_strtrim(line, "\n");
+// 	free(line);
+// }
 
 // static void print_ast(t_ast *node, int depth, char side)
 // {
