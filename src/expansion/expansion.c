@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/03 18:55:57 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:53:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,14 @@ char *word_splitting(char *input)
 				splitted_input[j] = input[i];
 			else if (input[i - 1] == ' ' ||  input[i - 1] == '\t' || input[i - 1] == '\n')
 			{
+				// if (j != 0)
 				splitted_input[j++] = ' ';
 				splitted_input[j] = input[i];
 			}
 			j++;
 		}
+		else if ((input[i] == ' ' ||  input[i] == '\t' || input[i] == '\n') && input[i + 1] == '\0')
+			splitted_input[j++] = ' ';
 		i++;
 	}
 	splitted_input[j] = '\0';
