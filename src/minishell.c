@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **env)
 	int_main_loop(&exc);
 	freeing(&exc);
 	// printf("exit\n");
+	// printf("exit\n");
 	return (0);
 }
 
@@ -63,7 +64,7 @@ static void	int_main_loop(t_exc *exc)
 	{
 		// data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
 		if (isatty(fileno(stdin)))
-			data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+			data.input = readline("\033[0;32mtest_shellfish 🦪🐠🐚 $\033[0m ");
 		else
 		{
 			char *line;
@@ -83,13 +84,18 @@ static void	int_main_loop(t_exc *exc)
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
 		// printf("------------------\n");
+		// printf("------------------\n");
 		expand_tokens(data.token, exc);
+		// printf("------------------\n");
+		// printf("exit_code before execution: %d\n", exc->exit_code);
 		// printf("------------------\n");
 		// printf("exit_code before execution: %d\n", exc->exit_code);
 		if (!(exc->exit_code == 130 && exc->process->total_hd > 0))
 			execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);
+		// printf("exit_code before readline: %d\n", exc->exit_code);
+		// printf("------------------\n");
 		// printf("exit_code before readline: %d\n", exc->exit_code);
 		// printf("------------------\n");
 	}

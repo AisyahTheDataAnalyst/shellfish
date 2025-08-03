@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/01 13:23:27 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:07:40 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_word(t_ast *ast, t_exc *exc)
 	int		exit_status;
 
 	exit_status = 0;
-	if (is_bi(ast->token->basin_buff) == 1)
+	if (is_bi(ast->token->basin_buff, exc) == 1)
 		exec_builtin(ast, exc);
 	else
 	{
