@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/30 21:41:38 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/01 20:58:52 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	check_got_quote(char **str, t_exc *exc)
 		}
 		else
 			str_quote = handle_quote('\0', &i, *str, exc);
-		printf("str_quote:%s\n", str_quote);
+		// printf("str_quote:%s\n", str_quote);
 		if (str_quote)
 			result = append_results(result, str_quote);
 		free(str_quote);
-		printf("result: %s\n", result);
+		// printf("result: %s\n", result);
 	}
 	free(*str);
 	(*str) = result;
@@ -114,7 +114,7 @@ void	parameter_expansion(char *str, t_exc *exc, char **result)
 	j = 0;
 	while (str[j] != '\0')
 	{
-		if (str[j] == '$' && str[j + 1] == '\0')
+		if (str[j] == '$' && (str[j + 1] == '\0' || str[j + 1] == ' '))
 		{
 			*result = append_results(*result, "$");
 			return ;
@@ -127,13 +127,13 @@ void	parameter_expansion(char *str, t_exc *exc, char **result)
 			while (str[j] != '$' && str[j] != '\0')
 				j++;
 			not_expand = ft_substr(str, start, j - start);
-			printf("not_expand: %s\n", not_expand);
+			// printf("not_expand: %s\n", not_expand);
 			if (!not_expand)
 				ft_putstr_fd("Failed to substr the string not expand", 2);
 			*result = append_results(*result, not_expand);
 			free(not_expand);
 		}
-		printf("param_expand_result: %s\n", *result);
+		// printf("param_expand_result: %s\n", *result);
 	}
 }
 
@@ -165,7 +165,7 @@ void	need_to_expand(char *str, int *j, t_exc *exc, char **result)
 		if (!param)
 			ft_putstr_fd("Failed to substr the string param", 2);
 		after_expand = value_expansion(param, exc->exec->envp_array);
-		printf("after_expand: %s\n", after_expand);
+		// printf("after_expand: %s\n", after_expand);
 		free(param);
 		if(after_expand)
 			*result = append_results(*result, after_expand);
