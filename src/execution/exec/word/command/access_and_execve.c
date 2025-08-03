@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:45:43 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 15:04:58 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/01 13:23:07 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ void	access_and_execve(t_exc *exc, t_ast *ast)
 	char	*pathname;
 
 	args = ast->token->basin_buff;
-	reset_signals_tokenword();
-	if (!args || !args[0] || !args[0][0])
-	{
-		free_before_readline(exc);
-		exc->exit_code = CMD_NOT_FOUND;
-		exit(exc->exit_code);
-	}
 	if (!ft_strncmp(args[0], "./", 2))
 		pathname = executable_files(args, exc);
 	else if (access(args[0], F_OK) != -1)
@@ -50,9 +43,15 @@ static char	*executable_files(char **args, t_exc *exc)
 	char	*pathname;
 
 	pathname = NULL;
-	if (!access(args[0], F_OK) && !access(args[0], X_OK))
-		pathname = ft_strdup(args[0]);
-	else
+	if (access(args[0], F_OK) < 0)
+	{
+		ft_putstr_fd("shellfish: ", 2);
+		perror(args[0]);
+		free_before_readline(exc);
+		exc->exit_code = CMD_NOT_FOUND;
+		exit(exc->exit_code);
+	}
+	else if (access(args[0], X_OK) < 0)
 	{
 		ft_putstr_fd("shellfish: ", 2);
 		perror(args[0]);
@@ -60,6 +59,8 @@ static char	*executable_files(char **args, t_exc *exc)
 		exc->exit_code = NON_EXECUTABLE;
 		exit(exc->exit_code);
 	}
+	else
+		pathname = ft_strdup(args[0]);
 	return (pathname);
 }
 

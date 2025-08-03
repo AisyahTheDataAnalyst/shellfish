@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:15:50 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 15:07:43 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:22:51 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	built_ins(char **args, t_exc *exc)
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 		bi_export(args, exc);
 	else if (ft_strncmp(args[0], "env", 4) == 0)
-		bi_env(exc);
+		bi_env(args, exc);
 	else if (ft_strncmp(args[0], "unset", 6) == 0)
 		bi_unset(args, exc);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)

@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/01 20:58:52 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 14:08:38 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	expand_tokens(t_token *token, t_exc *exc)
 {
 	int	i;
 
-	i = 0;
 	while (token)
 	{
+		i = 0;
 		while (token->basin_buff && token->basin_buff[i])
 		{
 			check_got_quote(&token->basin_buff[i], exc);
