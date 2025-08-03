@@ -65,3 +65,6 @@ libft/.vscode/c_cpp_properties.json
 libft/.vscode/settings.json
 libft/.vscode/tasks.json
 src/old_token
+
+42_minishell_tester
+.gitignore

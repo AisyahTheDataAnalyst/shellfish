@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:12:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/29 20:46:19 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 18:23:46 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,34 @@ bool	valid_param(char letter)
 
 // if need to expand, find the value of the parameter in env
 // append to the result if got value
-void	get_value(char **param, char **env, char **result)
-{
-	char	*value;
-	char	*temp;
+// void	get_value(char **param, char **env, char **result, t_exc *exc)
+// {
+// 	char	*value;
+// 	char	*temp;
 
-	value = NULL;
-	temp = NULL;
-	value = value_expansion(*param, env);
-	free(*param);
-	*param = NULL;
-	if (value)
-	{
-		if (*result == NULL)
-			*result = ft_strdup("");
-		temp = *result;
-		*result = ft_strjoin(*result, value);
-		free(temp);
-		value = NULL;
-	}
-}
+// 	value = NULL;
+// 	temp = NULL;
+// 	value = value_expansion(*param, env, exc);
+// 	free(*param);
+// 	*param = NULL;
+// 	if (value)
+// 	{
+// 		if (*result == NULL)
+// 			*result = ft_strdup("");
+// 		temp = *result;
+// 		*result = ft_strjoin(*result, value);
+// 		free(temp);
+// 		value = NULL;
+// 	}
+// }
 
 // store the param before = in the env in a temp arr
 // compare with the user input param
 // get the value after =
-char	*value_expansion(char *param, char **env)
+char	*value_expansion(char *param, char **env, t_exc *exc)
 {
 	char	*value;
+	// char	*return_value;
 	int		i;
 	int		j;
 	char	var[100];
@@ -93,6 +94,9 @@ char	*value_expansion(char *param, char **env)
 		if (ft_strncmp(param, var, ft_strlen(var) + 1) == 0)
 		{
 			value = ft_strchr(env[i], '=') + 1;
+			// return_value = ft_strdup(value);
+			if (exc->process->need_to_split == true)
+				value = word_splitting(value);
 			return (value);
 		}
 		i++;

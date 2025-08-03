@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/01 09:26:05 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/03 15:58:26 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "libft.h"
 # include "token.h"
 # include "ast.h"
-// <readline/readline.h> 
+// <readline/readline.h>
 // => readline, rl_clear_history
 // => rl_on_new_line, rl_replace_line, rl_redisplay
 
@@ -53,6 +53,7 @@ typedef struct s_process
 	bool	pipe_flag;
 	int		heredoc_fd;
 	bool	reset_cursor_hd;
+	bool	need_to_split;
 }	t_process;
 
 // typedef struct s_list
