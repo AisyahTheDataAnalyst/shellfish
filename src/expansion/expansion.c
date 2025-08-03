@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/03 20:53:22 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:27:30 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,21 @@
 void	expand_tokens(t_token *token, t_exc *exc)
 {
 	int	i;
+	char	*result;
 
+	result = NULL;
 	while (token)
 	{
 		i = 0;
 		while (token->basin_buff && token->basin_buff[i])
 		{
-			check_got_quote(&token->basin_buff[i], exc);
+			check_got_quote(token->basin_buff[i], exc, &result);
+			// printf("result: %s\n", result);
+			free(token->basin_buff[i]);
+			if (!result)
+				result = ft_strdup("");
+			token->basin_buff[i] = result;
+			result = NULL;
 			i++;
 		}
 		token = token->next;
@@ -37,38 +45,30 @@ void	expand_tokens(t_token *token, t_exc *exc)
 // 	store in result
 // if not quote
 // 	append to result
-void	check_got_quote(char **str, t_exc *exc)
+void	check_got_quote(char *basin, t_exc *exc, char **result)
 {
 	int		i;
 	int		start;
 	char	*str_quote;
-	char	*result;
 
 	i = 0;
 	start = 0;
 	str_quote = NULL;
-	result = NULL;
-	while ((*str)[i] != '\0')
+	while (basin[i] != '\0')
 	{
-		if ((*str)[i] == '"' || (*str)[i] == '\'')
+		if (basin[i] == '"' || basin[i] == '\'')
 		{
 			i++;
-			str_quote = handle_quote((*str)[i - 1], &i, *str, exc);
+			str_quote = handle_quote(basin[i - 1], &i, basin, exc);
 		}
 		else
-			str_quote = handle_quote('\0', &i, *str, exc);
-		// printf("str_quote:%s\n", str_quote);
+			str_quote = handle_quote('\0', &i, basin, exc);
 		if (str_quote)
 		{
-			result = append_results(result, str_quote);
+			*result = append_results(*result, str_quote);
 			free(str_quote);
 		}
-		// printf("result: %s\n", result);
 	}
-	free(*str);
-	if (!result)
-		result = ft_strdup("");
-	(*str) = result;
 }
 
 // search for the other quote pair if got quote
@@ -92,7 +92,6 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 		(*i)++;
 	}
 	str_quote = ft_substr(str, start, (*i) - start);
-	// printf("str_quote: [%s]\n", str_quote);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
 	if (quote == '"' || quote == '\0')
@@ -128,7 +127,6 @@ char *word_splitting(char *input)
 				splitted_input[j] = input[i];
 			else if (input[i - 1] == ' ' ||  input[i - 1] == '\t' || input[i - 1] == '\n')
 			{
-				// if (j != 0)
 				splitted_input[j++] = ' ';
 				splitted_input[j] = input[i];
 			}
@@ -139,7 +137,6 @@ char *word_splitting(char *input)
 		i++;
 	}
 	splitted_input[j] = '\0';
-	// printf("splited input: %s\n", splitted_input);
 	return(splitted_input);
 }
 
@@ -152,7 +149,6 @@ void	parameter_expansion(char *str, t_exc *exc, char **result, char quote)
 	char	*not_expand;
 	int		start;
 	int		j;
-	(void)quote;
 
 	not_expand = NULL;
 	j = 0;
@@ -175,15 +171,11 @@ void	parameter_expansion(char *str, t_exc *exc, char **result, char quote)
 			while (str[j] != '$' && str[j] != '\0')
 				j++;
 			not_expand = ft_substr(str, start, j - start);
-			// printf("not_expand: %s\n", not_expand);
 			if (!not_expand)
 				ft_putstr_fd("Failed to substr the string not expand", 2);
-			// not_expand = word_splitting(not_expand);
-			// printf("not_expand: [%s]\n", not_expand);
 			*result = append_results(*result, not_expand);
 			free(not_expand);
 		}
-		// printf("param_expand_result: %s\n", *result);
 	}
 	exc->process->need_to_split = false;
 }
@@ -216,7 +208,6 @@ void	need_to_expand(char *str, int *j, t_exc *exc, char **result)
 		if (!param)
 			ft_putstr_fd("Failed to substr the string param", 2);
 		after_expand = value_expansion(param, exc->exec->envp_array, exc);
-		// printf("after_expand: %s\n", after_expand);
 		free(param);
 		if(after_expand)
 		{
