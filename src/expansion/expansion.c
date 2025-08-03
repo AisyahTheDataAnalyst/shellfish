@@ -6,7 +6,7 @@
 /*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/07/29 21:36:57 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:53:22 by wshee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	expand_tokens(t_token *token, t_exc *exc)
 {
 	int	i;
 
-	i = 0;
 	while (token)
 	{
+		i = 0;
 		while (token->basin_buff && token->basin_buff[i])
 		{
 			check_got_quote(&token->basin_buff[i], exc);
@@ -57,11 +57,17 @@ void	check_got_quote(char **str, t_exc *exc)
 		}
 		else
 			str_quote = handle_quote('\0', &i, *str, exc);
+		// printf("str_quote:%s\n", str_quote);
 		if (str_quote)
+		{
 			result = append_results(result, str_quote);
-		free(str_quote);
+			free(str_quote);
+		}
+		// printf("result: %s\n", result);
 	}
 	free(*str);
+	if (!result)
+		result = ft_strdup("");
 	(*str) = result;
 }
 
@@ -86,10 +92,11 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 		(*i)++;
 	}
 	str_quote = ft_substr(str, start, (*i) - start);
+	// printf("str_quote: [%s]\n", str_quote);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
 	if (quote == '"' || quote == '\0')
-		parameter_expansion(str_quote, exc, &result);
+		parameter_expansion(str_quote, exc, &result, quote);
 	else
 		result = append_results(result, str_quote);
 	free(str_quote);
@@ -98,34 +105,87 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 	return (result);
 }
 
+//expansion for quote and unquote
+//if unquote - do word splitting on IFS character
+// what is IFS ? - space, newline, tab
+//if quoted do no do word spliting
+char *word_splitting(char *input)
+{
+	char *splitted_input;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	splitted_input = (char *) malloc((ft_strlen(input) + 1) * sizeof(char));
+	if (!splitted_input)
+		ft_putstr_fd("Failed to malloc splitted input", 2);
+	while (input[i])
+	{
+		if (input[i] != ' ' &&  input[i] != '\t' && input[i] != '\n')
+		{
+			if (i == 0 || (input[i - 1] != ' ' &&  input[i - 1] != '\t' && input[i - 1] != '\n'))
+				splitted_input[j] = input[i];
+			else if (input[i - 1] == ' ' ||  input[i - 1] == '\t' || input[i - 1] == '\n')
+			{
+				// if (j != 0)
+				splitted_input[j++] = ' ';
+				splitted_input[j] = input[i];
+			}
+			j++;
+		}
+		else if ((input[i] == ' ' ||  input[i] == '\t' || input[i] == '\n') && input[i + 1] == '\0')
+			splitted_input[j++] = ' ';
+		i++;
+	}
+	splitted_input[j] = '\0';
+	// printf("splited input: %s\n", splitted_input);
+	return(splitted_input);
+}
+
 // check if the first character is $
 // expand the parameter when it see $
 // if not iterate throught the string and append the original string to result
 // check if there is another $ that need to be expand
-void	parameter_expansion(char *str, t_exc *exc, char **result)
+void	parameter_expansion(char *str, t_exc *exc, char **result, char quote)
 {
 	char	*not_expand;
 	int		start;
 	int		j;
+	(void)quote;
 
 	not_expand = NULL;
 	j = 0;
 	while (str[j] != '\0')
 	{
-		if (str[j] == '$')
+		if (str[j] == '$' && (str[j + 1] == '\0' || str[j + 1] == ' '))
+		{
+			*result = append_results(*result, "$");
+			return ;
+		}
+		else if (str[j] == '$')
+		{
+			if (quote == '\0')
+				exc->process->need_to_split = true;
 			need_to_expand(str, &j, exc, result);
+		}
 		else
 		{
 			start = j;
 			while (str[j] != '$' && str[j] != '\0')
 				j++;
 			not_expand = ft_substr(str, start, j - start);
+			// printf("not_expand: %s\n", not_expand);
 			if (!not_expand)
 				ft_putstr_fd("Failed to substr the string not expand", 2);
+			// not_expand = word_splitting(not_expand);
+			// printf("not_expand: [%s]\n", not_expand);
 			*result = append_results(*result, not_expand);
 			free(not_expand);
 		}
+		// printf("param_expand_result: %s\n", *result);
 	}
+	exc->process->need_to_split = false;
 }
 
 //handle $? - exit code
@@ -155,8 +215,16 @@ void	need_to_expand(char *str, int *j, t_exc *exc, char **result)
 		param = ft_substr(str, start, (*j) - start);
 		if (!param)
 			ft_putstr_fd("Failed to substr the string param", 2);
-		after_expand = value_expansion(param, exc->exec->envp_array);
+		after_expand = value_expansion(param, exc->exec->envp_array, exc);
+		// printf("after_expand: %s\n", after_expand);
 		free(param);
-		*result = append_results(*result, after_expand);
+		if(after_expand)
+		{
+			*result = append_results(*result, after_expand);
+			if (exc->process->need_to_split == true)
+				free(after_expand);
+		}
 	}
 }
+
+
