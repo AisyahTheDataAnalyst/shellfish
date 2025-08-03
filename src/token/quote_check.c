@@ -12,24 +12,28 @@
 
 #include "../include/token.h"
 
-static int	double_quote(char *input, int *i)
+static int	double_quote(char *input, int *i, t_exc *exc)
 {
 	while (input[*i] && input[*i] != '"')
 	{
 		if (input[*i] == ' ')
 			input[*i] = 31;
+		if (input[*i] == '\t')
+			input[*i] = 30;
+		if (input[])
 		(*i)++;
 	}
 	if (input[*i] != '"')
 	{
 		ft_putstr_fd("Error: unmatched double quote\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	(*i)++;
 	return (1);
 }
 
-static int	single_quote(char *input, int *i)
+static int	single_quote(char *input, int *i, t_exc *exc)
 {
 	while (input[*i] && input[*i] != '\'')
 	{
@@ -40,6 +44,7 @@ static int	single_quote(char *input, int *i)
 	if (input[*i] != '\'')
 	{
 		ft_putstr_fd("Error: unmatched single quote\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	(*i)++;
@@ -51,7 +56,7 @@ static int	single_quote(char *input, int *i)
 // To prevent ft_split splitting spaced characters
 // inside quotes (ie: echo "hello__" space must be preserved until expansion).
 /// @param input "Malloc-ed string from readline"
-int	quote_check(t_input_info *b_input)
+int	quote_check(t_input_info *b_input, t_exc *exc)
 {
 	int	i;
 
@@ -61,13 +66,13 @@ int	quote_check(t_input_info *b_input)
 		if (b_input->input[i] == '"')
 		{
 			i++;
-			if (!double_quote(b_input->input, &i))
+			if (!double_quote(b_input->input, &i, exc))
 				return (0);
 		}
 		else if (b_input->input[i] == '\'')
 		{
 			i++;
-			if (!single_quote(b_input->input, &i))
+			if (!single_quote(b_input->input, &i, exc))
 				return (0);
 		}
 		else

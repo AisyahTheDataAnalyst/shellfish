@@ -12,25 +12,27 @@
 
 #include "../include/token.h"
 
-static int	pipe_check(char **basin, int i)
+static int	pipe_check(char **basin, int i, t_exc *exc)
 {
 	int	next_type;
 
 	if ((i == 0) || (basin[i + 1] == NULL))
 	{
 		ft_putstr_fd("shellfish: syntax error near unexpected token `|'\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	next_type = check_token_type(basin[i + 1]);
 	if (next_type == TOKEN_PIPE)
 	{
 		ft_putstr_fd("shellfish: syntax error near unexpected token `|'\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	return (1);
 }
 
-static int	redirect_check(char **basin, int i)
+static int	redirect_check(char **basin, int i, t_exc *exc)
 {
 	int	next_type;
 
@@ -39,6 +41,7 @@ static int	redirect_check(char **basin, int i)
 		ft_putstr_fd("shellfish: syntax error near unexpected token ", 2);
 		ft_putstr_fd(basin[i], 2);
 		ft_putstr_fd("\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	next_type = check_token_type(basin[i + 1]);
@@ -49,6 +52,7 @@ static int	redirect_check(char **basin, int i)
 		ft_putstr_fd("shellfish: syntax error near unexpected token ", 2);
 		ft_putstr_fd(basin[i], 2);
 		ft_putstr_fd("\n", 2);
+		exc->exit_code = 2;
 		return (0);
 	}
 	return (1);
@@ -61,7 +65,7 @@ static int	redirect_check(char **basin, int i)
 // "NULL | echo hello world", "echo hello | NULL".
 /// @param basin  Splitted array.
 /// @return Boolean, error message if invalid.
-int	check_input(char **basin)
+int	check_input(char **basin, t_exc *exc)
 {
 	int	i;
 	int	type;
@@ -72,14 +76,14 @@ int	check_input(char **basin)
 		type = check_token_type(basin[i]);
 		if (type == TOKEN_PIPE)
 		{
-			if (!pipe_check(basin, i))
+			if (!pipe_check(basin, i, exc))
 				return (0);
 		}
 		else if (type == TOKEN_APPEND || type == TOKEN_HEREDOC
 			|| type == TOKEN_REDIRECT_IN
 			|| type == TOKEN_REDIRECT_OUT)
 		{
-			if (!redirect_check(basin, i))
+			if (!redirect_check(basin, i, exc))
 				return (0);
 		}
 		i++;

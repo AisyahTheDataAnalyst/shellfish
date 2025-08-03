@@ -47,11 +47,10 @@ static int	handle_operator(char *input, char *cleaned, int *i, int *j)
 	return (1);
 }
 
-static char	*normalizing_check(char *input, char *cleaned)
+static char	*normalizing_check(char *input, char *cleaned, t_exc *exc)
 {
 	int	i;
 	int	j;
-	int	err;
 
 	i = 0;
 	j = 0;
@@ -60,9 +59,11 @@ static char	*normalizing_check(char *input, char *cleaned)
 		quote_copy(input, cleaned, &i, &j);
 		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
 		{
-			err = handle_operator(input, cleaned, &i, &j);
-			if (!err)
+			if (!handle_operator(input, cleaned, &i, &j))
+			{
+				exc->exit_code = 2;
 				return (NULL);
+			}
 		}
 		else
 			cleaned[j++] = input[i++];
@@ -78,7 +79,7 @@ static char	*normalizing_check(char *input, char *cleaned)
 // Output will be "> outfile", "echo hello | echo hello".
 /// @param input Malloc-ed string from readline
 /// @return Spaced string before and after every logical operator
-int	normalize_input(t_input_info *data)
+int	normalize_input(t_input_info *data, t_exc *exc)
 {
 	char	*cleaned_input;
 	int		len;
@@ -91,7 +92,7 @@ int	normalize_input(t_input_info *data)
 		free(data->input);
 		exit (1);
 	}
-	data->input = normalizing_check(data->input, cleaned_input);
+	data->input = normalizing_check(data->input, cleaned_input, exc);
 	if (!data->input)
 		return (0);
 	return (1);
