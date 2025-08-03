@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 15:58:26 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:11:55 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_process
 	bool	pipe_flag;
 	int		heredoc_fd;
 	bool	reset_cursor_hd;
+	int		av_counter;
 	bool	need_to_split;
 }	t_process;
 
@@ -94,7 +95,7 @@ void	reset_stdin_stdout(t_exc *exc);
 
 // built_in
 void	exec_builtin(t_ast *ast, t_exc *exc);
-int		is_bi(char **args);
+int		is_bi(char **args, t_exc *exc);
 void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
@@ -106,7 +107,7 @@ void	export_only(t_list *exec);
 size_t	longer(int len_1, int len_2);
 int		calculate_name_len(char **temp_array, int i);
 char	*allocating_value(char **temp_array, int i);
-void	bi_pwd(char **av, t_exc *exc);
+void	bi_pwd(t_exc *exc);
 void	bi_unset(char **av, t_exc *exc);
 
 //utils
