@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:36:43 by yelu              #+#    #+#             */
-/*   Updated: 2025/08/03 18:59:21 by yelu             ###   ########.fr       */
+/*   Updated: 2025/08/03 19:05:26 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	replace_space(char **basin)
 	}
 }
 
-void	replace_tab(char **basin)
+void	replace_tab(char *basin)
 {
 	int	i;
 	int	j;
@@ -44,37 +44,32 @@ void	replace_tab(char **basin)
 	j = 0;
 	while (basin[i])
 	{
-		j = 0;
-		while (basin[i][j])
+		while (basin[i] == '"' || basin[i] == '\'')
 		{
-			if ((basin[i][j] == '"' || basin[i][j] == '\'') && basin[i][j])
-			{
-				j++;
-				while ((basin[i][j] != '"' || basin[i][j] != '\'') && basin[i][j])
-					j++;
-			}
-			else if (basin[i][j] == '\t')
-			{
-				basin[i][j] = ' ';
-				j++;
-			}
+			i++;
+			while ((basin[i] != '"' || basin[i] != '\'') && basin[i])
+				i++;
 		}
+		if (basin[i] == '\t')
+			basin[i] == ' ';
 		i++;
 	}
 }
 
+// int main()
+// {
+// 	char *array[] = {
+// 		strdup("Hello			World"),
+// 		strdup("Bro			Hello"),
+// 		NULL
+// 	};
+// 	for(int i = 0; array[i]; i++)
+// 		printf("Before: %s\n", array[i]);
+// 	replace_tab(array);
+// 	for(int i = 0; array[i]; i++)
+// 		printf("After: %s\n", array[i]);
+// 	for (int i = 0; array[i]; i++)
+// 		free(array[i]);
+// }
+
 int main()
-{
-	char *array[] = {
-		strdup("Hello			World"),
-		strdup("Bro			Hello"),
-		NULL
-	};
-	for(int i = 0; array[i]; i++)
-		printf("Before: %s\n", array[i]);
-	replace_tab(array);
-	for(int i = 0; array[i]; i++)
-		printf("After: %s\n", array[i]);
-	for (int i = 0; array[i]; i++)
-		free(array[i]);
-}
