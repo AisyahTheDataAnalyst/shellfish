@@ -61,16 +61,7 @@ static void	int_main_loop(t_exc *exc)
 	exc->data = &data;
 	while (1)
 	{
-		if (isatty(fileno(stdin)))
-			data.input = readline("shellllll:");
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			data.input = ft_strtrim(line, "\n");
-			free(line);
-		}
-		// data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+		data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
 		if (!data.input)
 			break ;
 		if (ft_strncmp(data.input, "", 1) != 0)
