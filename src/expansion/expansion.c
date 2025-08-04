@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/03 20:53:22 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/04 19:53:05 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,69 @@
 void	expand_tokens(t_token *token, t_exc *exc)
 {
 	int	i;
-
-	while (token)
+	t_token *curr;
+	curr = token;
+	int size = ft_array_size(token->basin_buff);
+	fprintf(stderr, "size: %d\n", size);
+	while (curr)
 	{
 		i = 0;
-		while (token->basin_buff && token->basin_buff[i])
+		while (curr->basin_buff && curr->basin_buff[i])
 		{
-			check_got_quote(&token->basin_buff[i], exc);
+			check_got_quote(&curr->basin_buff[i], exc);
 			i++;
 		}
-		token = token->next;
+		curr = curr->next;
+	}
+	curr = token;
+	fprintf(stderr, "before skipping null strings\n");
+	if (curr && curr->basin_buff)
+	{
+		curr->basin_buff = skip_null_strings(curr->basin_buff, size);
+		fprintf(stderr, "after skipping null strings\n");
+	}
+	int j = 0;
+	while (j < size)
+	{
+		printf("basin_buff[%d]: %s\n", j, token->basin_buff[j]);
+		j++;
 	}
 }
+
+char	**skip_null_strings(char **basin_buff, int size)
+{
+	char	**new_basin_buff;
+	int		i;
+	int		j;
+
+	new_basin_buff = malloc(sizeof(char *) * (size + 1));
+	if (!new_basin_buff)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < size)
+	{
+		if (basin_buff[i]) // || basin_buff[i][0] == '\0') //!ft_strncmp(basin_buff[i], "", 1))
+		{
+			new_basin_buff[j] = ft_strdup(basin_buff[i]);
+			j++;
+		}
+		i++;
+	}
+	new_basin_buff[j] = NULL;
+	i = 0;
+	while (i < size)
+		free(basin_buff[i++]);
+	free(basin_buff);
+	return (new_basin_buff);
+}
+
+
+
+
+
+
+
 
 // if got quote
 // 	search for quote open and closing
@@ -66,8 +117,10 @@ void	check_got_quote(char **str, t_exc *exc)
 		// printf("result: %s\n", result);
 	}
 	free(*str);
-	if (!result)
-		result = ft_strdup("");
+	////////////////////////////////////////// aisyah edit
+	// if (!result)
+	// 	result = ft_strdup("");
+	//////////////////////////////////////////
 	(*str) = result;
 }
 
@@ -92,7 +145,7 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 		(*i)++;
 	}
 	str_quote = ft_substr(str, start, (*i) - start);
-	// printf("str_quote: [%s]\n", str_quote);
+	printf("str_quote: [%s]\n", str_quote);
 	if (!str_quote)
 		ft_putstr_fd("Failed to substr the string inside the quote", 2);
 	if (quote == '"' || quote == '\0')

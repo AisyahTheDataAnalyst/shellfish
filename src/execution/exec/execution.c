@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:06:45 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:06:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/04 15:00:46 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ void	execution(t_ast *ast, t_exc *exc)
 		exec_redirection(ast, exc);
 	else
 	{
-		if (!ast->token->basin_buff)
+		if (!ast->token->basin_buff) // || !ast->token->basin_buff[0])
 			return ;
 
-		while (ast->token->basin_buff[exc->process->av_counter] && \
-ast->token->basin_buff[exc->process->av_counter][0] == '\0')
-			exc->process->av_counter++;
-		if (!ast->token->basin_buff[exc->process->av_counter])
+// 		while (ast->token->basin_buff[exc->process->av_counter] && \
+// ast->token->basin_buff[exc->process->av_counter][0] == '\0')
+// 			exc->process->av_counter++;
+		// if (!ast->token->basin_buff[exc->process->av_counter])
+		if (!ast->token->basin_buff[0]) // || ast->token->basin_buff[0][0] == '\0')
 		{
 			ft_putendl_fd("Command '' not found", 2);
 			exc->exit_code = CMD_NOT_FOUND;
