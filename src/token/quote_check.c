@@ -18,9 +18,6 @@ static int	double_quote(char *input, int *i, t_exc *exc)
 	{
 		if (input[*i] == ' ')
 			input[*i] = 31;
-		if (input[*i] == '\t')
-			input[*i] = 30;
-		if (input[])
 		(*i)++;
 	}
 	if (input[*i] != '"')

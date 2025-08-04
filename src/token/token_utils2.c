@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/30 20:12:53 by yelu             ###   ########.fr       */
+/*   Updated: 2025/08/04 12:38:03 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	init_tokens(t_data *data, t_input_info *b_token, char *input, t_exc *exc)
 		free(input);
 	if (!quote_check(b_token, exc))
 		return (free(b_token->input), 0);
+	replace_tab(b_token->input);
 	if (!normalize_input(b_token, exc))
 		return (free(b_token->input), 0);
 	b_token->split_array = ft_split(b_token->input, ' ');

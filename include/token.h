@@ -68,7 +68,8 @@ int		normalize_input(t_input_info *input, t_exc *exc);
 t_type	check_token_type(char *basin);
 int		check_input(char **basin, t_exc *exc);
 void	create_token(t_input_info *input);
-void	replace_space(char **array);
+void	replace_space(char **basin);
+void	replace_tab(char *basin);
 
 // Word Tokenization
 t_token	*create_word_token(t_input_info *input);

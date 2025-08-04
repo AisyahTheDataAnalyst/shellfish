@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:36:43 by yelu              #+#    #+#             */
-/*   Updated: 2025/08/03 19:05:26 by yelu             ###   ########.fr       */
+/*   Updated: 2025/08/04 12:37:11 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,23 @@ void	replace_space(char **basin)
 void	replace_tab(char *basin)
 {
 	int	i;
-	int	j;
+	char	quote;
 
 	i = 0;
-	j = 0;
+	quote = 0;
 	while (basin[i])
 	{
-		while (basin[i] == '"' || basin[i] == '\'')
-		{
-			i++;
-			while ((basin[i] != '"' || basin[i] != '\'') && basin[i])
-				i++;
-		}
-		if (basin[i] == '\t')
-			basin[i] == ' ';
+		if ((basin[i] == '"' || basin[i] == '\'') && quote == 0)
+			quote = basin[i];
+		else if (basin[i] == quote)
+			quote = 0;
+		else if (basin[i] == '\t' && quote == 0)
+			basin[i] = ' ';
 		i++;
 	}
 }
 
+// For replace space function int main
 // int main()
 // {
 // 	char *array[] = {
@@ -72,4 +71,12 @@ void	replace_tab(char *basin)
 // 		free(array[i]);
 // }
 
-int main()
+// For replace tab int main
+// int main()
+// {
+// 	char *str = strdup("Hello	World");
+// 	printf("Before: %s\n", str);
+// 	replace_tab(str);
+// 	printf("After: %s\n", str);
+// 	free(str);
+// }
