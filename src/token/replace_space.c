@@ -6,7 +6,7 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:36:43 by yelu              #+#    #+#             */
-/*   Updated: 2025/08/04 12:37:11 by yelu             ###   ########.fr       */
+/*   Updated: 2025/08/04 13:44:33 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	replace_space(char **basin)
 
 void	replace_tab(char *basin)
 {
-	int	i;
+	int		i;
 	char	quote;
 
 	i = 0;
