@@ -6,14 +6,11 @@
 /*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:36:43 by yelu              #+#    #+#             */
-/*   Updated: 2025/08/04 13:44:33 by yelu             ###   ########.fr       */
+/*   Updated: 2025/08/04 13:46:53 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../include/token.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../include/token.h"
 
 void	replace_space(char **basin)
 {
