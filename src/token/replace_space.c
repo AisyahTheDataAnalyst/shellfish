@@ -3,47 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   replace_space.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:36:43 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/15 12:05:35 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/04 13:46:53 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/token.h"
 
-void	replace_space(char **array)
+void	replace_space(char **basin)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (array[i])
+	while (basin[i])
 	{
 		j = 0;
-		while (array[i][j])
+		while (basin[i][j])
 		{
-			if (array[i][j] == 31)
-				array[i][j] = ' ';
+			if (basin[i][j] == 31)
+				basin[i][j] = ' ';
 			j++;
 		}
 		i++;
 	}
 }
 
+void	replace_tab(char *basin)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (basin[i])
+	{
+		if ((basin[i] == '"' || basin[i] == '\'') && quote == 0)
+			quote = basin[i];
+		else if (basin[i] == quote)
+			quote = 0;
+		else if (basin[i] == '\t' && quote == 0)
+			basin[i] = ' ';
+		i++;
+	}
+}
+
+// For replace space function int main
 // int main()
 // {
 // 	char *array[] = {
-// 		strdup("Hello\x1FWorld"),
-// 		strdup("Bro\x1FHello"),
+// 		strdup("Hello			World"),
+// 		strdup("Bro			Hello"),
 // 		NULL
 // 	};
 // 	for(int i = 0; array[i]; i++)
-// 		printf("%s\n", array[i]);
-// 	replace_space(array);
+// 		printf("Before: %s\n", array[i]);
+// 	replace_tab(array);
 // 	for(int i = 0; array[i]; i++)
-// 		printf("%s\n", array[i]);
+// 		printf("After: %s\n", array[i]);
 // 	for (int i = 0; array[i]; i++)
 // 		free(array[i]);
+// }
+
+// For replace tab int main
+// int main()
+// {
+// 	char *str = strdup("Hello	World");
+// 	printf("Before: %s\n", str);
+// 	replace_tab(str);
+// 	printf("After: %s\n", str);
+// 	free(str);
 // }

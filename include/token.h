@@ -21,6 +21,7 @@
 # include <stdlib.h>
 
 typedef struct s_data	t_data;
+typedef struct s_exc	t_exc;
 
 typedef enum token_type
 {
@@ -61,13 +62,15 @@ typedef struct s_input_info
 // Tokenization
 
 void	init_data(t_input_info *input, t_data *data);
-int		init_tokens(t_data *data, t_input_info *b_token, char *input);
-int		quote_check(t_input_info *input);
-int		normalize_input(t_input_info *input);
+int		init_tokens(t_data *data, t_input_info *b_token, char *input,
+			t_exc *exc);
+int		quote_check(t_input_info *input, t_exc *exc);
+int		normalize_input(t_input_info *input, t_exc *exc);
 t_type	check_token_type(char *basin);
-int		check_input(char **basin);
+int		check_input(char **basin, t_exc *exc);
 void	create_token(t_input_info *input);
-void	replace_space(char **array);
+void	replace_space(char **basin);
+void	replace_tab(char *basin);
 
 // Word Tokenization
 t_token	*create_word_token(t_input_info *input);

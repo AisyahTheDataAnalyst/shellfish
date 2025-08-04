@@ -33,7 +33,6 @@ int	main(int argc, char **argv, char **env)
 	int_main_loop(&exc);
 	freeing(&exc);
 	// printf("exit\n");
-	// printf("exit\n");
 	return (0);
 }
 
@@ -76,14 +75,13 @@ static void	int_main_loop(t_exc *exc)
 			break ;
 		if (ft_strncmp(data.input, "", 1) != 0)
 			add_history(data.input);
-		if (!init_tokens(&data, &b_input, data.input))
+		if (!init_tokens(&data, &b_input, data.input, exc))
 			continue ;
 		if (!init_ast(&data))
 			continue ;
 		get_splitted_path(exc->process, exc->exec);
 		mallocing_heredoc(exc);
 		combine_all_heredoc(data.root, exc);
-		// printf("------------------\n");
 		// printf("------------------\n");
 		expand_tokens(data.token, exc);
 		// printf("------------------\n");
@@ -94,8 +92,6 @@ static void	int_main_loop(t_exc *exc)
 			execution(data.root, exc);
 		reset_before_readline(exc);
 		free_before_readline(exc);
-		// printf("exit_code before readline: %d\n", exc->exit_code);
-		// printf("------------------\n");
 		// printf("exit_code before readline: %d\n", exc->exit_code);
 		// printf("------------------\n");
 	}

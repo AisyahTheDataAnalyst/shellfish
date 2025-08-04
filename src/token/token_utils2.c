@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yelu <yelu@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:09:00 by yelu              #+#    #+#             */
-/*   Updated: 2025/07/24 11:31:05 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/04 12:38:03 by yelu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../include/ast.h"
 #include "../include/minishell.h"
 
-int	init_tokens(t_data *data, t_input_info *b_token, char *input)
+int	init_tokens(t_data *data, t_input_info *b_token, char *input, t_exc *exc)
 {
 	if (!input)
 		exit(1);
@@ -22,16 +22,17 @@ int	init_tokens(t_data *data, t_input_info *b_token, char *input)
 	b_token->input = ft_strdup(input);
 	if (b_token->input)
 		free(input);
-	if (!quote_check(b_token))
+	if (!quote_check(b_token, exc))
 		return (free(b_token->input), 0);
-	if (!normalize_input(b_token))
+	replace_tab(b_token->input);
+	if (!normalize_input(b_token, exc))
 		return (free(b_token->input), 0);
 	b_token->split_array = ft_split(b_token->input, ' ');
 	if (!b_token->split_array)
 		return (free(b_token->input), 0);
 	free(b_token->input);
 	replace_space(b_token->split_array);
-	if (!check_input(b_token->split_array))
+	if (!check_input(b_token->split_array, exc))
 		return (free_arr(b_token->split_array), 0);
 	create_token(b_token);
 	if (!b_token->token)
