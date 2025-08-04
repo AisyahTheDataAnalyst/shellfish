@@ -61,7 +61,16 @@ static void	int_main_loop(t_exc *exc)
 	exc->data = &data;
 	while (1)
 	{
-		data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+		// data.input = readline("\033[0;32mshellfish 🦪🐠🐚 $\033[0m ");
+		if (isatty(fileno(stdin)))
+			data.input = readline("\033[0;32mtest_shellfish 🦪🐠🐚 $\033[0m ");
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			data.input = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (!data.input)
 			break ;
 		if (ft_strncmp(data.input, "", 1) != 0)
@@ -77,6 +86,8 @@ static void	int_main_loop(t_exc *exc)
 		expand_tokens(data.token, exc);
 		// printf("------------------\n");
 		// printf("exit_code before execution: %d\n", exc->exit_code);
+		// printf("------------------\n");
+		// printf("exit_code before execution: %d\n", exc->exit_code);
 		if (!(exc->exit_code == 130 && exc->process->total_hd > 0))
 			execution(data.root, exc);
 		reset_before_readline(exc);
@@ -85,6 +96,17 @@ static void	int_main_loop(t_exc *exc)
 		// printf("------------------\n");
 	}
 }
+
+// minishell tester:
+// if (isatty(fileno(stdin)))
+// 	data.input = readline("\033[0;32mtest_shellfish 🦪🐠🐚 $\033[0m ");
+// else
+// {
+// 	char *line;
+// 	line = get_next_line(fileno(stdin));
+// 	data.input = ft_strtrim(line, "\n");
+// 	free(line);
+// }
 
 // static void print_ast(t_ast *node, int depth, char side)
 // {

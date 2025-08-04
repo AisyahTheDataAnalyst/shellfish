@@ -6,17 +6,18 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/21 16:56:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:32:33 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 void				bi_exit(char **av, t_exc *exc);
-static void			exit_error_handling_1(char **av, t_exc *exc, int i, int j);
-static void			exit_error_handling_2(char **av, t_exc *exc);
-static void			exit_error_handling_3(char **av, t_exc *exc);
+static void			exit_isdigit_only(char **av, t_exc *exc, int i, int j);
+static int			exit_1argonly_nottoobignum(char **av, t_exc *exc);
+static void			exit_int128_mod256(char **av, t_exc *exc);
 static __int128_t	ft_ato_int128(const char *str);
+// static void			print_int128(__int128_t n);
 
 void	bi_exit(char **av, t_exc *exc)
 {
@@ -35,14 +36,15 @@ void	bi_exit(char **av, t_exc *exc)
 		}
 		exit(0);
 	}
-	exit_error_handling_1(av, exc, i, j);
-	exit_error_handling_2(av, exc);
-	exit_error_handling_3(av, exc);
+	exit_isdigit_only(av, exc, i, j);
+	if (exit_1argonly_nottoobignum(av, exc) == 1)
+		return ;
+	exit_int128_mod256(av, exc);
 }
 
 // exit(2) for invalid 1st argument
 // exit(1) for more than 1 arguments
-static void	exit_error_handling_1(char **av, t_exc *exc, int i, int j)
+static void	exit_isdigit_only(char **av, t_exc *exc, int i, int j)
 {
 	if (av[++i])
 	{
@@ -73,7 +75,7 @@ static void	exit_error_handling_1(char **av, t_exc *exc, int i, int j)
 // 2- control overflow what __int128_t cannot handle 
 // which is more than 39 digits
 // 9223372036854775807 is 19 digits, so i just make it to 20 digits
-static void	exit_error_handling_2(char **av, t_exc *exc)
+static int	exit_1argonly_nottoobignum(char **av, t_exc *exc)
 {
 	int			i;
 
@@ -83,9 +85,9 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 		ft_putendl_fd("exit", 2);
 		ft_putendl_fd("shellfish: exit: too many arguments", 2);
 		exc->exit_code = 1;
-		return ;
+		return (1);
 	}
-	if (ft_strlen(av[1]) >= 20)
+	if (ft_strlen(av[1]) > 20)
 	{
 		ft_putendl_fd("exit", 2);
 		ft_putstr_fd("shellfish: exit: ", 2);
@@ -99,14 +101,16 @@ static void	exit_error_handling_2(char **av, t_exc *exc)
 		}
 		exit(2);
 	}
+	return (0);
 }
 
-static void	exit_error_handling_3(char **av, t_exc *exc)
+// if (num < -9223372036854775808 || num > 9223372036854775807)
+static void	exit_int128_mod256(char **av, t_exc *exc)
 {
 	__int128_t	num;
 
 	num = ft_ato_int128(av[1]);
-	if (num > 9223372036854775807)
+	if (num < (__int128_t)LLONG_MIN || num > (__int128_t)LLONG_MAX)
 	{
 		ft_putendl_fd("exit", 2);
 		ft_putstr_fd("shellfish: exit: ", 2);
@@ -120,21 +124,21 @@ static void	exit_error_handling_3(char **av, t_exc *exc)
 		}
 		exit(2);
 	}
-	num = num % 256;
-	exc->exit_code = (unsigned char)num;
+	exc->exit_code = (unsigned char)(num % 256);
+	printf("exit\n");
 	if (exc->process->pipe_flag == false)
 	{
 		free_before_readline(exc);
 		freeing(exc);
 	}
-	exit((unsigned char)num);
+	exit((unsigned char)(num % 256));
 }
 
 // theres no % for printf for __int128_t
 static __int128_t	ft_ato_int128(const char *str)
 {
 	int			i;
-	__int128_t	sign;
+	int			sign;
 	__int128_t	result;
 
 	i = 0;
@@ -155,3 +159,30 @@ static __int128_t	ft_ato_int128(const char *str)
 	}
 	return ((result * sign));
 }
+
+// static void	print_int128(__int128_t n)
+// {
+// 	char	buf[50]; // Enough for 39 digits + sign + null
+// 	int		i = 49;
+// 	int		is_negative = 0;
+
+// 	buf[i--] = '\0';
+// 	if (n == 0)
+// 	{
+// 		write(1, "0", 1);
+// 		return;
+// 	}
+// 	if (n < 0)
+// 	{
+// 		is_negative = 1;
+// 		n = -n;
+// 	}
+// 	while (n > 0)
+// 	{
+// 		buf[i--] = '0' + (n % 10);
+// 		n /= 10;
+// 	}
+// 	if (is_negative)
+// 		buf[i--] = '-';
+// 	write(1, &buf[i + 1], 49 - i);
+// }

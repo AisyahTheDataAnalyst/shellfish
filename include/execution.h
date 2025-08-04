@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 15:04:23 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:11:55 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@
 # include <sys/wait.h> // wait, waitpid
 # include <readline/readline.h>
 # include <readline/history.h> // add_history
+# include <limits.h> // LLONG_MIN, LLONG_MAX
 # include "minishell.h"
 # include "libft.h"
 # include "token.h"
 # include "ast.h"
-// <readline/readline.h> 
+// <readline/readline.h>
 // => readline, rl_clear_history
 // => rl_on_new_line, rl_replace_line, rl_redisplay
 
@@ -52,6 +53,8 @@ typedef struct s_process
 	bool	pipe_flag;
 	int		heredoc_fd;
 	bool	reset_cursor_hd;
+	int		av_counter;
+	bool	need_to_split;
 }	t_process;
 
 // typedef struct s_list
@@ -92,11 +95,11 @@ void	reset_stdin_stdout(t_exc *exc);
 
 // built_in
 void	exec_builtin(t_ast *ast, t_exc *exc);
-int		is_bi(char **args);
+int		is_bi(char **args, t_exc *exc);
 void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);
-void	bi_env(t_exc *exc);
+void	bi_env(char **av, t_exc *exc);
 void	bi_exit(char **av, t_exc *exc);
 void	bi_export(char **av, t_exc *exc);
 void	export_add(char **av, t_exc *exc);
@@ -104,7 +107,7 @@ void	export_only(t_list *exec);
 size_t	longer(int len_1, int len_2);
 int		calculate_name_len(char **temp_array, int i);
 char	*allocating_value(char **temp_array, int i);
-void	bi_pwd(char **av, t_exc *exc);
+void	bi_pwd(t_exc *exc);
 void	bi_unset(char **av, t_exc *exc);
 
 //utils

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/26 15:09:46 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:32:17 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void	bi_cd(char **av, t_exc *exc)
 
 	exc->exit_code = 0;
 	old_pwd = getcwd(cwd, sizeof(cwd));
-	if (!av[1] || ft_strncmp("~", av[1], 2) == 0)
-	{
-		if (chdir(getenv("HOME")) == 0)
-			cd_update_env(old_pwd, exc->exec);
-	}
-	else if (av[2])
+	if (av[1] && av[2])
 	{
 		ft_putendl_fd("shellfish: cd: too many arguments", 2);
 		exc->exit_code = 1;
+	}
+	else if (!av[1] || ft_strncmp("~", av[1], 2) == 0)
+	{
+		if (chdir(getenv("HOME")) == 0)
+			cd_update_env(old_pwd, exc->exec);
 	}
 	else if (chdir(av[1]) == 0)
 		cd_update_env(old_pwd, exc->exec);
