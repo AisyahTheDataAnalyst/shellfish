@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   hehe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/05 13:58:09 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:39:35 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,25 @@
 void	expand_tokens(t_token *token, t_exc *exc)
 {
 	int		i;
+	char	*result;
 	t_token	*curr;
 	int		size;
 
-	curr = token;
-	size = ft_array_size(token->basin_buff);
-	while (curr)
+	result = NULL;
+	while (token)
 	{
 		i = 0;
-		while (curr->basin_buff && curr->basin_buff[i])
+		while (token->basin_buff && token->basin_buff[i])
 		{
-			check_got_quote(&curr->basin_buff[i], exc);
+			check_got_quote(token->basin_buff[i], exc, &result);
+			free(token->basin_buff[i]);
+			if (!result)
+				result = ft_strdup("");
+			token->basin_buff[i] = result;
+			result = NULL;
 			i++;
 		}
-		curr = curr->next;
-	}
-	curr = token;
-	while (curr && curr->basin_buff)
-	{
-		curr->basin_buff = skip_null_strings(curr->basin_buff, size);
-		curr = curr->next;
+		token = token->next;
 	}
 }
 
@@ -75,49 +74,28 @@ char	**skip_null_strings(char **basin_buff, int size)
 // 	store in result
 // if not quote
 // 	append to result
-void	check_got_quote(char **str, t_exc *exc)
-{
-	char	*result;
-	bool	has_quotes;
-
-	has_quotes = ori_string_has_quotes(*str);
-	result = result_for_check_got_quote(str, exc);
-	if (!result && has_quotes == true)
-		result = ft_strdup("");
-	free(*str);
-	(*str) = result;
-}
-
-bool	ori_string_has_quotes(char *str)
-{
-	return (str && (ft_strchr(str, '\'') || ft_strchr(str, '"')));
-}
-
-char	*result_for_check_got_quote(char **str, t_exc *exc)
+void	check_got_quote(char *basin, t_exc *exc, char **result)
 {
 	int		i;
 	char	*str_quote;
-	char	*result;
 
 	i = 0;
 	str_quote = NULL;
-	result = NULL;
-	while ((*str)[i] != '\0')
+	while (basin[i] != '\0')
 	{
-		if ((*str)[i] == '"' || (*str)[i] == '\'')
+		if (basin[i] == '"' || basin[i] == '\'')
 		{
 			i++;
-			str_quote = handle_quote((*str)[i - 1], &i, *str, exc);
+			str_quote = handle_quote(basin[i - 1], &i, basin, exc);
 		}
 		else
-			str_quote = handle_quote('\0', &i, *str, exc);
+			str_quote = handle_quote('\0', &i, basin, exc);
 		if (str_quote)
 		{
-			result = append_results(result, str_quote);
+			*result = append_results(*result, str_quote);
 			free(str_quote);
 		}
 	}
-	return (result);
 }
 
 // search for the other quote pair if got quote

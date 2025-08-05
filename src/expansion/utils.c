@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:12:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/03 18:23:46 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/05 14:06:43 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,13 @@ bool	valid_param(char letter)
 char	*value_expansion(char *param, char **env, t_exc *exc)
 {
 	char	*value;
-	// char	*return_value;
 	int		i;
 	int		j;
 	char	var[100];
 
 	value = NULL;
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		j = 0;
 		while (env[i][j] != '=' && env[i][j] != '\0')
@@ -94,12 +93,10 @@ char	*value_expansion(char *param, char **env, t_exc *exc)
 		if (ft_strncmp(param, var, ft_strlen(var) + 1) == 0)
 		{
 			value = ft_strchr(env[i], '=') + 1;
-			// return_value = ft_strdup(value);
 			if (exc->process->need_to_split == true)
 				value = word_splitting(value);
 			return (value);
 		}
-		i++;
 	}
 	return (NULL);
 }

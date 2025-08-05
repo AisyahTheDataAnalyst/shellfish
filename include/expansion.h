@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:42:44 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/05 12:43:16 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:02:51 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	handle_exit_code(char **result, int *j, t_exc *exc);
 
 ///aisyah add
 char	**skip_null_strings(char **basin_buff, int size);
+char	*result_for_check_got_quote(char **str, t_exc *exc);
 bool	ori_string_has_quotes(char *str);
 
 #endif
