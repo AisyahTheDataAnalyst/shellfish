@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/04 19:53:05 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:59:28 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 // 3. quote_removal
 void	expand_tokens(t_token *token, t_exc *exc)
 {
-	int	i;
-	t_token *curr;
+	int		i;
+	t_token	*curr;
+	int		size;
+
 	curr = token;
-	int size = ft_array_size(token->basin_buff);
-	fprintf(stderr, "size: %d\n", size);
+	size = ft_array_size(token->basin_buff);
 	while (curr)
 	{
 		i = 0;
@@ -33,17 +34,21 @@ void	expand_tokens(t_token *token, t_exc *exc)
 		curr = curr->next;
 	}
 	curr = token;
-	fprintf(stderr, "before skipping null strings\n");
-	if (curr && curr->basin_buff)
+	while (curr && curr->basin_buff)
 	{
 		curr->basin_buff = skip_null_strings(curr->basin_buff, size);
-		fprintf(stderr, "after skipping null strings\n");
+		curr = curr->next;
 	}
-	int j = 0;
-	while (j < size)
+	curr = token;
+	while (curr)
 	{
-		printf("basin_buff[%d]: %s\n", j, token->basin_buff[j]);
-		j++;
+		i = 0;
+		while (curr->basin_buff && curr->basin_buff[i])
+		{
+			fprintf(stderr, "new_basin_buff[%d] = %s\n", i, curr->basin_buff[i]);
+			i++;
+		}
+		curr = curr->next;
 	}
 }
 
@@ -60,7 +65,8 @@ char	**skip_null_strings(char **basin_buff, int size)
 	j = 0;
 	while (i < size)
 	{
-		if (basin_buff[i]) // || basin_buff[i][0] == '\0') //!ft_strncmp(basin_buff[i], "", 1))
+		fprintf(stderr, "basin_buff[%d]= %s\n", i, basin_buff[i]);
+		if (basin_buff[i])
 		{
 			new_basin_buff[j] = ft_strdup(basin_buff[i]);
 			j++;
@@ -75,13 +81,6 @@ char	**skip_null_strings(char **basin_buff, int size)
 	return (new_basin_buff);
 }
 
-
-
-
-
-
-
-
 // if got quote
 // 	search for quote open and closing
 // 	substr the str inside the quote
@@ -91,14 +90,18 @@ char	**skip_null_strings(char **basin_buff, int size)
 void	check_got_quote(char **str, t_exc *exc)
 {
 	int		i;
-	int		start;
+	// int		start; // commented by aisyah - not needed (norminette purpose)
 	char	*str_quote;
 	char	*result;
+	bool	has_quotes;
+
+	has_quotes = ori_string_has_quotes(*str);
 
 	i = 0;
-	start = 0;
+	// start = 0; // commented by aisyah - not needed (norminette purpose)
 	str_quote = NULL;
 	result = NULL;
+	fprintf(stderr, "ori string= [%s]\n", (*str)); 
 	while ((*str)[i] != '\0')
 	{
 		if ((*str)[i] == '"' || (*str)[i] == '\'')
@@ -114,14 +117,22 @@ void	check_got_quote(char **str, t_exc *exc)
 			result = append_results(result, str_quote);
 			free(str_quote);
 		}
-		// printf("result: %s\n", result);
+		printf("result: %s\n", result);
 	}
+	if (!result && has_quotes == true)
+		result = ft_strdup("");
 	free(*str);
-	////////////////////////////////////////// aisyah edit
-	// if (!result)
-	// 	result = ft_strdup("");
-	//////////////////////////////////////////
 	(*str) = result;
+}
+
+bool	ori_string_has_quotes(char *str)
+{
+	if (str && (ft_strchr(str, '\'') || ft_strchr(str, '"')))
+	{
+		fprintf(stderr, "!!ihavequotes!!\n");
+		return (true);
+	}
+	return (false);
 }
 
 // search for the other quote pair if got quote
