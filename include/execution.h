@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:40:52 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:11:55 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:36:34 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	reset_stdin_stdout(t_exc *exc);
 
 // built_in
 void	exec_builtin(t_ast *ast, t_exc *exc);
-int		is_bi(char **args, t_exc *exc);
+int		is_bi(char **args);
 void	built_ins(char **av, t_exc *exc);
 void	bi_cd(char **av, t_exc *exc);
 void	bi_echo(char **av, t_exc *exc);

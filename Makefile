@@ -73,6 +73,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		tokenization.c) \
 		$(addprefix $(SRC_EXPANSION)/, \
 		expansion.c \
+		handle_quote.c \
+		param_expansion.c \
 		utils.c) \
 		$(addprefix $(SRC_EXECUTION)/, \
 		$(SRC_EXEC)/$(SRC_PIPE)/exec_pipe.c \

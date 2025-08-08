@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:30:34 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:32:33 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:29:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	exit_isdigit_only(char **av, t_exc *exc, int i, int j)
 	{
 		if (av[i][j] == '-' || av[i][j] == '+')
 			j++;
-		while (av[i][j])
+		while (av[i][j] || av[1][0] == '\0')
 		{
 			if (ft_isdigit(av[i][j]) == 1)
 				j++;
