@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 20:35:57 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/08 20:54:45 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/10 13:34:43 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	parameter_ex_helper(char *str, int *start, int *j, char **result)
 		(*j)++;
 	not_expand = ft_substr(str, (*start), (*j) - (*start));
 	if (!not_expand)
-		ft_putstr_fd("Failed to substr the string not expand", 2);
+		return (ft_putendl_fd("Substr failed for not expand", 2));
 	*result = append_results(*result, not_expand);
 	free(not_expand);
 }
@@ -68,7 +68,7 @@ static char	*need_expand_helper(int *start, int *j, char *str, t_exc *exc)
 		(*j)++;
 	param = ft_substr(str, (*start), (*j) - (*start));
 	if (!param)
-		ft_putstr_fd("Failed to substr the string param", 2);
+		return (ft_putendl_fd("Substr failed for param", 2), NULL);
 	after_expand = value_expansion(param, exc->exec->envp_array, exc);
 	free(param);
 	return (after_expand);

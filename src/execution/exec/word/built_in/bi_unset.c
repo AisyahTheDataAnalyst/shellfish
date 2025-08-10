@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:26:11 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:32:54 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/10 10:35:59 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ char **temp, int i)
 		j = 0;
 		while (av[++j])
 		{
-			if (!ft_strchr(av[j], '=') && !ft_strncmp(exec->envp_array[i], \
-av[j], ft_strlen(av[j])) && (exec->envp_array[i][ft_strlen(av[j])] == '=' \
-|| exec->envp_array[i][ft_strlen(av[j])] == '\0'))
+			if (!ft_strchr(av[j], '=') && \
+!ft_strncmp(exec->envp_array[i], av[j], ft_strlen(av[j])) && \
+(exec->envp_array[i][ft_strlen(av[j])] == '=' || \
+exec->envp_array[i][ft_strlen(av[j])] == '\0'))
 			{
 				match = true;
 				break ;

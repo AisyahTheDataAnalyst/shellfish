@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:19:15 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:32:46 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/10 09:22:04 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	bi_export(char **av, t_exc *exc)
 {
-	if (ft_strncmp(av[0], "export", 6) == 0 && av[1])
+	if (ft_strncmp(av[0], "export", 7) == 0 && av[1])
 	{
 		exc->exit_code = 0;
 		export_add(av, exc);
 	}
-	else if (ft_strncmp(av[0], "export", 6) == 0 && !av[1])
+	else if (ft_strncmp(av[0], "export", 7) == 0 && !av[1])
 	{
 		export_only(exc->exec);
 		exc->exit_code = 0;

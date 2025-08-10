@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 11:32:18 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/07/27 11:44:24 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/10 10:26:38 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static t_list	*ft_lstnew_export(char *name, char *value)
 	return (new_node);
 }
 
+// ft_strncmp > 0 = zyx....cba
 static void	sort_export(t_list *temp_list)
 {
 	t_list	*a;

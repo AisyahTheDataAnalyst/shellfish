@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:12:06 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/08 20:54:53 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/10 13:37:08 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ bool	valid_param(char letter)
 // store the param before = in the env in a temp arr
 // compare with the user input param
 // get the value after =
+// maximum size limits for environment variable names in Linux = 131072
 char	*value_expansion(char *param, char **env, t_exc *exc)
 {
 	char	*value;
 	int		i;
 	int		j;
-	char	var[100];
+	char	var[131072];
 
 	value = NULL;
 	i = -1;
@@ -94,7 +95,7 @@ char	*word_splitting(char *input)
 	j = 0;
 	splitted_input = (char *) malloc((ft_strlen(input) + 1) * sizeof(char));
 	if (!splitted_input)
-		ft_putstr_fd("Failed to malloc splitted input", 2);
+		return (ft_putendl_fd("Failed to malloc splitted input", 2), NULL);
 	while (input[i])
 	{
 		if (input[i] != ' ' && input[i] != '\t' && input[i] != '\n')

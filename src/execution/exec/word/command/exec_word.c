@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:07:12 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/04 14:37:01 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/10 08:39:55 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	fork_error_message_tokenword(t_exc *exc)
 // WIFEXITED(status)
 //	= returns true - child exited normally: using exit() / return from main()
 // WIFEXITED(status)
-//	= returns false - child killed by signal (SIGINT / SIGSEGV)
+//	= returns false - child killed by signal (SIGINT / SIGQUIT / SIGSEGV)
 // WEXITSTATUS (used only when WIFEXITED(status) is true)
 //	= the exit code the child returned
 // WIFSIGNALED(status)
@@ -63,7 +63,7 @@ static void	fork_error_message_tokenword(t_exc *exc)
 // ( == 0) ---> false
 // ( != 0) ---> true
 // we need WIFSIGNALED coz we dont have signal_handler function
-// like (SIG_DFL / SIG_IGN)
+// like (SIG_DFL)
 static void	waiting_exec_word(pid_t pid, int exit_status, t_exc *exc)
 {
 	waitpid(pid, &exit_status, 0);

@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:45:55 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/03 22:32:17 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/10 09:10:01 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void		bi_cd( char **av, t_exc *exc);
 static void	cd_update_env(char *oldpwd, t_list *exec);
 
+// 1024 = enough for most directory path in typical use cases 
+// the same number for get_next_line bonus
 // must check if !av[1] so that wont pass NULL to ft_strncmp
 void	bi_cd(char **av, t_exc *exc)
 {
@@ -60,9 +62,9 @@ static void	cd_update_env(char *oldpwd, t_list *exec)
 	i = 0;
 	while (exec->envp_array[i])
 	{
-		if (ft_strncmp("PWD", exec->envp_array[i], 3) == 0)
+		if (ft_strncmp("PWD=", exec->envp_array[i], 4) == 0)
 			temp[i++] = ft_strjoin("PWD=", pwd);
-		else if (ft_strncmp("OLDPWD", exec->envp_array[i], 6) == 0)
+		else if (ft_strncmp("OLDPWD=", exec->envp_array[i], 7) == 0)
 			temp[i++] = ft_strjoin("OLDPWD=", oldpwd);
 		else
 		{

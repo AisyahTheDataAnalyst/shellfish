@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_quote.c                                      :+:      :+:    :+:   */
+/*   handle_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 20:47:28 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/08 20:53:21 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/10 13:32:50 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*handle_quote(char quote, int *i, char *str, t_exc *exc)
 	}
 	str_quote = ft_substr(str, start, (*i) - start);
 	if (!str_quote)
-		ft_putstr_fd("Failed to substr the string inside the quote", 2);
+		return (ft_putendl_fd("Substr failed inside quote", 2), NULL);
 	if (quote == '"' || quote == '\0')
 		parameter_expansion(str_quote, exc, &result, quote);
 	else
