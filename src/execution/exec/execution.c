@@ -6,7 +6,7 @@
 /*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:06:45 by aimokhta          #+#    #+#             */
-/*   Updated: 2025/08/05 14:43:29 by aimokhta         ###   ########.fr       */
+/*   Updated: 2025/08/12 09:22:32 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	execution(t_ast *ast, t_exc *exc)
 		exec_redirection(ast, exc);
 	else
 	{
-		if (!ast->token->basin_buff)
+		if (!ast->token->basin_buff || !ast->token->basin_buff[0])
 			return ;
 		if (ast->token->basin_buff[0][0] == '\0')
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wshee <wshee@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*   By: aimokhta <aimokhta@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 21:11:41 by wshee             #+#    #+#             */
-/*   Updated: 2025/08/08 20:51:12 by wshee            ###   ########.fr       */
+/*   Updated: 2025/08/12 09:24:55 by aimokhta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,15 @@ void	expand_tokens(t_token *token, t_exc *exc)
 	int		size;
 
 	curr = token;
-	size = ft_array_size(token->basin_buff);
 	while (curr)
 	{
 		i = 0;
+		size = ft_array_size(curr->basin_buff);
 		while (curr->basin_buff && curr->basin_buff[i])
 		{
 			check_got_quote(&curr->basin_buff[i], exc);
 			i++;
 		}
-		curr = curr->next;
-	}
-	curr = token;
-	while (curr && curr->basin_buff)
-	{
 		curr->basin_buff = skip_null_strings(curr->basin_buff, size);
 		curr = curr->next;
 	}
